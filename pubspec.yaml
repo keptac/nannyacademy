@@ -1,0 +1,36 @@
+name: nannyacademy
+description: A new Flutter project.
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^0.1.2
+  intl: ^0.15.8
+  flutter_rounded_date_picker: 1.0.0
+  firebase_ml_vision: ^0.9.3+8
+  firebase_core: ^0.4.0+9
+  firebase_analytics: ^5.0.2
+  http: ^0.12.1
+  image_picker: ^0.6.5+3
+  shared_preferences: ^0.5.7
+  expansion_tile_card:
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+   - assets/images/
+  fonts:
+    - family: Quicksand
+      fonts:
+        - asset: assets/fonts/quicksand.ttf
+    - family: Lora
+      fonts:
+        - asset: assets/fonts/lora.ttf
