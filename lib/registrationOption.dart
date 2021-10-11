@@ -14,7 +14,7 @@ class RegistrationOptions extends StatelessWidget {
         },
         child: Text(
           option,
-          style: TextStyle(color: Colors.white, fontSize: 25),
+          style: TextStyle(color: Colors.white, fontSize: 18),
         ),
         style: ElevatedButton.styleFrom(
           shape: CircleBorder(),
@@ -68,10 +68,10 @@ class RegistrationOptions extends StatelessWidget {
             Center(
               child: Row(
                 children: [
-                  _optionButton(context, 'Nany', NanyRegistration(),
+                  _optionButton(context, 'Employee', NanyRegistration(),
                       Color.fromRGBO(233, 166, 184, 1)),
                   SizedBox(height: 20),
-                  _optionButton(context, 'Client', ClientRegistration(),
+                  _optionButton(context, 'Employer', ClientRegistration(),
                       Color.fromRGBO(255, 200, 124, 1)),
                 ],
               ),
