@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nannyacademy/nanies/dashboard.dart';
-import 'package:nannyacademy/parents/dashboardClient.dart';
+import 'package:nannyacademy/employees/dashboard.dart';
+import 'package:nannyacademy/employers/dashboardClient.dart';
 import 'package:nannyacademy/registrationOption.dart';
 import 'package:nannyacademy/services/rest_api.dart';
 

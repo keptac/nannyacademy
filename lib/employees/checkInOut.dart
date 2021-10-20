@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nannyacademy/nanies/settings.dart';
+import 'package:nannyacademy/employees/settings.dart';
 import 'package:nannyacademy/widgets/CustomBoxDecoration.dart';
 
 class CheckInOut extends StatefulWidget {

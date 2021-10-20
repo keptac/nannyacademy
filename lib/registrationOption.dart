@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nannyacademy/parents/clientRegistration.dart';
-import 'package:nannyacademy/nanies/nanyRegistration.dart';
+import 'package:nannyacademy/employers/clientRegistration.dart';
+import 'package:nannyacademy/employees/nanyRegistration.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
 
 class RegistrationOptions extends StatelessWidget {

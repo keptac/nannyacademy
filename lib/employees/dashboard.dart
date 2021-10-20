@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:nannyacademy/nanies/serviceRequests.dart';
-import 'package:nannyacademy/parents/clientSettings.dart';
-import 'package:nannyacademy/parents/requestForService.dart';
+import 'package:nannyacademy/employees/checkInOut.dart';
+import 'package:nannyacademy/employees/myPayments.dart';
+import 'package:nannyacademy/employees/myServices.dart';
+import 'package:nannyacademy/employees/serviceRequests.dart';
+import 'package:nannyacademy/employees/settings.dart';
 import 'package:nannyacademy/widgets/CustomBoxDecoration.dart';
 
-class ClientDashboard extends StatefulWidget {
+class Dashboard extends StatefulWidget {
   @override
-  _ClientDashboardState createState() => _ClientDashboardState();
+  _DashboardState createState() => _DashboardState();
 }
 
-class _ClientDashboardState extends State<ClientDashboard> {
+class _DashboardState extends State<Dashboard> {
   CustomBoxDecoration customBoxDecoration = CustomBoxDecoration();
 
   menuCard(var item, var requestRoute) {
@@ -66,14 +68,14 @@ class _ClientDashboardState extends State<ClientDashboard> {
         ],
         elevation: 0.0,
         title: Text(
-          'Nanny Employer',
+          'Nanny Academy',
           style: TextStyle(
             fontSize: 20,
             fontFamily: 'Quicksand',
           ),
         ),
         centerTitle: true,
-        backgroundColor: Color.fromRGBO(255, 200, 124, 1),
+        backgroundColor: Color.fromRGBO(233, 166, 184, 1),
       ),
       body: ListView(
         children: <Widget>[
@@ -81,7 +83,7 @@ class _ClientDashboardState extends State<ClientDashboard> {
             padding: EdgeInsets.only(top: 10),
             child: Center(
               child: Text(
-                'Welcome to Nanny Employer',
+                'Welcome to Nanny Academy',
                 style: TextStyle(
                   fontSize: 18,
                   fontFamily: 'Quicksand',
@@ -103,9 +105,10 @@ class _ClientDashboardState extends State<ClientDashboard> {
                 mainAxisSpacing: 10.0,
                 crossAxisCount: 2,
                 children: [
-                  menuCard('Request For Service', RequestForService()),
                   menuCard('Service Requests', ServiceRequests()),
-                  // menuCard('Payment Methods', MyPayments()),
+                  menuCard('Checkin/Checkout', CheckInOut()),
+                  menuCard('Payment Methods', MyPayments()),
+                  menuCard('My Services', MyServices())
                 ],
               ),
             ),
@@ -116,10 +119,10 @@ class _ClientDashboardState extends State<ClientDashboard> {
       floatingActionButton: FloatingActionButton(
         tooltip: 'Update Details',
         elevation: 0.8,
-        backgroundColor: Color.fromRGBO(255, 200, 124, 1),
+        backgroundColor: Color.fromRGBO(233, 166, 184, 1),
         child: const Icon(Icons.settings),
         onPressed: () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ClientSettings())),
+            context, MaterialPageRoute(builder: (context) => Settings())),
       ),
       bottomNavigationBar: BottomAppBar(
           color: Colors.white,

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:nannyacademy/nanies/dashboard.dart';
-import 'package:nannyacademy/nanies/updateDetails.dart';
-import 'package:nannyacademy/parents/clientPayments.dart';
+import 'package:nannyacademy/employees/dashboard.dart';
+import 'package:nannyacademy/employees/updateDetails.dart';
 
-class ClientSettings extends StatefulWidget {
+class Settings extends StatefulWidget {
   @override
-  _ClientSettingsState createState() => _ClientSettingsState();
+  _SettingsState createState() => _SettingsState();
 }
 
-class _ClientSettingsState extends State<ClientSettings> {
+class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,14 +26,14 @@ class _ClientSettingsState extends State<ClientSettings> {
         ],
         elevation: 0.0,
         title: Text(
-          'Client Settings',
+          'Settings',
           style: TextStyle(
             fontSize: 20,
             fontFamily: 'Quicksand',
           ),
         ),
         centerTitle: true,
-        backgroundColor: Color.fromRGBO(255, 200, 124, 1),
+        backgroundColor: Color.fromRGBO(233, 166, 184, 1),
       ),
       body: ListView(
         children: <Widget>[
@@ -56,15 +55,10 @@ class _ClientSettingsState extends State<ClientSettings> {
                 ),
               ),
               title: const Text(
-                'Payment Methods',
+                'Certificates',
                 style: TextStyle(color: Colors.black, fontSize: 18.0),
               ),
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ClientPayments(),
-                ),
-              ),
+              onTap: () => print("ListTile"),
             ),
           ),
           Card(
@@ -78,7 +72,7 @@ class _ClientSettingsState extends State<ClientSettings> {
               contentPadding:
                   EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               leading: CircleAvatar(
-                backgroundColor: Color.fromRGBO(255, 200, 124, 1),
+                backgroundColor: Color.fromRGBO(233, 166, 184, 1),
                 child: Icon(
                   Icons.person,
                   color: Colors.white,
@@ -102,7 +96,7 @@ class _ClientSettingsState extends State<ClientSettings> {
       floatingActionButton: FloatingActionButton(
         tooltip: 'Home',
         elevation: 0.8,
-        backgroundColor: Color.fromRGBO(255, 200, 124, 1),
+        backgroundColor: Color.fromRGBO(233, 166, 184, 1),
         child: const Icon(Icons.home),
         onPressed: () => Navigator.push(
             context, MaterialPageRoute(builder: (context) => Dashboard())),
