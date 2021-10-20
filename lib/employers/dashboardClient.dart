@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nannyacademy/employees/serviceRequests.dart';
 import 'package:nannyacademy/employers/clientSettings.dart';
+import 'package:nannyacademy/employers/myRequests.dart';
 import 'package:nannyacademy/employers/requestForService.dart';
 import 'package:nannyacademy/widgets/CustomBoxDecoration.dart';
 
@@ -104,7 +104,7 @@ class _ClientDashboardState extends State<ClientDashboard> {
                 crossAxisCount: 2,
                 children: [
                   menuCard('Search for Service', RequestForService()),
-                  menuCard('My requests', ServiceRequests()),
+                  menuCard('My requests', MyRequests()),
                   // menuCard('Payment Methods', MyPayments()),
                 ],
               ),
