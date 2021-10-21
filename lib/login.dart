@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nannyacademy/nanies/dashboard.dart';
+import 'package:nannyacademy/employees/dashboard.dart';
+import 'package:nannyacademy/employers/dashboardClient.dart';
 import 'package:nannyacademy/registrationOption.dart';
 import 'package:nannyacademy/services/rest_api.dart';
 
@@ -40,13 +41,6 @@ class _LoginPageState extends State<LoginPage> {
           );
           return;
         } else {
-          // Remove later
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Dashboard(),
-            ),
-          );
           setState(() {
             _errorMessage = "Incorrect Username/Password combination";
             _falsePassword = true;
@@ -55,13 +49,24 @@ class _LoginPageState extends State<LoginPage> {
         }
       });
 
-// MUST BE REMOVED
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => Dashboard(),
-        ),
-      );
+      // MUST BE REMOVED
+      if (_emailController.text.contains('employer')) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ClientDashboard(),
+          ),
+        );
+      } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Dashboard(),
+          ),
+        );
+      }
+      // End of test route
+
     } else {
       setState(() {
         _errorMessage = "All fields marked with (*) are required";
@@ -225,7 +230,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 Center(
                   child: Text(
-                    'NANY ACADEMY',
+                    'NANNY ACADEMY',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontFamily: 'Quicksand',
