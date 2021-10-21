@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 
@@ -18,12 +16,13 @@ class _MyRequestsState extends State<MyRequests> {
       "periodOfRequest": '6',
       "requestDate": "2021-09-27T22:00:00.000Z",
       "serviceRequested": "watering the garden ",
-      "requestStatus": "apprved",
+      "requestStatus": "approved",
       "serviceRating": "",
       "comments": "",
       "location": "123 Main way",
       "active": "1",
-      "salary": "1000"
+      "salary": "1000",
+      "jobStatus": "granted"
     },
   ];
 
@@ -61,7 +60,7 @@ class _MyRequestsState extends State<MyRequests> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: Color.fromRGBO(233, 166, 184, 1),
+        backgroundColor: Color.fromRGBO(255, 200, 124, 1),
       ),
       body: ListView.builder(
         // padding: const EdgeInsets.all(8),
@@ -77,11 +76,11 @@ class _MyRequestsState extends State<MyRequests> {
               baseColor: Colors.white,
               expandedColor: serviceRequest['requestStatus'] == "approved"
                   ? Colors.green[50]
-                  : Colors.red[50],
+                  : Colors.orange[50],
               leading: CircleAvatar(
                 backgroundColor: serviceRequest['requestStatus'] == "approved"
                     ? Colors.green
-                    : Color.fromRGBO(233, 166, 184, 1),
+                    : Color.fromRGBO(255, 200, 124, 1),
                 child: Text(
                   (index + 1).toString(),
                   style: TextStyle(color: Colors.white),
@@ -115,36 +114,61 @@ class _MyRequestsState extends State<MyRequests> {
                   thickness: 1.0,
                   height: 1.0,
                 ),
-                serviceRequest['requestStatus'] != "approved"
+                serviceRequest['requestStatus'] == "approved"
                     ? ButtonBar(
                         alignment: MainAxisAlignment.spaceAround,
                         buttonHeight: 52.0,
                         buttonMinWidth: 90.0,
                         children: <Widget>[
-                          ActionChip(
-                            padding: EdgeInsets.only(
-                                left: 10, right: 10, top: 10, bottom: 10),
-                            label: Text(
-                              'Accept Offer',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 13),
-                            ),
-                            onPressed: () {},
-                            backgroundColor: Colors.green,
-                            elevation: 1,
-                          ),
-                          ActionChip(
-                            padding: EdgeInsets.only(
-                                left: 10, right: 10, top: 10, bottom: 10),
-                            label: Text(
-                              'Decline Offer',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 13),
-                            ),
-                            onPressed: () {},
-                            backgroundColor: Colors.red[900],
-                            elevation: 1,
-                          ),
+                          serviceRequest['jobStatus'] == "granted"
+                              ? ActionChip(
+                                  padding: EdgeInsets.only(
+                                      left: 10, right: 10, top: 10, bottom: 10),
+                                  label: Text(
+                                    'Currently Employeed',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 13),
+                                  ),
+                                  onPressed: () {},
+                                  backgroundColor: Colors.green,
+                                  elevation: 1,
+                                )
+                              : Row(
+                                  children: [
+                                    ActionChip(
+                                      padding: EdgeInsets.only(
+                                          left: 10,
+                                          right: 10,
+                                          top: 10,
+                                          bottom: 10),
+                                      label: Text(
+                                        'Schedule Meeting',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 13),
+                                      ),
+                                      onPressed: () {},
+                                      backgroundColor:
+                                          Color.fromRGBO(255, 200, 124, 1),
+                                      elevation: 1,
+                                    ),
+                                    SizedBox(width: 50),
+                                    ActionChip(
+                                      padding: EdgeInsets.only(
+                                          left: 10,
+                                          right: 10,
+                                          top: 10,
+                                          bottom: 10),
+                                      label: Text(
+                                        'Offer Job',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 13),
+                                      ),
+                                      onPressed: () {},
+                                      backgroundColor: Colors.green,
+                                      elevation: 1,
+                                    ),
+                                  ],
+                                ),
                         ],
                       )
                     : ButtonBar(
@@ -156,12 +180,12 @@ class _MyRequestsState extends State<MyRequests> {
                             padding: EdgeInsets.only(
                                 left: 10, right: 10, top: 10, bottom: 10),
                             label: Text(
-                              'Terminate Contract',
+                              'Pending Approval',
                               style:
                                   TextStyle(color: Colors.white, fontSize: 17),
                             ),
                             onPressed: () {},
-                            backgroundColor: Color.fromRGBO(233, 166, 184, 1),
+                            backgroundColor: Color.fromRGBO(255, 200, 124, 1),
                             elevation: 1,
                           )
                         ],
