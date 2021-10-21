@@ -177,7 +177,7 @@ class _NanyRegistrationState extends State<NanyRegistration> {
             SizedBox(height: 10),
             Center(
               child: Text(
-                'Applying for Nany Training Course.',
+                'Register as Nany',
                 style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.bold,

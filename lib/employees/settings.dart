@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nannyacademy/nanies/dashboard.dart';
-import 'package:nannyacademy/nanies/updateDetails.dart';
+import 'package:nannyacademy/employees/dashboard.dart';
+import 'package:nannyacademy/employees/updateDetails.dart';
 
 class Settings extends StatefulWidget {
   @override
