@@ -70,7 +70,6 @@ class _RequestForServiceState extends State<RequestForService> {
     final info = json.encode(requestBody);
     storage.setItem('info', info);
 
-    //Save Preferences
     Navigator.push(
       context,
       MaterialPageRoute(

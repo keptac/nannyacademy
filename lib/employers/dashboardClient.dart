@@ -55,14 +55,15 @@ class _ClientDashboardState extends State<ClientDashboard> {
         leading: Icon(Icons.info_outline),
         actions: <Widget>[
           Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: InkWell(
-                onTap: () {},
-                child: Icon(
-                  Icons.help,
-                  size: 26.0,
-                ),
-              )),
+            padding: EdgeInsets.only(right: 20.0),
+            child: InkWell(
+              onTap: () {},
+              child: Icon(
+                Icons.help,
+                size: 26.0,
+              ),
+            ),
+          ),
         ],
         elevation: 0.0,
         title: Text(
