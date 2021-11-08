@@ -57,35 +57,25 @@ class _SearchResultsState extends State<SearchResults> {
 
   List serviceSearchResults = [
     {
-      "requestType": "Kelvin",
-      "requestNum": "REQ67889997",
-      "nanyId": "58-293952-Q-86",
-      "requestorId": "789008H78",
-      "periodOfRequest": '6',
-      "requestDate": "2021-09-27T22:00:00.000Z",
-      "serviceRequested": "watering the garden ",
-      "requestStatus": "apprved",
-      "serviceRating": "",
-      "comments": "",
-      "location": "123 Main way",
-      "active": "1",
-      "salary": "1000"
+      "firstName": "Kelvin",
+      "gender": "MALE",
+      "age": "27",
+      "services": "Nany, Gardener",
+      "location": "Lagos",
+      "phoneNumber": "263785302628",
+      "photoUrl": "users/pic.png",
+      "employeeId": "58-293952-Q-86"
     },
     {
-      "requestType": "Tadiwanashe",
-      "requestNum": "REQ67889997",
-      "nanyId": "58-293952-Q-86",
-      "requestorId": "789008H78",
-      "periodOfRequest": '6',
-      "requestDate": "2021-09-27T22:00:00.000Z",
-      "serviceRequested": "watering the garden ",
-      "requestStatus": "approved",
-      "serviceRating": "",
-      "comments": "",
-      "location": "123 Main way",
-      "active": "1",
-      "salary": "1000"
-    }
+      "firstName": "Charlotte",
+      "gender": "FEMALE",
+      "age": "23",
+      "services": "Nany",
+      "location": "Abuja",
+      "phoneNumber": "263785302628",
+      "photoUrl": "users/pic.png",
+      "employeeId": "58-293952-Q-86"
+    },
   ];
 
   _searchService(var serviceChoice) {
@@ -176,9 +166,9 @@ class _SearchResultsState extends State<SearchResults> {
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
-                title: Text(serviceRequest['requestType'] == null
+                title: Text(serviceRequest['firstName'] == null
                     ? ''
-                    : serviceRequest['requestType']),
+                    : serviceRequest['firstName']),
                 subtitle: Text(serviceRequest['location'] == null
                     ? ''
                     : serviceRequest['location']),
@@ -194,14 +184,9 @@ class _SearchResultsState extends State<SearchResults> {
                     ),
                     child: Column(
                       children: [
-                        serviceDisplay(
-                            "Description", serviceRequest['serviceRequested']),
-                        serviceDisplay(
-                            "Work Duration", serviceRequest['periodOfRequest']),
-                        serviceDisplay("Service Requested By",
-                            serviceRequest['requestorId']),
-                        serviceDisplay(
-                            "Phone Number", serviceRequest['salary']),
+                        serviceDisplay("Services", serviceRequest['services']),
+                        serviceDisplay("Gender", serviceRequest['gender']),
+                        serviceDisplay("Age", serviceRequest['age']),
                       ],
                     ),
                   ),

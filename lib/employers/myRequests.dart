@@ -14,37 +14,62 @@ class MyRequests extends StatefulWidget {
 class _MyRequestsState extends State<MyRequests> {
   List serviceRequests = [
     {
-      "requestType": "Gardener",
-      "requestNum": "REQ67889997",
-      "nanyId": "58-293952-Q-86",
-      "requestorId": "789008H78",
-      "periodOfRequest": '6',
-      "requestDate": "2021-09-27T22:00:00.000Z",
-      "serviceRequested": "watering the garden ",
+      "firstName": "Kelvin",
+      "surname": "Chelenje",
+      "gender": "MALE",
+      "age": "27",
+      "services": "Nany, Gardener",
+      "location": "Lagos",
+      "phoneNumber": "263785302628",
+      "photoUrl": "users/pic.png",
+      "employeeId": "58-293952-Q-86",
+      "jobStatus": "pending",
       "requestStatus": "pending",
-      "serviceRating": "",
-      "comments": "",
-      "location": "123 Main way",
+      "serviceRequested": "watering the garden ",
+      "requestType": "Gardener",
+      "meetingDate": "",
       "active": "1",
       "salary": "1000",
-      "jobStatus": "pending"
+      "requestNumber": "REQ67889997",
     },
     {
-      "requestType": "Gardener",
-      "requestNum": "REQ67889997",
-      "nanyId": "58-293952-Q-86",
-      "requestorId": "789008H78",
-      "periodOfRequest": '6',
-      "requestDate": "2021-09-27T22:00:00.000Z",
-      "serviceRequested": "watering the garden ",
+      "firstName": "Batsirai",
+      "surname": "Gwembere",
+      "gender": "MALE",
+      "age": "25",
+      "services": "Gardener",
+      "location": "Lagos",
+      "phoneNumber": "263785302628",
+      "photoUrl": "users/pic.png",
+      "employeeId": "58-293952-Q-86",
+      "jobStatus": "pending",
       "requestStatus": "approved",
-      "serviceRating": "",
-      "comments": "",
-      "location": "123 Main way",
+      "serviceRequested": "watering the garden ",
+      "requestType": "Gardener",
+      "meetingDate": "2021-10-30",
       "active": "1",
       "salary": "1000",
-      "jobStatus": "pending"
+      "requestNumber": "REQ67889997",
     },
+        {
+      "firstName": "Charlotte",
+      "surname": "Chelenje",
+      "gender": "FEMALE",
+      "age": "23",
+      "services": "Nany",
+      "location": "Lagos",
+      "phoneNumber": "263785302628",
+      "photoUrl": "users/pic.png",
+      "employeeId": "58-293952-Q-86",
+      "jobStatus": "granted",
+      "requestStatus": "approved",
+      "serviceRequested": "watering the garden ",
+      "requestType": "Gardener",
+      "meetingDate": "2021-10-30",
+      "active": "1",
+      "salary": "1000",
+      "requestNumber": "REQ67889997",
+    }
   ];
 
   String _meetingText = 'Meeting Date *';
@@ -167,7 +192,11 @@ class _MyRequestsState extends State<MyRequests> {
                   style: TextStyle(color: Colors.white),
                 ),
               ),
-              title: Text(serviceRequest['requestType']),
+              title: serviceRequest['requestStatus'] == "approved"
+                  ? Text(serviceRequest['firstName'] +
+                      ' ' +
+                      serviceRequest['surname'])
+                  : Text(serviceRequest['firstName']),
               subtitle: Text(serviceRequest['location']),
               children: <Widget>[
                 Divider(
@@ -182,12 +211,20 @@ class _MyRequestsState extends State<MyRequests> {
                   child: Column(
                     children: [
                       serviceDisplay(
-                          "Description", serviceRequest['serviceRequested']),
+                          "Request Number", serviceRequest['requestNumber']),
+                      serviceDisplay("Services", serviceRequest['services']),
+                      serviceDisplay("Gender", serviceRequest['gender']),
+                      serviceDisplay("Age", serviceRequest['age']),
+                      serviceRequest['requestStatus'] == "approved"
+                          ? serviceDisplay(
+                              "Phone Nunber", serviceRequest['phoneNumber'])
+                          : Text(""),
+                      serviceDisplay("Request Description",
+                          serviceRequest['serviceRequested']),
                       serviceDisplay(
-                          "Work Duration", serviceRequest['periodOfRequest']),
-                      serviceDisplay("Service Requested By",
-                          serviceRequest['requestorId']),
-                      serviceDisplay("Salary", serviceRequest['salary']),
+                          "Service Requested By", serviceRequest['location']),
+                      serviceDisplay(
+                          "Meeting Date", serviceRequest['meetingDate']),
                     ],
                   ),
                 ),
