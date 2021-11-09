@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nannyacademy/employees/checkInOut.dart';
-import 'package:nannyacademy/employees/myPayments.dart';
-import 'package:nannyacademy/employees/myServices.dart';
+
 import 'package:nannyacademy/employees/serviceRequests.dart';
 import 'package:nannyacademy/employees/settings.dart';
 import 'package:nannyacademy/widgets/CustomBoxDecoration.dart';
@@ -61,7 +60,7 @@ class _DashboardState extends State<Dashboard> {
               child: InkWell(
                 onTap: () {},
                 child: Icon(
-                  Icons.help,
+                  Icons.notifications,
                   size: 26.0,
                 ),
               )),
@@ -107,8 +106,6 @@ class _DashboardState extends State<Dashboard> {
                 children: [
                   menuCard('Service Requests', ServiceRequests()),
                   menuCard('Checkin/Checkout', CheckInOut()),
-                  menuCard('Payment Methods', MyPayments()),
-                  menuCard('My Services', MyServices())
                 ],
               ),
             ),
