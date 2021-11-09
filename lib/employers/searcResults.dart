@@ -63,7 +63,8 @@ class _SearchResultsState extends State<SearchResults> {
       "services": "Nany, Gardener",
       "location": "Lagos",
       "phoneNumber": "263785302628",
-      "photoUrl": "users/pic.png",
+      "photoUrl":
+          "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
       "employeeId": "58-293952-Q-86"
     },
     {
@@ -73,7 +74,8 @@ class _SearchResultsState extends State<SearchResults> {
       "services": "Nany",
       "location": "Abuja",
       "phoneNumber": "263785302628",
-      "photoUrl": "users/pic.png",
+      "photoUrl":
+          "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
       "employeeId": "58-293952-Q-86"
     },
   ];
@@ -160,11 +162,8 @@ class _SearchResultsState extends State<SearchResults> {
                 baseColor: Colors.white,
                 expandedColor: Colors.orange[50],
                 leading: CircleAvatar(
-                  backgroundColor: Color.fromRGBO(255, 200, 124, 1),
-                  child: Text(
-                    (index + 1).toString(),
-                    style: TextStyle(color: Colors.white),
-                  ),
+                  maxRadius: 30,
+                  backgroundImage: NetworkImage(serviceRequest['photoUrl']),
                 ),
                 title: Text(serviceRequest['firstName'] == null
                     ? ''

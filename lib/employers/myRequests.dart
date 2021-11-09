@@ -21,7 +21,8 @@ class _MyRequestsState extends State<MyRequests> {
       "services": "Nany, Gardener",
       "location": "Lagos",
       "phoneNumber": "263785302628",
-      "photoUrl": "users/pic.png",
+      "photoUrl":
+          "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
       "employeeId": "58-293952-Q-86",
       "jobStatus": "pending",
       "requestStatus": "pending",
@@ -40,7 +41,8 @@ class _MyRequestsState extends State<MyRequests> {
       "services": "Gardener",
       "location": "Lagos",
       "phoneNumber": "263785302628",
-      "photoUrl": "users/pic.png",
+      "photoUrl":
+          "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
       "employeeId": "58-293952-Q-86",
       "jobStatus": "pending",
       "requestStatus": "approved",
@@ -51,7 +53,7 @@ class _MyRequestsState extends State<MyRequests> {
       "salary": "1000",
       "requestNumber": "REQ67889997",
     },
-        {
+    {
       "firstName": "Charlotte",
       "surname": "Chelenje",
       "gender": "FEMALE",
@@ -59,7 +61,8 @@ class _MyRequestsState extends State<MyRequests> {
       "services": "Nany",
       "location": "Lagos",
       "phoneNumber": "263785302628",
-      "photoUrl": "users/pic.png",
+      "photoUrl":
+          "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
       "employeeId": "58-293952-Q-86",
       "jobStatus": "granted",
       "requestStatus": "approved",
@@ -210,6 +213,18 @@ class _MyRequestsState extends State<MyRequests> {
                   ),
                   child: Column(
                     children: [
+                      serviceRequest['requestStatus'] == "approved"
+                          ? CircleAvatar(
+                              maxRadius: 30,
+                              backgroundImage: NetworkImage(
+                                  serviceRequest['photoUrl']),
+                            )
+                          : SizedBox(
+                              height: 10,
+                            ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       serviceDisplay(
                           "Request Number", serviceRequest['requestNumber']),
                       serviceDisplay("Services", serviceRequest['services']),
