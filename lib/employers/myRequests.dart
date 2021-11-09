@@ -51,7 +51,7 @@ class _MyRequestsState extends State<MyRequests> {
       "meetingDate": "2021-10-30",
       "active": "1",
       "salary": "1000",
-      "requestNumber": "REQ67889997",
+      "requestNumber": "REQ678897",
     },
     {
       "firstName": "Charlotte",
@@ -216,8 +216,8 @@ class _MyRequestsState extends State<MyRequests> {
                       serviceRequest['requestStatus'] == "approved"
                           ? CircleAvatar(
                               maxRadius: 30,
-                              backgroundImage: NetworkImage(
-                                  serviceRequest['photoUrl']),
+                              backgroundImage:
+                                  NetworkImage(serviceRequest['photoUrl']),
                             )
                           : SizedBox(
                               height: 10,

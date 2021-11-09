@@ -1,21 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:nannyacademy/widgets/genericTextFieldSquare.dart';
 
-class ClientPayments extends StatefulWidget {
+class EmployerPayments extends StatefulWidget {
   @override
-  _ClientPaymentsState createState() => _ClientPaymentsState();
+  _EmployerPaymentsState createState() => _EmployerPaymentsState();
 }
 
-class _ClientPaymentsState extends State<ClientPayments> {
+class _EmployerPaymentsState extends State<EmployerPayments> {
   List paymentOptions = [
     {
       "paymentMethod": "Remita",
       "accountNumber": "7890080009",
-      "userId": "1000"
-    },
-    {
-      "paymentMethod": "PayStack",
-      "accountNumber": "123900878",
       "userId": "1000"
     }
   ];

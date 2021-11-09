@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:nannyacademy/termsAndConditions.dart' as fullDialog;
 
 class SearchResults extends StatefulWidget {
@@ -8,52 +10,7 @@ class SearchResults extends StatefulWidget {
 }
 
 class _SearchResultsState extends State<SearchResults> {
-  final _cityController = TextEditingController();
-  final _salaryController = TextEditingController();
-  final _startAgeController = TextEditingController();
-  final _endAgeController = TextEditingController();
-  String _genderVal = 'Male';
-  int group = 1;
-
-  Widget _radio() {
-    return Padding(
-      padding: EdgeInsets.only(left: 40, right: 10, bottom: 15, top: 15),
-      child: Row(
-        children: <Widget>[
-          Text('Gender: * '),
-          Radio(
-            value: 1,
-            groupValue: group,
-            onChanged: (T) {
-              setState(() {
-                group = T;
-                _genderVal = 'Male';
-              });
-            },
-          ),
-          Text('Male'),
-          // SizedBox(width: 15.0),
-          Radio(
-            groupValue: group,
-            value: 2,
-            onChanged: (T) {
-              setState(() {
-                group = T;
-                _genderVal = 'Female';
-              });
-            },
-          ),
-          Text('Female'),
-        ],
-      ),
-    );
-  }
-
-  String serviceSelected = 'Nanny Services';
-  var items = [
-    'Nanny Services',
-    'Laundry Services',
-  ];
+  final LocalStorage storage = new LocalStorage('employeePreference');
 
   List serviceSearchResults = [
     {
@@ -80,33 +37,24 @@ class _SearchResultsState extends State<SearchResults> {
     },
   ];
 
-  _searchService(var serviceChoice) {
-    var requestBody = {
-      "serviceName": serviceChoice,
-      "startSalary": _salaryController.text,
-      "startAge": _startAgeController.text,
-      "endAge": _endAgeController.text,
-      "gender": _genderVal,
-      "userId": "1000" //Get from user session
-    };
+  _searchService(var candidateProfile) {
+    final info = storage.getItem('info');
+    var requestBody = json.decode(info);
+    requestBody['candidate'] = candidateProfile;
   }
 
-  Future _openAgreeDialog(context) async {
+  Future _openAgreeDialog(context, var candidateProfile) async {
     String result = await Navigator.of(context).push(MaterialPageRoute(
         builder: (BuildContext context) {
           return fullDialog.CreateAgreement();
         },
-        //true to display with a dismiss button rather than a return navigation arrow
         fullscreenDialog: true));
-    if (result != null) {
-      letsDoSomething(result, context);
-    } else {
-      print('you could do another action here if they cancel');
-    }
-  }
-
-  letsDoSomething(String result, context) {
     print(result);
+    if (result != null) {
+      _searchService(candidateProfile);
+    } else {
+      _searchService(candidateProfile);
+    }
   }
 
   Widget serviceDisplay(var title, var value) {
@@ -206,7 +154,7 @@ class _SearchResultsState extends State<SearchResults> {
                           style: TextStyle(color: Colors.white, fontSize: 17),
                         ),
                         onPressed: () {
-                          _openAgreeDialog(context);
+                          _openAgreeDialog(context, serviceRequest);
                         },
                         backgroundColor: Color.fromRGBO(255, 200, 124, 1),
                         elevation: 1,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nannyacademy/employees/dashboard.dart';
-import 'package:nannyacademy/employers/dashboardClient.dart';
+import 'package:nannyacademy/employers/employerDashboard.dart';
 import 'package:nannyacademy/registrationOption.dart';
 import 'package:nannyacademy/services/rest_api.dart';
 
@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ClientDashboard(),
+            builder: (context) => EmployerDashboard(),
           ),
         );
       } else {

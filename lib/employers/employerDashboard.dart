@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:nannyacademy/employers/clientSettings.dart';
+import 'package:nannyacademy/employers/employeeProfile.dart';
 import 'package:nannyacademy/employers/myRequests.dart';
 import 'package:nannyacademy/employers/requestForService.dart';
 import 'package:nannyacademy/widgets/CustomBoxDecoration.dart';
 
-class ClientDashboard extends StatefulWidget {
+class EmployerDashboard extends StatefulWidget {
   @override
-  _ClientDashboardState createState() => _ClientDashboardState();
+  _EmployerDashboardState createState() => _EmployerDashboardState();
 }
 
-class _ClientDashboardState extends State<ClientDashboard> {
+class _EmployerDashboardState extends State<EmployerDashboard> {
   CustomBoxDecoration customBoxDecoration = CustomBoxDecoration();
 
   menuCard(var item, var requestRoute) {
@@ -118,9 +118,9 @@ class _ClientDashboardState extends State<ClientDashboard> {
         tooltip: 'Update Details',
         elevation: 0.8,
         backgroundColor: Color.fromRGBO(255, 200, 124, 1),
-        child: const Icon(Icons.settings),
+        child: const Icon(Icons.person),
         onPressed: () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => ClientSettings())),
+            context, MaterialPageRoute(builder: (context) => EmployerSettings())),
       ),
       bottomNavigationBar: BottomAppBar(
           color: Colors.white,

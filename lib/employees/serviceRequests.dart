@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 
@@ -22,7 +20,8 @@ class _ServiceRequestsState extends State<ServiceRequests> {
       "meetingDate": "2021-09-27T22:00:00.000Z",
       "location": "123 Main way",
       "requestStatus": "PENDING",
-      "photoUrl":'https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo'
+      "photoUrl":
+          'https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo'
     }
   ];
 
@@ -123,9 +122,8 @@ class _ServiceRequestsState extends State<ServiceRequests> {
                       ),
                       CircleAvatar(
                         maxRadius: 35,
-                        backgroundImage: NetworkImage(
-                          serviceRequest['photoUrl']
-                            ),
+                        backgroundImage:
+                            NetworkImage(serviceRequest['photoUrl']),
                       ),
                       SizedBox(
                         height: 10,

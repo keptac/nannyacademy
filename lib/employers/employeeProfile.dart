@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:nannyacademy/employees/dashboard.dart';
 import 'package:nannyacademy/employees/updateDetails.dart';
-import 'package:nannyacademy/employers/clientPayments.dart';
+// import 'package:nannyacademy/employers/clientPayments.dart';
 
-class ClientSettings extends StatefulWidget {
+class EmployerSettings extends StatefulWidget {
   @override
-  _ClientSettingsState createState() => _ClientSettingsState();
+  _EmployerSettingsState createState() => _EmployerSettingsState();
 }
 
-class _ClientSettingsState extends State<ClientSettings> {
+class _EmployerSettingsState extends State<EmployerSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +27,7 @@ class _ClientSettingsState extends State<ClientSettings> {
         ],
         elevation: 0.0,
         title: Text(
-          'Client Settings',
+          'Employer Settings',
           style: TextStyle(
             fontSize: 20,
             fontFamily: 'Quicksand',
@@ -38,35 +38,35 @@ class _ClientSettingsState extends State<ClientSettings> {
       ),
       body: ListView(
         children: <Widget>[
-          Card(
-            elevation: 5,
-            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(7.0),
-            ),
-            color: Colors.white,
-            child: ListTile(
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              leading: CircleAvatar(
-                backgroundColor: Color.fromRGBO(255, 200, 124, 1),
-                child: Icon(
-                  Icons.local_laundry_service_sharp,
-                  color: Colors.white,
-                ),
-              ),
-              title: const Text(
-                'Payment Methods',
-                style: TextStyle(color: Colors.black, fontSize: 18.0),
-              ),
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ClientPayments(),
-                ),
-              ),
-            ),
-          ),
+          // Card(
+          //   elevation: 5,
+          //   margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          //   shape: RoundedRectangleBorder(
+          //     borderRadius: BorderRadius.circular(7.0),
+          //   ),
+          //   color: Colors.white,
+          //   child: ListTile(
+          //     contentPadding:
+          //         EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          //     leading: CircleAvatar(
+          //       backgroundColor: Color.fromRGBO(255, 200, 124, 1),
+          //       child: Icon(
+          //         Icons.local_laundry_service_sharp,
+          //         color: Colors.white,
+          //       ),
+          //     ),
+          //     title: const Text(
+          //       'Payment Methods',
+          //       style: TextStyle(color: Colors.black, fontSize: 18.0),
+          //     ),
+          //     onTap: () => Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //         builder: (context) => EmployerPayments(),
+          //       ),
+          //     ),
+          //   ),
+          // ),
           Card(
             elevation: 5,
             margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),

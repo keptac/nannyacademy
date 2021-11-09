@@ -13,7 +13,7 @@ class CreateAgreement extends StatefulWidget {
 }
 
 class _CreateAgreementState extends State<CreateAgreement> {
-  bool loadPayment = false;
+  bool load = false;
 
   final String pdfText = """
 
@@ -49,12 +49,8 @@ class _CreateAgreementState extends State<CreateAgreement> {
             new TextButton(
               onPressed: () {
                 setState(() {
-                  loadPayment = true;
+                  load = true;
                 });
-
-                //Submit to Database request with status pending.
-                //Pending Verification
-
                 Future.delayed(const Duration(milliseconds: 2000), () {
                   Navigator.of(context).pop();
                   Navigator.of(context).pop();
@@ -80,7 +76,7 @@ class _CreateAgreementState extends State<CreateAgreement> {
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(15.0),
-            child: loadPayment
+            child: load
                 ? spinkit
                 : Text(
                     pdfText,
