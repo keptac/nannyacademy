@@ -37,24 +37,18 @@ class _SearchResultsState extends State<SearchResults> {
     },
   ];
 
-  _searchService(var candidateProfile) {
-    final info = storage.getItem('info');
+  Future _openAgreeDialog(context, var candidateProfile) async {
+        final info = storage.getItem('info');
     var requestBody = json.decode(info);
     requestBody['candidate'] = candidateProfile;
-  }
 
-  Future _openAgreeDialog(context, var candidateProfile) async {
     String result = await Navigator.of(context).push(MaterialPageRoute(
         builder: (BuildContext context) {
-          return fullDialog.CreateAgreement();
+          return fullDialog.CreateAgreement(requestBody: requestBody);
         },
         fullscreenDialog: true));
     print(result);
-    if (result != null) {
-      _searchService(candidateProfile);
-    } else {
-      _searchService(candidateProfile);
-    }
+
   }
 
   Widget serviceDisplay(var title, var value) {
