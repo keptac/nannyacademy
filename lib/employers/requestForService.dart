@@ -14,6 +14,7 @@ class _RequestForServiceState extends State<RequestForService> {
   final _salaryController = TextEditingController();
   final _startAgeController = TextEditingController();
   final _endAgeController = TextEditingController();
+  final _serviceDescription = TextEditingController();
   String _genderVal = 'Male';
   int group = 1;
   final LocalStorage storage = new LocalStorage('employeePreference');
@@ -65,6 +66,7 @@ class _RequestForServiceState extends State<RequestForService> {
       "startAge": _startAgeController.text,
       "endAge": _endAgeController.text,
       "gender": _genderVal,
+      "serviceDescription": 'Person who will be doing 123',
       "userId": "1000" //Get from user session
     };
     final info = json.encode(requestBody);
@@ -124,19 +126,21 @@ class _RequestForServiceState extends State<RequestForService> {
           child: Stack(
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.65,
+                height: MediaQuery.of(context).size.height * 0.72,
                 child: Card(
                   child: ListView(
                     padding: EdgeInsets.only(top: 30),
                     children: <Widget>[
                       Container(
+                        height: 58,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(7.0) //
-                              ),
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(10.0) //
+                                  ),
                           border: Border.all(color: Colors.grey),
                         ),
                         margin:
-                            EdgeInsets.only(left: 37, right: 37, bottom: 20),
+                            EdgeInsets.only(left: 37, right: 37, bottom: 15),
                         child: DropdownButton(
                           underline: Text(""),
                           value: serviceSelected,
@@ -145,7 +149,7 @@ class _RequestForServiceState extends State<RequestForService> {
                             return DropdownMenuItem(
                               value: items,
                               child: Padding(
-                                padding: EdgeInsets.only(left: 10),
+                                padding: EdgeInsets.only(left: 10, top: 5),
                                 child: Text(items),
                               ),
                             );
@@ -246,6 +250,30 @@ class _RequestForServiceState extends State<RequestForService> {
                                 size: 20,
                               ),
                               labelText: 'Ending Age *',
+                              fillColor: Colors.white,
+                              border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 70,
+                        child: Padding(
+                          padding:
+                              EdgeInsets.only(left: 40, right: 40, bottom: 15),
+                          child: TextField(
+                            controller: _serviceDescription,
+                            keyboardType: TextInputType.multiline,
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icons.note_alt_outlined,
+                                color: Color.fromRGBO(255, 200, 124, 1),
+                                size: 20,
+                              ),
+                              labelText: 'Service Description *',
                               fillColor: Colors.white,
                               border: OutlineInputBorder(
                                 borderRadius:
