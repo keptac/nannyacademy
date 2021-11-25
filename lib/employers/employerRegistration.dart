@@ -6,12 +6,12 @@ import 'dart:async';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
 
-class ClientRegistration extends StatefulWidget {
+class EmployerRegistration extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _ClientRegistrationState();
+  State<StatefulWidget> createState() => _EmployerRegistrationState();
 }
 
-class _ClientRegistrationState extends State<ClientRegistration> {
+class _EmployerRegistrationState extends State<EmployerRegistration> {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   final _nameController = TextEditingController();
   final _surnameController = TextEditingController();

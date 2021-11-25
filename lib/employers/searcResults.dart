@@ -22,7 +22,8 @@ class _SearchResultsState extends State<SearchResults> {
       "phoneNumber": "263785302628",
       "photoUrl":
           "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
-      "employeeId": "58-293952-Q-86"
+      "employeeId": "58-293952-Q-86",
+      "verificationStatus":"Verified"
     },
     {
       "firstName": "Charlotte",
@@ -33,7 +34,8 @@ class _SearchResultsState extends State<SearchResults> {
       "phoneNumber": "263785302628",
       "photoUrl":
           "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
-      "employeeId": "58-293952-Q-86"
+      "employeeId": "58-293952-Q-86",
+      "verificationStatus":"Verified"
     },
   ];
 
