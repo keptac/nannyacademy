@@ -1,8 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
-import 'package:nannyacademy/employers/searcResults.dart';
+import 'dart:math';
 import 'package:nannyacademy/termsAndConditions.dart' as fullDialog;
 
 class RequestForService extends StatefulWidget {
@@ -12,13 +11,24 @@ class RequestForService extends StatefulWidget {
 
 class _RequestForServiceState extends State<RequestForService> {
   final _cityController = TextEditingController();
-  final _salaryController = TextEditingController();
   final _startAgeController = TextEditingController();
   final _endAgeController = TextEditingController();
-  final _serviceDescription = TextEditingController();
   String _genderVal = 'Male';
   int group = 1;
   final LocalStorage storage = new LocalStorage('employeePreference');
+  String employeeClassSelected = 'Silver (xp 0 - 6 Months)';
+  String serviceDurationSelected = 'Live-in (2 off days)';
+  var employeeClasses = [
+    'Silver (xp 0 - 6 Months)',
+    'Gold (xp 1 - 2 Years)',
+    'Platinum (xp 3+ Years)'
+  ];
+
+  var serviceDurations = [
+    'Live-in (2 off days)',
+    'Live-out (Mon to Sat)',
+    'Hourly (< 6 hours)'
+  ];
 
   Widget _radio() {
     return Padding(
@@ -54,47 +64,31 @@ class _RequestForServiceState extends State<RequestForService> {
     );
   }
 
-  Future _openAgreeDialog(context, var candidateProfile) async {
-    final info = storage.getItem('info');
-    var requestBody = json.decode(info);
-    requestBody['candidate'] = candidateProfile;
-
-    String result = await Navigator.of(context).push(MaterialPageRoute(
-        builder: (BuildContext context) {
-          return fullDialog.CreateAgreement(requestBody: requestBody);
-        },
-        fullscreenDialog: true));
-    print(result);
-  }
-
-  String serviceSelected = 'Nanny Services';
-  var items = [
-    'Nanny Services',
-    'Laundry Services',
-  ];
-
-  _searchService(var serviceChoice) {
+  Future _openAgreeDialog(context, var employeeClass, var serviceType) async {
+    final random = new Random();
+    int randomNumber = random.nextInt(1000000);
+    String requestNumber = "REQ" + randomNumber.toString();
     var requestBody = {
-      "serviceName": serviceChoice,
-      "startSalary": _salaryController.text,
+      "serviceName": employeeClass,
+      "startSalary": serviceType,
       "startAge": _startAgeController.text,
       "endAge": _endAgeController.text,
       "gender": _genderVal,
-      "serviceDescription": 'Person who will be doing 123',
-      "userId": "1000" //Get from user session
+      "userId": "1000", //Get from user session
+      "requestId": requestNumber,
+      "paymentStatus": "Pending"
     };
+
     final info = json.encode(requestBody);
+
     storage.setItem('info', info);
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => SearchResults(),
-      ),
-    );
-  }
-
-  letsDoSomething(String result, context) {
+    String result = await Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) {
+          return fullDialog.CreateAgreement(
+              requestBody: requestBody, requestNumber: requestNumber);
+        },
+        fullscreenDialog: true));
     print(result);
   }
 
@@ -146,6 +140,11 @@ class _RequestForServiceState extends State<RequestForService> {
                     padding: EdgeInsets.only(top: 30),
                     children: <Widget>[
                       Container(
+                        margin:
+                            EdgeInsets.only(left: 37, right: 37, bottom: 10),
+                        child: Text("Nanny Class"),
+                      ),
+                      Container(
                         height: 58,
                         decoration: BoxDecoration(
                           borderRadius:
@@ -157,24 +156,63 @@ class _RequestForServiceState extends State<RequestForService> {
                             EdgeInsets.only(left: 37, right: 37, bottom: 15),
                         child: DropdownButton(
                           underline: Text(""),
-                          value: serviceSelected,
+                          value: employeeClassSelected,
                           icon: Icon(Icons.keyboard_arrow_down),
-                          items: items.map((String items) {
+                          items: employeeClasses.map((String employeeClasses) {
                             return DropdownMenuItem(
-                              value: items,
+                              value: employeeClasses,
                               child: Padding(
                                 padding: EdgeInsets.only(left: 10, top: 5),
-                                child: Text(items),
+                                child: Text(employeeClasses),
                               ),
                             );
                           }).toList(),
                           onChanged: (String newValue) {
                             setState(() {
-                              serviceSelected = newValue;
+                              employeeClassSelected = newValue;
                             });
                           },
                         ),
                       ),
+
+                      Container(
+                        margin:
+                            EdgeInsets.only(left: 37, right: 37, bottom: 10),
+                        child: Text("Service Type"),
+                      ),
+
+                      Container(
+                        height: 58,
+                        decoration: BoxDecoration(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(10.0) //
+                                  ),
+                          border: Border.all(color: Colors.grey),
+                        ),
+                        margin:
+                            EdgeInsets.only(left: 37, right: 37, bottom: 15),
+                        child: DropdownButton(
+                          underline: Text(""),
+                          value: serviceDurationSelected,
+                          icon: Icon(Icons.keyboard_arrow_down),
+                          items:
+                              serviceDurations.map((String serviceDurations) {
+                            return DropdownMenuItem(
+                              value: serviceDurations,
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 10, top: 5),
+                                child: Text(serviceDurations),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (String newValue) {
+                            setState(() {
+                              serviceDurationSelected = newValue;
+                            });
+                          },
+                        ),
+                      ),
+
                       SizedBox(
                         height: 70,
                         child: Padding(
@@ -199,32 +237,6 @@ class _RequestForServiceState extends State<RequestForService> {
                           ),
                         ),
                       ),
-                      // Row(children: [
-                      SizedBox(
-                        height: 70,
-                        child: Padding(
-                          padding:
-                              EdgeInsets.only(left: 40, right: 40, bottom: 15),
-                          child: TextField(
-                            controller: _salaryController,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.monetization_on,
-                                color: Color.fromRGBO(255, 200, 124, 1),
-                                size: 20,
-                              ),
-                              labelText: 'Starting Salary Amount *',
-                              fillColor: Colors.white,
-                              border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-
                       SizedBox(
                         height: 70,
                         child: Padding(
@@ -273,30 +285,6 @@ class _RequestForServiceState extends State<RequestForService> {
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 70,
-                        child: Padding(
-                          padding:
-                              EdgeInsets.only(left: 40, right: 40, bottom: 15),
-                          child: TextField(
-                            controller: _serviceDescription,
-                            keyboardType: TextInputType.multiline,
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.note_alt_outlined,
-                                color: Color.fromRGBO(255, 200, 124, 1),
-                                size: 20,
-                              ),
-                              labelText: 'Service Description *',
-                              fillColor: Colors.white,
-                              border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
 
                       _radio(),
                       // ]),
@@ -308,8 +296,8 @@ class _RequestForServiceState extends State<RequestForService> {
                           style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
                         onPressed: () {
-                          _openAgreeDialog(context, serviceSelected);
-                          // _searchService(serviceSelected);
+                          _openAgreeDialog(context, employeeClassSelected,
+                              serviceDurationSelected);
                         },
                         backgroundColor: Color.fromRGBO(255, 200, 124, 1),
                         elevation: 1,

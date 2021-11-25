@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nannyacademy/employers/employeeProfile.dart';
-import 'package:nannyacademy/employers/myRequests.dart';
+import 'package:nannyacademy/employers/employeerProfile.dart';
 import 'package:nannyacademy/employers/requestForService.dart';
 import 'package:nannyacademy/employers/searcResults.dart';
 import 'package:nannyacademy/widgets/CustomBoxDecoration.dart';

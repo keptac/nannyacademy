@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nannyacademy/employees/dashboard.dart';
-import 'package:nannyacademy/employees/updateDetails.dart';
+import 'package:nannyacademy/employers/employerDashboard.dart';
 import 'package:nannyacademy/employers/myRequests.dart';
 
 class EmployerSettings extends StatefulWidget {
@@ -51,35 +50,6 @@ class _EmployerSettingsState extends State<EmployerSettings> {
               leading: CircleAvatar(
                 backgroundColor: Color.fromRGBO(255, 200, 124, 1),
                 child: Icon(
-                  Icons.person,
-                  color: Colors.white,
-                ),
-              ),
-              title: const Text(
-                'Personal Details',
-                style: TextStyle(color: Colors.black, fontSize: 17.0),
-              ),
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Updatenannyacademy(),
-                ),
-              ),
-            ),
-          ),
-          Card(
-            elevation: 5,
-            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(7.0),
-            ),
-            color: Colors.white,
-            child: ListTile(
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              leading: CircleAvatar(
-                backgroundColor: Color.fromRGBO(255, 200, 124, 1),
-                child: Icon(
                   Icons.people,
                   color: Colors.white,
                 ),
@@ -105,7 +75,7 @@ class _EmployerSettingsState extends State<EmployerSettings> {
         backgroundColor: Color.fromRGBO(255, 200, 124, 1),
         child: const Icon(Icons.home),
         onPressed: () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Dashboard())),
+            context, MaterialPageRoute(builder: (context) => EmployerDashboard())),
       ),
       bottomNavigationBar: BottomAppBar(
           color: Colors.white,

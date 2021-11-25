@@ -12,23 +12,22 @@ const spinkit = SpinKitChasingDots(
 
 class CreateAgreement extends StatefulWidget {
   final requestBody;
+  final requestNumber;
 
-  CreateAgreement({Key key, @required this.requestBody}) : super(key: key);
+  CreateAgreement(
+      {Key key, @required this.requestBody, @required this.requestNumber})
+      : super(key: key);
   @override
   _CreateAgreementState createState() => _CreateAgreementState();
 }
 
 class _CreateAgreementState extends State<CreateAgreement> {
   bool load = false;
-  String requestNumber;
 
   Widget build(BuildContext context) {
-    final random = new Random();
-    int randomNumber = random.nextInt(1000000);
-    String requestNumber = "REQ" + randomNumber.toString();
     final String pdfText = """
   
-REQUEST NUMBER: $requestNumber
+REQUEST NUMBER: ${widget.requestNumber}
 
 
 PAYMENT
@@ -39,9 +38,6 @@ Use the above request number to pay a commitment fee into the nanny account. The
 Nannies that match your request profile will appear in the SERVICE REQUESTS Menu.
 """;
 
-    setState(() {
-      requestNumber = requestNumber;
-    });
     return SafeArea(
       child: new Scaffold(
         appBar: new AppBar(
@@ -79,7 +75,7 @@ Nannies that match your request profile will appear in the SERVICE REQUESTS Menu
                       Text(
                         pdfText,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 17),
+                        style: TextStyle(fontSize: 16.5),
                       ),
                       SizedBox(
                         height: 70,
@@ -115,10 +111,6 @@ Nannies that match your request profile will appear in the SERVICE REQUESTS Menu
                                   load = true;
                                 },
                               );
-
-                              //Submit the request to backend
-                              widget.requestBody["requestNumber"] =
-                                  requestNumber;
 
                               Future.delayed(
                                 const Duration(milliseconds: 5000),
