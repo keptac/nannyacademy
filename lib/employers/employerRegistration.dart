@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nannyacademy/PasswordCreation.dart';
+import 'package:nannyacademy/passwordCreation.dart';
 import 'package:nannyacademy/widgets/genericTextField.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
@@ -55,14 +55,14 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
       );
       pref.setString(
         'userType',
-        'nany',
+        'employer',
       );
     });
 
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PasswordCreation(),
+        builder: (context) => PasswordCreation(userTypeValue: 'employer'),
       ),
     );
   }

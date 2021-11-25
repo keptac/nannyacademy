@@ -5,8 +5,17 @@ import 'package:nannyacademy/login.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
 import 'package:nannyacademy/services/rest_api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+
+const spinkit = SpinKitChasingDots(
+  color: Colors.green,
+  size: 30.0,
+);
 
 class PasswordCreation extends StatefulWidget {
+  final userTypeValue;
+  PasswordCreation({Key key, @required this.userTypeValue}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _PasswordCreationState();
 }
@@ -16,10 +25,15 @@ class _PasswordCreationState extends State<PasswordCreation> {
   final _passwordController = TextEditingController();
   final _confirmPassowordController = TextEditingController();
   String _errorMsg = '';
-  String userTypeValue;
+
+  String statusResponse = "Creating Profile";
+  bool loading = false;
 
   void _register() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      loading = true;
+    });
 
     final String firstName = prefs.getString('firstName');
     final String surname = prefs.getString('surname');
@@ -29,7 +43,6 @@ class _PasswordCreationState extends State<PasswordCreation> {
     final String address = prefs.getString('address');
     final String phoneNumber = prefs.getString('phoneNumber');
     final String userType = prefs.getString('userType');
-    userTypeValue = userType;
 
     final body = {
       "firstname": firstName,
@@ -51,7 +64,6 @@ class _PasswordCreationState extends State<PasswordCreation> {
       "password": _passwordController.text,
       "channel": "MOBILE"
     };
-    
 
     if (idNumber != null) {
       ApiService.registerUser(body).then((success) {
@@ -60,6 +72,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
           _authReg(authBody, userType);
         } else {
           setState(() {
+            loading = false;
             _errorMsg = "An error occured while processing your request";
           });
           return;
@@ -67,32 +80,43 @@ class _PasswordCreationState extends State<PasswordCreation> {
       });
     } else {
       setState(() {
+        loading = false;
         _errorMsg = "Failed to retrieve your details. Contact NANY ACADEMY";
       });
     }
   }
 
   void _authReg(var body, String userType) async {
-    if (userType == 'nany') {
+    if (userType == 'nanny') {
       final applicationBody = {
         "idNumber": body.idNumber,
         "registrationStatus": "pending",
         "channel": "MOBILE"
       };
 
-      // Invoking Application Registration function if user is a nany
+      // Invoking Application Registration function if user is a nanny
       _applicationReg(applicationBody);
     } else {
       // Making an API Call for auth Service
       ApiService.authReg(body).then((success) {
         if (success) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => LoginPage(),
-            ),
+          setState(() {
+            statusResponse = "Profile Created. KYC verification in progress.";
+          });
+          //delay then route
+          Future.delayed(
+            const Duration(milliseconds: 3000),
+            () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LoginPage(),
+                ),
+              );
+            },
           );
         } else {
+          loading = false;
           setState(() {
             _errorMsg = "An error occured while processing your request";
           });
@@ -103,16 +127,25 @@ class _PasswordCreationState extends State<PasswordCreation> {
   }
 
   void _applicationReg(var body) async {
-    // Making an API Call for Application Service
     ApiService.applicationReg(body).then((success) {
       if (success) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => LoginPage(),
-          ),
+        setState(() {
+          statusResponse = "Application submitted successfully.";
+        });
+
+        Future.delayed(
+          const Duration(milliseconds: 3000),
+          () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => LoginPage(),
+              ),
+            );
+          },
         );
       } else {
+        loading = false;
         setState(() {
           _errorMsg = "An error occured while processing your request";
         });
@@ -133,8 +166,8 @@ class _PasswordCreationState extends State<PasswordCreation> {
           decoration: InputDecoration(
             prefixIcon: Icon(
               icon,
-              color: userTypeValue == 'nany'
-                  ? Color.fromRGBO(216, 90, 102, 1)
+              color: widget.userTypeValue == 'employee'
+                  ? Color.fromRGBO(233, 166, 184, 1)
                   : Color.fromRGBO(255, 200, 124, 1),
               size: 20,
             ),
@@ -162,8 +195,8 @@ class _PasswordCreationState extends State<PasswordCreation> {
           decoration: InputDecoration(
             prefixIcon: Icon(
               icon,
-              color: userTypeValue == 'nany'
-                  ? Color.fromRGBO(216, 90, 102, 1)
+              color: widget.userTypeValue == 'employee'
+                  ? Color.fromRGBO(233, 166, 184, 1)
                   : Color.fromRGBO(255, 200, 124, 1),
               size: 20,
             ),
@@ -183,7 +216,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
       child: ActionChip(
         padding: EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
         label: Text(
-          'Proceed',
+          'Register',
           style: TextStyle(color: Colors.white, fontSize: 17),
         ),
         onPressed: () {
@@ -204,8 +237,8 @@ class _PasswordCreationState extends State<PasswordCreation> {
             });
           }
         },
-        backgroundColor: userTypeValue == 'nany'
-            ? Color.fromRGBO(216, 90, 102, 1)
+        backgroundColor: widget.userTypeValue == 'employee'
+            ? Color.fromRGBO(233, 166, 184, 1)
             : Color.fromRGBO(255, 200, 124, 1),
         elevation: 1,
       ),
@@ -249,7 +282,16 @@ class _PasswordCreationState extends State<PasswordCreation> {
                 Icons.lock, _passwordController, 'Desired Password *'),
             _passwordField(Icons.lock_outline, _confirmPassowordController,
                 'Verify Password *'),
-            _proceedButton(),
+            !loading
+                ? _proceedButton()
+                : Column(
+                    children: [
+                      SizedBox(height: 20),
+                      spinkit,
+                      SizedBox(height: 15),
+                      Text(statusResponse)
+                    ],
+                  ),
             SizedBox(height: 60)
           ],
         ),

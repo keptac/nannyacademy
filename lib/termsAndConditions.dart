@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import 'dart:math';
-
 import 'package:nannyacademy/employers/searcResults.dart';
 
 const spinkit = SpinKitChasingDots(

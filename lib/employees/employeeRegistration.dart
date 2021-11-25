@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nannyacademy/PasswordCreation.dart';
+import 'package:nannyacademy/passwordCreation.dart';
 import 'package:nannyacademy/widgets/genericTextField.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
 
-class NanyRegistration extends StatefulWidget {
+class EmployeeRegistration extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _NanyRegistrationState();
+  State<StatefulWidget> createState() => _EmployeeRegistrationState();
 }
 
-class _NanyRegistrationState extends State<NanyRegistration> {
+class _EmployeeRegistrationState extends State<EmployeeRegistration> {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   final _nameController = TextEditingController();
   final _surnameController = TextEditingController();
@@ -59,14 +59,16 @@ class _NanyRegistrationState extends State<NanyRegistration> {
       );
       pref.setString(
         'userType',
-        'nany',
+        'employee',
       );
     });
 
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PasswordCreation(),
+        builder: (context) => PasswordCreation(
+          userTypeValue: 'employee',
+        ),
       ),
     );
   }
@@ -174,17 +176,17 @@ class _NanyRegistrationState extends State<NanyRegistration> {
         child: ListView(
           padding: EdgeInsets.only(top: 60),
           children: <Widget>[
-            SizedBox(height: 10),
+            SizedBox(height: 25),
             Center(
               child: Text(
-                'Register as Nany',
+                'Apply to Nanny Academy Training',
                 style: TextStyle(
-                    fontSize: 17,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                     fontFamily: 'Quicksand'),
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             SizedBox(
               width: 10,
               height: 35,

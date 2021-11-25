@@ -13,13 +13,12 @@ class MyRequests extends StatefulWidget {
 
 class _MyRequestsState extends State<MyRequests> {
   List serviceRequests = [
-
     {
       "firstName": "Charlotte",
       "surname": "Chelenje",
       "gender": "FEMALE",
       "age": "23",
-      "services": "Nany",
+      "services": "Nanny",
       "location": "Lagos",
       "phoneNumber": "263785302628",
       "photoUrl":

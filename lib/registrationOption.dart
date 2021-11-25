@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nannyacademy/employers/employerRegistration.dart';
-import 'package:nannyacademy/employees/nanyRegistration.dart';
+import 'package:nannyacademy/employees/employeeRegistration.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
 
 class RegistrationOptions extends StatelessWidget {
@@ -68,7 +68,7 @@ class RegistrationOptions extends StatelessWidget {
             Center(
               child: Row(
                 children: [
-                  _optionButton(context, 'Employee', NanyRegistration(),
+                  _optionButton(context, 'Employee', EmployeeRegistration(),
                       Color.fromRGBO(233, 166, 184, 1)),
                   // SizedBox(width: 10),
                   _optionButton(context, 'Employer', EmployerRegistration(),
