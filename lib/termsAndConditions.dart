@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:nannyacademy/employers/myRequests.dart';
 
 import 'dart:math';
+
+import 'package:nannyacademy/employers/searcResults.dart';
 
 const spinkit = SpinKitChasingDots(
   color: Colors.black,
@@ -27,19 +28,16 @@ class _CreateAgreementState extends State<CreateAgreement> {
     String requestNumber = "REQ" + randomNumber.toString();
     final String pdfText = """
   
-      REQUEST NUMBER: $requestNumber
+REQUEST NUMBER: $requestNumber
 
 
-      PAYMENT
-        Use the above request number to make
-        payment into the nany account. 
-        Once the payment is confirmed you will have
-        the ability to book an appointment
-        
+PAYMENT
 
-      MEMBERSHIP RULES
-        Lorem Ispum dolor dummy text by Kelvin Chelenje.Represents where text will go. i.e terms for use and code of conduct
-      """;
+Use the above request number to pay a commitment fee into the nanny account. The request will be deleted after 3 days of inactivity.
+
+
+Nannies that match your request profile will appear in the SERVICE REQUESTS Menu.
+""";
 
     setState(() {
       requestNumber = requestNumber;
@@ -57,47 +55,91 @@ class _CreateAgreementState extends State<CreateAgreement> {
           ),
           centerTitle: true,
           backgroundColor: Color.fromRGBO(255, 200, 124, 1),
-          actions: [
-            new TextButton(
-              onPressed: () {
-                setState(() {
-                  load = true;
-                });
-
-                //Submit the request to backend
-                widget.requestBody["requestNumber"] = requestNumber;
-
-                Future.delayed(const Duration(milliseconds: 2000), () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MyRequests(),
-                    ),
-                  );
-                });
-              },
-              child: Text(
-                'Agree',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 17,
-                ),
-              ),
-            ),
-          ],
+          actions: [],
         ),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(15.0),
             child: load
-                ? spinkit
-                : Text(
-                    pdfText,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 15),
+                ? Column(
+                    children: [
+                      SizedBox(height: 20),
+                      spinkit,
+                      SizedBox(height: 50),
+                      Text(
+                        "Thank you, we are saving your service preferences. \n\nYour results will appear on the Service Request Menu once the payment is received.",
+                        style: TextStyle(fontSize: 18),
+                        textAlign: TextAlign.center,
+                      )
+                    ],
+                  )
+                : Column(
+                    children: [
+                      Text(
+                        pdfText,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 17),
+                      ),
+                      SizedBox(
+                        height: 70,
+                      ),
+                      Row(
+                        children: [
+                          ActionChip(
+                            padding: EdgeInsets.only(
+                                left: 10, right: 10, top: 10, bottom: 10),
+                            label: Text(
+                              'Cancel request',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 15),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            backgroundColor: Colors.red[900],
+                            elevation: 1,
+                          ),
+                          SizedBox(width: 25),
+                          ActionChip(
+                            padding: EdgeInsets.only(
+                                left: 10, right: 10, top: 10, bottom: 10),
+                            label: Text(
+                              'Proceed to payment',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 15),
+                            ),
+                            onPressed: () {
+                              setState(
+                                () {
+                                  load = true;
+                                },
+                              );
+
+                              //Submit the request to backend
+                              widget.requestBody["requestNumber"] =
+                                  requestNumber;
+
+                              Future.delayed(
+                                const Duration(milliseconds: 5000),
+                                () {
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SearchResults(),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            backgroundColor: Colors.green,
+                            elevation: 1,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
           ),
         ),

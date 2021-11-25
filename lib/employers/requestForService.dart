@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:nannyacademy/employers/searcResults.dart';
+import 'package:nannyacademy/termsAndConditions.dart' as fullDialog;
 
 class RequestForService extends StatefulWidget {
   @override
@@ -51,6 +52,19 @@ class _RequestForServiceState extends State<RequestForService> {
         ],
       ),
     );
+  }
+
+  Future _openAgreeDialog(context, var candidateProfile) async {
+    final info = storage.getItem('info');
+    var requestBody = json.decode(info);
+    requestBody['candidate'] = candidateProfile;
+
+    String result = await Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) {
+          return fullDialog.CreateAgreement(requestBody: requestBody);
+        },
+        fullscreenDialog: true));
+    print(result);
   }
 
   String serviceSelected = 'Nanny Services';
@@ -294,7 +308,8 @@ class _RequestForServiceState extends State<RequestForService> {
                           style: TextStyle(color: Colors.white, fontSize: 18),
                         ),
                         onPressed: () {
-                          _searchService(serviceSelected);
+                          _openAgreeDialog(context, serviceSelected);
+                          // _searchService(serviceSelected);
                         },
                         backgroundColor: Color.fromRGBO(255, 200, 124, 1),
                         elevation: 1,

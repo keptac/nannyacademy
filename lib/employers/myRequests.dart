@@ -13,46 +13,7 @@ class MyRequests extends StatefulWidget {
 
 class _MyRequestsState extends State<MyRequests> {
   List serviceRequests = [
-    {
-      "firstName": "Kelvin",
-      "surname": "Chelenje",
-      "gender": "MALE",
-      "age": "27",
-      "services": "Nany, Gardener",
-      "location": "Lagos",
-      "phoneNumber": "263785302628",
-      "photoUrl":
-          "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
-      "employeeId": "58-293952-Q-86",
-      "jobStatus": "pending",
-      "requestStatus": "pending",
-      "serviceRequested": "watering the garden ",
-      "requestType": "Gardener",
-      "meetingDate": "",
-      "active": "1",
-      "salary": "1000",
-      "requestNumber": "REQ67889997",
-    },
-    {
-      "firstName": "Batsirai",
-      "surname": "Gwembere",
-      "gender": "MALE",
-      "age": "25",
-      "services": "Gardener",
-      "location": "Lagos",
-      "phoneNumber": "263785302628",
-      "photoUrl":
-          "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
-      "employeeId": "58-293952-Q-86",
-      "jobStatus": "pending",
-      "requestStatus": "approved",
-      "serviceRequested": "watering the garden ",
-      "requestType": "Gardener",
-      "meetingDate": "2021-10-30",
-      "active": "1",
-      "salary": "1000",
-      "requestNumber": "REQ678897",
-    },
+
     {
       "firstName": "Charlotte",
       "surname": "Chelenje",

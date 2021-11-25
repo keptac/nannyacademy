@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nannyacademy/employees/dashboard.dart';
 import 'package:nannyacademy/employees/updateDetails.dart';
+import 'package:nannyacademy/employers/myRequests.dart';
 
 class EmployerSettings extends StatefulWidget {
   @override
@@ -56,12 +57,41 @@ class _EmployerSettingsState extends State<EmployerSettings> {
               ),
               title: const Text(
                 'Personal Details',
-                style: TextStyle(color: Colors.black, fontSize: 18.0),
+                style: TextStyle(color: Colors.black, fontSize: 17.0),
               ),
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => Updatenannyacademy(),
+                ),
+              ),
+            ),
+          ),
+          Card(
+            elevation: 5,
+            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(7.0),
+            ),
+            color: Colors.white,
+            child: ListTile(
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              leading: CircleAvatar(
+                backgroundColor: Color.fromRGBO(255, 200, 124, 1),
+                child: Icon(
+                  Icons.people,
+                  color: Colors.white,
+                ),
+              ),
+              title: const Text(
+                'Active Employments',
+                style: TextStyle(color: Colors.black, fontSize: 17.0),
+              ),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MyRequests(),
                 ),
               ),
             ),
