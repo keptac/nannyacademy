@@ -4,12 +4,12 @@ import 'package:nannyacademy/employers/requestForService.dart';
 import 'package:nannyacademy/employers/searcResults.dart';
 import 'package:nannyacademy/widgets/CustomBoxDecoration.dart';
 
-class EmployerDashboard extends StatefulWidget {
+class AdminDashboard extends StatefulWidget {
   @override
-  _EmployerDashboardState createState() => _EmployerDashboardState();
+  _AdminDashboardState createState() => _AdminDashboardState();
 }
 
-class _EmployerDashboardState extends State<EmployerDashboard> {
+class _AdminDashboardState extends State<AdminDashboard> {
   CustomBoxDecoration customBoxDecoration = CustomBoxDecoration();
 
   menuCard(var item, var requestRoute) {
@@ -59,7 +59,7 @@ class _EmployerDashboardState extends State<EmployerDashboard> {
         actions: <Widget>[],
         elevation: 0.0,
         title: Text(
-          'Nanny Employer',
+          'Nanny Academy',
           style: TextStyle(
               fontSize: 20, fontFamily: 'Quicksand', color: Colors.black),
         ),
@@ -68,18 +68,6 @@ class _EmployerDashboardState extends State<EmployerDashboard> {
       ),
       body: ListView(
         children: <Widget>[
-          // Container(
-          //   padding: EdgeInsets.only(top: 10),
-          //   child: Center(
-          //     child: Text(
-          //       'Welcome to Nanny Employer',
-          //       style: TextStyle(
-          //         fontSize: 18,
-          //         fontFamily: 'Quicksand',
-          //       ),
-          //     ),
-          //   ),
-          // ),
           SizedBox(
             height: 50,
           ),
@@ -89,36 +77,61 @@ class _EmployerDashboardState extends State<EmployerDashboard> {
             child: Center(
               child: GridView.count(
                 padding:
-                    const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10),
+                    const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10),
                 crossAxisSpacing: 10.0,
                 mainAxisSpacing: 10.0,
                 crossAxisCount: 2,
                 children: [
-                  menuCard('Make new search', RequestForService()),
-                  menuCard('Service requests', SearchResults()),
-                  // menuCard('Payment Methods', MyPayments()),
+                  menuCard('Manage Nannies', RequestForService()),
+                  menuCard('Manage Employers', RequestForService()),
+                  menuCard('Payments', RequestForService()),
+                  menuCard('View Requests', SearchResults()),
                 ],
               ),
             ),
           ),
         ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        tooltip: 'Update Details',
-        elevation: 0.8,
-        backgroundColor: Color.fromRGBO(255, 200, 124, 1),
-        child: const Icon(Icons.person),
-        onPressed: () => Navigator.push(context,
-            MaterialPageRoute(builder: (context) => EmployerSettings())),
+      bottomNavigationBar: Container(
+        height: 70,
+        decoration: BoxDecoration(
+          image: new DecorationImage(
+            fit: BoxFit.cover,
+            colorFilter: new ColorFilter.mode(
+                Colors.black.withOpacity(0.2), BlendMode.dstATop),
+            image: AssetImage('assets/images/back.jpeg'),
+          ),
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            stops: [0.2, 0.7, 1.0],
+            colors: [
+              Color.fromRGBO(166, 233, 215, 1),
+              Color.fromRGBO(255, 200, 124, 1),
+              Color.fromRGBO(233, 166, 184, 1)
+            ],
+          ),
+        ),
+        child: Center(
+          child: Text(
+            'NANNY ADMIN',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 30,
+              letterSpacing: 5,
+              fontFamily: 'Quicksand',
+            ),
+          ),
+        ),
       ),
-      bottomNavigationBar: BottomAppBar(
-          color: Colors.white,
-          shape: CircularNotchedRectangle(),
-          notchMargin: 8.0,
-          child: Container(
-            height: 60,
-          )),
+      // bottomNavigationBar: BottomAppBar(
+      //     color: Colors.white,
+      //     shape: CircularNotchedRectangle(),
+      //     notchMargin: 8.0,
+      //     child: Container(
+      //       height: 60,
+      //       decoration: customBoxDecoration.box(),
+      //     )),
     );
   }
 }

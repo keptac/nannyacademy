@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nannyacademy/admin/ADMINDASHBOARD.dart';
 import 'package:nannyacademy/employees/dashboard.dart';
 import 'package:nannyacademy/employers/employerDashboard.dart';
 import 'package:nannyacademy/registrationOption.dart';
@@ -49,8 +50,15 @@ class _LoginPageState extends State<LoginPage> {
         }
       });
 
-      // MUST BE REMOVED
-      if (_emailController.text.contains('employer')) {
+      // TEST ROUTE MUST BE REMOVED
+      if (_emailController.text.contains('admin')) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AdminDashboard(),
+          ),
+        );
+      } else if (_emailController.text.contains('employer')) {
         Navigator.push(
           context,
           MaterialPageRoute(
