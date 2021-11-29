@@ -26,7 +26,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
   final _confirmPassowordController = TextEditingController();
   String _errorMsg = '';
 
-  String statusResponse = "Creating Profile";
+  String statusResponse = "Profile Created. KYC verification in progress.";
   bool loading = false;
 
   void _register() async {

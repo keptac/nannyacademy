@@ -11,7 +11,7 @@ class _ServiceRequestsState extends State<ServiceRequests> {
     {
       "requestNum": "REQ67889997",
       "requestType": "Nanny",
-      "serviceRequested": "Take care of 2 babies during the day.",
+      "serviceRequested": "Silver - level 1 Stay In",
       "nannyId": "58-293952-Q-86",
       "requestorId": "789008H78",
       "requestorName": "Kelvin Chelenje",

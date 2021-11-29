@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:nannyacademy/widgets/bottomSheetAdmin.dart';
 
-class TrainedEmployees extends StatefulWidget {
+class ActivatedEmployers extends StatefulWidget {
   @override
-  _TrainedEmployeesState createState() => _TrainedEmployeesState();
+  _ActivatedEmployersState createState() => _ActivatedEmployersState();
 }
 
-class _TrainedEmployeesState extends State<TrainedEmployees> {
+class _ActivatedEmployersState extends State<ActivatedEmployers> {
   List serviceRequests = [
     {
-      "firstName": "Fradrick",
+      "firstName": "Kelvin",
       "surname": "Chelenje",
       "gender": "MALE",
       "age": "28",
@@ -20,7 +20,7 @@ class _TrainedEmployeesState extends State<TrainedEmployees> {
       "photoUrl":
           "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
       "employeeId": "58-293952-Q-86",
-      "employmentStatus": "Employed",
+      "verificationStatus": "Verified",
       "dob": "2021-10-30",
       "applicationNumber": "REQ67889997",
       "employer": "Kelvin Chelenje"
@@ -54,11 +54,7 @@ class _TrainedEmployeesState extends State<TrainedEmployees> {
       appBar: AppBar(
         elevation: 0.0,
         title: Text(
-          'Nanny Applications',
-          style: TextStyle(
-            fontSize: 20,
-            fontFamily: 'Quicksand',
-          ),
+          'Verified Profiles',
         ),
         centerTitle: true,
         backgroundColor: Color.fromRGBO(255, 200, 124, 1),
@@ -85,7 +81,7 @@ class _TrainedEmployeesState extends State<TrainedEmployees> {
               title: Text(serviceRequest['firstName'] +
                   ' ' +
                   serviceRequest['surname']),
-              subtitle: Text(serviceRequest['employmentStatus']),
+              subtitle: Text(serviceRequest['verificationStatus']),
               children: <Widget>[
                 Divider(
                   thickness: 1.0,
@@ -119,7 +115,7 @@ class _TrainedEmployeesState extends State<TrainedEmployees> {
                               ' (' +
                               serviceRequest['age'] +
                               ')'),
-                      serviceRequest['employmentStatus'] == "Employed"
+                      serviceRequest['verificationStatus'] == "Employed"
                           ? serviceDisplay(
                               "Employer", serviceRequest['employer'])
                           : Text("")
@@ -139,7 +135,7 @@ class _TrainedEmployeesState extends State<TrainedEmployees> {
                       padding: EdgeInsets.only(
                           left: 10, right: 10, top: 10, bottom: 10),
                       label: Text(
-                        serviceRequest['employmentStatus'],
+                        serviceRequest['verificationStatus'],
                         style: TextStyle(color: Colors.white, fontSize: 13),
                       ),
                       onPressed: () {},

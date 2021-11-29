@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:nannyacademy/widgets/bottomSheetAdmin.dart';
 
-class EmployeeApplications extends StatefulWidget {
+class EmployerRegistrations extends StatefulWidget {
   @override
-  _EmployeeApplicationsState createState() => _EmployeeApplicationsState();
+  _EmployerRegistrationsState createState() => _EmployerRegistrationsState();
 }
 
-class _EmployeeApplicationsState extends State<EmployeeApplications> {
+class _EmployerRegistrationsState extends State<EmployerRegistrations> {
   List serviceRequests = [
     {
-      "firstName": "Charlotte",
-      "surname": "Phezulani",
-      "gender": "FEMALE",
-      "age": "23",
+      "firstName": "Zivanani",
+      "surname": "Gwembere",
+      "gender": "Male",
       "services": "Silver - Level 1",
       "location": "186 Helvetia Drive Borrowdale",
       "phoneNumber": "263785302628",
@@ -22,7 +21,7 @@ class _EmployeeApplicationsState extends State<EmployeeApplications> {
       "employeeId": "58-293952-Q-86",
       "applicationStatus": "Pending",
       "dob": "2021-10-30",
-      "applicationNumber": "REQ67889997",
+      "idNumber": "REQ67889997",
     }
   ];
 
@@ -105,19 +104,13 @@ class _EmployeeApplicationsState extends State<EmployeeApplications> {
                       SizedBox(
                         height: 10,
                       ),
-                      serviceDisplay("Application Number",
-                          serviceRequest['applicationNumber']),
+                      serviceDisplay("ID Number", serviceRequest['idNumber']),
                       serviceDisplay("Services", serviceRequest['services']),
                       serviceDisplay("Gender", serviceRequest['gender']),
                       serviceDisplay(
                           "Phone Number", serviceRequest['phoneNumber']),
                       serviceDisplay("Address", serviceRequest['location']),
-                      serviceDisplay(
-                          "Date of Birth",
-                          serviceRequest['dob'] +
-                              ' (' +
-                              serviceRequest['age'] +
-                              ')'),
+                      serviceDisplay("Date of Birth", serviceRequest['dob']),
                     ],
                   ),
                 ),
@@ -130,35 +123,33 @@ class _EmployeeApplicationsState extends State<EmployeeApplications> {
                   buttonHeight: 52.0,
                   buttonMinWidth: 90.0,
                   children: <Widget>[
-                     Row(
-                            children: [
-                              ActionChip(
-                                padding: EdgeInsets.only(
-                                    left: 10, right: 10, top: 10, bottom: 10),
-                                label: Text(
-                                  'Decline Application',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 13),
-                                ),
-                                onPressed: () {},
-                                backgroundColor: Colors.red.shade900,
-                                elevation: 1,
-                              ),
-                              SizedBox(width: 50),
-                              ActionChip(
-                                padding: EdgeInsets.only(
-                                    left: 10, right: 10, top: 10, bottom: 10),
-                                label: Text(
-                                  'Approve ',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 13),
-                                ),
-                                onPressed: () {},
-                                backgroundColor: Colors.green,
-                                elevation: 1,
-                              ),
-                            ],
+                    Row(
+                      children: [
+                        ActionChip(
+                          padding: EdgeInsets.only(
+                              left: 10, right: 10, top: 10, bottom: 10),
+                          label: Text(
+                            'Decline Application',
+                            style: TextStyle(color: Colors.white, fontSize: 13),
                           ),
+                          onPressed: () {},
+                          backgroundColor: Colors.red.shade900,
+                          elevation: 1,
+                        ),
+                        SizedBox(width: 50),
+                        ActionChip(
+                          padding: EdgeInsets.only(
+                              left: 10, right: 10, top: 10, bottom: 10),
+                          label: Text(
+                            'Approve ',
+                            style: TextStyle(color: Colors.white, fontSize: 13),
+                          ),
+                          onPressed: () {},
+                          backgroundColor: Colors.green,
+                          elevation: 1,
+                        ),
+                      ],
+                    ),
                   ],
                 )
               ],

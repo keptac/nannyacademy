@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nannyacademy/admin/ADMINDASHBOARD.dart';
-import 'package:nannyacademy/admin/employee_management/employeeApplications.dart';
-import 'package:nannyacademy/admin/employee_management/trainedEmployees.dart';
+import 'package:nannyacademy/admin/employer_management/activeEmployers.dart';
+import 'package:nannyacademy/admin/employer_management/employerRegistrations.dart';
 import 'package:nannyacademy/widgets/bottomSheetAdmin.dart';
 
 class ManagerEmployers extends StatefulWidget {
@@ -18,7 +18,7 @@ class _ManagerEmployersState extends State<ManagerEmployers> {
           actions: <Widget>[],
           elevation: 0.0,
           title: Text(
-            'Manage Nannies',
+            'Manage Employers',
             style: TextStyle(
               // fontSize: 20,
               fontFamily: 'Quicksand',
@@ -47,15 +47,16 @@ class _ManagerEmployersState extends State<ManagerEmployers> {
                   ),
                 ),
                 title: const Text(
-                  'Nanny Applications',
+                  'Registrations',
                   style: TextStyle(
                     color: Colors.black,
                   ),
                 ),
+                subtitle: Text("Pending KYC verification"),
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => EmployeeApplications(),
+                    builder: (context) => EmployerRegistrations(),
                   ),
                 ),
               ),
@@ -78,13 +79,14 @@ class _ManagerEmployersState extends State<ManagerEmployers> {
                   ),
                 ),
                 title: const Text(
-                  'Trained Nannies',
+                  'Activated Employers',
                   style: TextStyle(color: Colors.black),
                 ),
+                subtitle: Text("Verified Profiles"),
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => TrainedEmployees(),
+                    builder: (context) => ActivatedEmployers(),
                   ),
                 ),
               ),
