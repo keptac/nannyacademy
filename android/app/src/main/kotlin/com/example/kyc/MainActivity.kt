@@ -1,4 +1,4 @@
-package com.example.nannyacademy
+package com.fixcrypt.nannyacademy
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

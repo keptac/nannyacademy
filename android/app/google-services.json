@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "544297888389",
+    "project_id": "nanny-academy",
+    "storage_bucket": "nanny-academy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:544297888389:android:6e1fb423667c77ad9817ec",
+        "android_client_info": {
+          "package_name": "com.fixcrypt.nannyacademy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "544297888389-e828fucofssd57orgde3a10mm0pba41l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTgpmveBoecKr8757d4o8jhdid5Z_aQiw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "544297888389-e828fucofssd57orgde3a10mm0pba41l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
