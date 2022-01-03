@@ -48,25 +48,44 @@ class _LoginPageState extends State<LoginPage> {
 
         if (documents.length > 0) {
           //exists
-          if (userTypeObject.toString().contains('employee')) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Dashboard(),
-              ),
-            );
-          } else if (userTypeObject.toString().contains('employer')) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => EmployerDashboard(),
-              ),
-            );
-          } else if (userTypeObject.toString().contains('admin')) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AdminDashboard(),
+          if (userTypeObject.toString().contains('true')) {
+            if (userTypeObject.toString().contains('employee')) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Dashboard(),
+                ),
+              );
+            } else if (userTypeObject.toString().contains('employer')) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EmployerDashboard(),
+                ),
+              );
+            } else if (userTypeObject.toString().contains('admin')) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AdminDashboard(),
+                ),
+              );
+            }
+          } else {
+            showDialog(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                title: Text("Unauthorised"),
+                content: Text(
+                    'Your account is not activated or verified. Please contact Nanny Academy'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                    },
+                    child: Text('Dismiss'),
+                  )
+                ],
               ),
             );
           }

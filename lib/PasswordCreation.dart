@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -54,45 +56,59 @@ class _PasswordCreationState extends State<PasswordCreation> {
 
         final userid = result;
 
-        final body = {
-          "profileid": userid.user.uid,
-          "firstname": firstName,
-          "surname": surname,
-          "idNumber": idNumber,
-          "gender": gender,
-          "dob": dob,
-          "phoneNumber": phoneNumber,
-          "address": address,
-          "userType": userType,
-          "emailAddress": _emailController.text,
-          "channel": "MOBILE",
-        };
-
         final usertypeMapping = {
           "profileid": userid.user.uid,
           "userType": userType,
+          "activated": false
         };
 
-        await FirebaseFirestore.instance.collection('Accounts').add(body);
         await FirebaseFirestore.instance
             .collection('Account Type')
             .add(usertypeMapping);
 
         if (userType == 'employee') {
+          final random = new Random();
+          int randomNumber = random.nextInt(1000000);
+          String applicationNumber = "APP" + randomNumber.toString();
+
           final applicationBody = {
             "profileid": userid.user.uid,
             "idNumber": idNumber,
-            "registrationStatus": "pending",
-            "channel": "MOBILE"
+            "applicationStatus": "Pending",
+            "channel": "MOBILE",
+            "firstName": firstName,
+            "surname": surname,
+            "gender": gender,
+            "dob": dob,
+            "phoneNumber": phoneNumber,
+            "address": address,
+            "userType": userType,
+            "emailAddress": _emailController.text,
+            "applicationNumber": applicationNumber,
+            "photoUrl":
+                "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
           };
 
           await FirebaseFirestore.instance
-              .collection('Nanny Applications')
+              .collection('Employee Accounts')
               .add(applicationBody);
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.blueGrey,
+              content: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child:
+                    Text('Sucessfully Register. Application Pending approval'),
+              ),
+              duration: Duration(seconds: 5),
+            ),
+          );
 
           setState(() {
             statusResponse = "Profile Created.";
           });
+
           //delay then route
           Future.delayed(
             const Duration(milliseconds: 3000),
@@ -107,12 +123,32 @@ class _PasswordCreationState extends State<PasswordCreation> {
             },
           );
         } else {
+          final body = {
+            "profileid": userid.user.uid,
+            "firstname": firstName,
+            "surname": surname,
+            "idNumber": idNumber,
+            "gender": gender,
+            "dob": dob,
+            "phoneNumber": phoneNumber,
+            "address": address,
+            "userType": userType,
+            "emailAddress": _emailController.text,
+            "channel": "MOBILE",
+            "verificationStatus": "Pending"
+          };
+
+          await FirebaseFirestore.instance
+              .collection('Employer Accounts')
+              .add(body);
+
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               backgroundColor: Colors.blueGrey,
               content: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('Sucessfully Register.You Can Login Now'),
+                child:
+                    Text('Sucessfully Register. Account Pending Verification'),
               ),
               duration: Duration(seconds: 5),
             ),
@@ -121,6 +157,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
           setState(() {
             statusResponse = "Profile Created.";
           });
+
           //delay then route
           Future.delayed(
             const Duration(milliseconds: 3000),
@@ -135,20 +172,6 @@ class _PasswordCreationState extends State<PasswordCreation> {
             },
           );
         }
-
-        // ApiService.registerUser(body).then((success) {
-        //   if (success) {
-        //     prefs.clear();
-        //     _authReg(authBody, userType);
-        //   } else {
-        //     setState(() {
-        //       loading = false;
-        //       _errorMsg = "An error occured while processing your request";
-        //     });
-        //     return;
-        //   }
-        // });
-
       } on FirebaseAuthException catch (e) {
         setState(() {
           loading = false;

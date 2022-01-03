@@ -15,11 +15,11 @@ class _EmployeeApplicationsState extends State<EmployeeApplications> {
       "gender": "FEMALE",
       "age": "23",
       "services": "Silver - Level 1",
-      "location": "186 Helvetia Drive Borrowdale",
+      "address": "186 Helvetia Drive Borrowdale",
       "phoneNumber": "263785302628",
       "photoUrl":
           "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
-      "employeeId": "58-293952-Q-86",
+      "idNumber": "58-293952-Q-86",
       "applicationStatus": "Pending",
       "dob": "2021-10-30",
       "applicationNumber": "REQ67889997",
@@ -111,7 +111,7 @@ class _EmployeeApplicationsState extends State<EmployeeApplications> {
                       serviceDisplay("Gender", serviceRequest['gender']),
                       serviceDisplay(
                           "Phone Number", serviceRequest['phoneNumber']),
-                      serviceDisplay("Address", serviceRequest['location']),
+                      serviceDisplay("Address", serviceRequest['address']),
                       serviceDisplay(
                           "Date of Birth",
                           serviceRequest['dob'] +
