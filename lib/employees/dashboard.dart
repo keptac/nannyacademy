@@ -3,7 +3,9 @@ import 'package:nannyacademy/employees/checkInOut.dart';
 
 import 'package:nannyacademy/employees/serviceRequests.dart';
 import 'package:nannyacademy/employees/settings.dart';
+import 'package:nannyacademy/login.dart';
 import 'package:nannyacademy/widgets/CustomBoxDecoration.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -12,6 +14,16 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   CustomBoxDecoration customBoxDecoration = CustomBoxDecoration();
+
+  Future signOut() async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LoginPage(),
+      ),
+    );
+  }
 
   menuCard(var item, var requestRoute) {
     return Container(
@@ -58,9 +70,11 @@ class _DashboardState extends State<Dashboard> {
           Padding(
               padding: EdgeInsets.only(right: 20.0),
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  signOut();
+                },
                 child: Icon(
-                  Icons.notifications,
+                  Icons.lock,
                   size: 26.0,
                 ),
               )),

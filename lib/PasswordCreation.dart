@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
@@ -6,6 +7,7 @@ import 'package:nannyacademy/widgets/bottomSheet.dart';
 import 'package:nannyacademy/services/rest_api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 const spinkit = SpinKitChasingDots(
   color: Colors.green,
@@ -24,6 +26,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPassowordController = TextEditingController();
+  final _auth = FirebaseAuth.instance;
   String _errorMsg = '';
 
   String statusResponse = "Profile Created. KYC verification in progress.";
@@ -44,40 +47,129 @@ class _PasswordCreationState extends State<PasswordCreation> {
     final String phoneNumber = prefs.getString('phoneNumber');
     final String userType = prefs.getString('userType');
 
-    final body = {
-      "firstname": firstName,
-      "surname": surname,
-      "idNumber": idNumber,
-      "gender": gender,
-      "dob": dob,
-      "phoneNumber": phoneNumber,
-      "address": address,
-      "userType": userType,
-      "emailAddress": _emailController.text,
-      "password": _passwordController.text,
-      "channel": "MOBILE"
-    };
-
-    final authBody = {
-      "idNumber": idNumber,
-      "emailAddress": _emailController.text,
-      "password": _passwordController.text,
-      "channel": "MOBILE"
-    };
-
     if (idNumber != null) {
-      ApiService.registerUser(body).then((success) {
-        if (success) {
-          prefs.clear();
-          _authReg(authBody, userType);
-        } else {
+      try {
+        final result = await _auth.createUserWithEmailAndPassword(
+            email: _emailController.text, password: _passwordController.text);
+
+        final userid = result;
+
+        final body = {
+          "profileid": userid.user.uid,
+          "firstname": firstName,
+          "surname": surname,
+          "idNumber": idNumber,
+          "gender": gender,
+          "dob": dob,
+          "phoneNumber": phoneNumber,
+          "address": address,
+          "userType": userType,
+          "emailAddress": _emailController.text,
+          "channel": "MOBILE",
+        };
+
+        final usertypeMapping = {
+          "profileid": userid.user.uid,
+          "userType": userType,
+        };
+
+        await FirebaseFirestore.instance.collection('Accounts').add(body);
+        await FirebaseFirestore.instance
+            .collection('Account Type')
+            .add(usertypeMapping);
+
+        if (userType == 'employee') {
+          final applicationBody = {
+            "profileid": userid.user.uid,
+            "idNumber": idNumber,
+            "registrationStatus": "pending",
+            "channel": "MOBILE"
+          };
+
+          await FirebaseFirestore.instance
+              .collection('Nanny Applications')
+              .add(applicationBody);
+
           setState(() {
-            loading = false;
-            _errorMsg = "An error occured while processing your request";
+            statusResponse = "Profile Created.";
           });
-          return;
+          //delay then route
+          Future.delayed(
+            const Duration(milliseconds: 3000),
+            () {
+              prefs.clear();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LoginPage(),
+                ),
+              );
+            },
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.blueGrey,
+              content: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Sucessfully Register.You Can Login Now'),
+              ),
+              duration: Duration(seconds: 5),
+            ),
+          );
+
+          setState(() {
+            statusResponse = "Profile Created.";
+          });
+          //delay then route
+          Future.delayed(
+            const Duration(milliseconds: 3000),
+            () {
+              prefs.clear();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LoginPage(),
+                ),
+              );
+            },
+          );
         }
-      });
+
+        // ApiService.registerUser(body).then((success) {
+        //   if (success) {
+        //     prefs.clear();
+        //     _authReg(authBody, userType);
+        //   } else {
+        //     setState(() {
+        //       loading = false;
+        //       _errorMsg = "An error occured while processing your request";
+        //     });
+        //     return;
+        //   }
+        // });
+
+      } on FirebaseAuthException catch (e) {
+        setState(() {
+          loading = false;
+          _errorMsg = "An error occured while processing your request";
+        });
+        showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text(' Ops! Registration Failed'),
+            content: Text('${e.message}'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+                child: Text('Okay'),
+              )
+            ],
+          ),
+        );
+      }
     } else {
       setState(() {
         loading = false;
@@ -101,7 +193,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
       ApiService.authReg(body).then((success) {
         if (success) {
           setState(() {
-            statusResponse = "Profile Created. KYC verification in progress.";
+            statusResponse = "Profile Created.";
           });
           //delay then route
           Future.delayed(

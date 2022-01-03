@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nannyacademy/admin/employee_management/manageEmployees.dart';
 import 'package:nannyacademy/admin/employer_management/manageEmployers.dart';
 import 'package:nannyacademy/employers/requestForService.dart';
 import 'package:nannyacademy/employers/searcResults.dart';
+import 'package:nannyacademy/login.dart';
 import 'package:nannyacademy/widgets/CustomBoxDecoration.dart';
 import 'package:nannyacademy/widgets/bottomSheetAdmin.dart';
 
@@ -13,6 +15,15 @@ class AdminDashboard extends StatefulWidget {
 
 class _AdminDashboardState extends State<AdminDashboard> {
   CustomBoxDecoration customBoxDecoration = CustomBoxDecoration();
+  Future signOut() async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LoginPage(),
+                ),
+              );
+  }
 
   menuCard(var item, var requestRoute) {
     return Container(
@@ -58,7 +69,19 @@ class _AdminDashboardState extends State<AdminDashboard> {
             Icons.info_outline,
             color: Colors.black,
           ),
-          actions: <Widget>[],
+          actions: <Widget>[
+            Padding(
+                padding: EdgeInsets.only(right: 20.0),
+                child: InkWell(
+                  onTap: () {
+                    signOut();
+                  },
+                  child: Icon(
+                    Icons.lock,
+                    size: 26.0,
+                  ),
+                )),
+          ],
           elevation: 0.0,
           title: Text(
             'Nanny Academy',

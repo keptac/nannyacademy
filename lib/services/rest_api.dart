@@ -9,7 +9,7 @@ class URLS {
 class ApiService {
 
   static Future<bool> login(body) async {
-    final response = await http.post('${URLS.BASE_URL}/login', body: body);
+    final response = await http.post(Uri.parse('${URLS.BASE_URL}/login'), body: body);
     if (response.statusCode == 200) {
       return true;
     } else {
@@ -18,7 +18,7 @@ class ApiService {
   }
 
   static Future<dynamic> registerUser(body) async {
-    final response = await http.post('${URLS.BASE_URL}/users', body: body);
+    final response = await http.post(Uri.parse('${URLS.BASE_URL}/users'), body: body);
 
     if (response.statusCode == 200) {
       return json.decode(response.body);
@@ -28,7 +28,7 @@ class ApiService {
   }
 
   static Future<dynamic> applicationReg(body) async {
-    final response = await http.post('${URLS.BASE_URL}/verify/registrar',
+    final response = await http.post(Uri.parse('${URLS.BASE_URL}/verify/registrar'),
         headers: {"Content-Type": "application/json"}, body: body);
 
     if (response.statusCode == 200) {
@@ -39,7 +39,7 @@ class ApiService {
   }
 
   static Future<dynamic> authReg(body) async {
-    final response = await http.post('${URLS.BASE_URL}/auth/register',
+    final response = await http.post(Uri.parse('${URLS.BASE_URL}/auth/register'),
         headers: {"Content-Type": "application/json"}, body: body);
     if (response.statusCode == 200) {
       return json.decode(response.body);

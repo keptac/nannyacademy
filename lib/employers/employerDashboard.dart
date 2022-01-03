@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nannyacademy/employers/employeerProfile.dart';
 import 'package:nannyacademy/employers/requestForService.dart';
 import 'package:nannyacademy/employers/searcResults.dart';
+import 'package:nannyacademy/login.dart';
 import 'package:nannyacademy/widgets/CustomBoxDecoration.dart';
 
 class EmployerDashboard extends StatefulWidget {
@@ -11,7 +13,16 @@ class EmployerDashboard extends StatefulWidget {
 
 class _EmployerDashboardState extends State<EmployerDashboard> {
   CustomBoxDecoration customBoxDecoration = CustomBoxDecoration();
-
+  Future signOut() async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LoginPage(),
+                ),
+              );
+  }
+  
   menuCard(var item, var requestRoute) {
     return Container(
       decoration: customBoxDecoration.box(),
@@ -53,10 +64,23 @@ class _EmployerDashboardState extends State<EmployerDashboard> {
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
         leading: Icon(
+          
           Icons.info_outline,
           color: Colors.black,
         ),
-        actions: <Widget>[],
+        actions: <Widget>[
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: InkWell(
+                onTap: () {
+                  signOut();
+                },
+                child: Icon(
+                  Icons.lock,
+                  size: 26.0,
+                ),
+              )),
+        ],
         elevation: 0.0,
         title: Text(
           'Nanny Employer',
