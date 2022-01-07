@@ -13,7 +13,7 @@ class SearchResults extends StatefulWidget {
 
 class _SearchResultsState extends State<SearchResults> {
   //request from server the requests. Search using the user email
-  List serviceRequests = [
+  List serviceRequestResults = [
     {
       "verified": true,
       "firstName": "Batsirai",
@@ -29,34 +29,14 @@ class _SearchResultsState extends State<SearchResults> {
       "jobStatus": "pending",
       "requestStatus": "approved",
       "serviceRequested": "Silver 1 - Stay In ",
-      "requestType": "Gardener",
       "meetingDate": "2021-10-30",
       "active": "1",
       "salary": "1000",
       "requestNumber": "REQ678897",
     },
-    {
-      "verified": true,
-      "firstName": "Care",
-      "surname": "Giver 2",
-      "gender": "FEMALE",
-      "age": "35",
-      "services": "Gardener",
-      "location": "Lagos",
-      "phoneNumber": "263785********",
-      "photoUrl": "",
-      // "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
-      "employeeId": "58-293952-Q-86",
-      "jobStatus": "pending",
-      "requestStatus": "approved",
-      "serviceRequested": "Silver 1 - Stay In ",
-      "requestType": "Gardener",
-      "meetingDate": "2021-10-30",
-      "active": "1",
-      "salary": "1000",
-      "requestNumber": "REQ678897",
-    }
   ];
+  //TODO: On Offer job save to employments table
+  //TODO: on schedule a meeting save to employments table
 
   String _meetingText = 'Meeting Date *';
   var _finaldate;
@@ -154,13 +134,13 @@ class _SearchResultsState extends State<SearchResults> {
         centerTitle: true,
         backgroundColor: Color.fromRGBO(255, 200, 124, 1),
       ),
-      body: serviceRequests.length > 0
+      body: serviceRequestResults.length > 0
           ? ListView.builder(
               // padding: const EdgeInsets.all(8),
 
-              itemCount: serviceRequests.length,
+              itemCount: serviceRequestResults.length,
               itemBuilder: (BuildContext context, int index) {
-                var serviceRequest = serviceRequests[index];
+                var serviceRequest = serviceRequestResults[index];
                 return Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 20.0, vertical: 10),

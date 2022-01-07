@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nannyacademy/employers/employeerProfile.dart';
+import 'package:nannyacademy/employers/myRequests.dart';
 import 'package:nannyacademy/employers/requestForService.dart';
 import 'package:nannyacademy/employers/searcResults.dart';
 import 'package:nannyacademy/login.dart';
@@ -15,6 +16,7 @@ class _EmployerDashboardState extends State<EmployerDashboard> {
   CustomBoxDecoration customBoxDecoration = CustomBoxDecoration();
   Future signOut() async {
     await FirebaseAuth.instance.signOut();
+    Navigator.pop(context);
     Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -23,7 +25,7 @@ class _EmployerDashboardState extends State<EmployerDashboard> {
               );
   }
   
-  menuCard(var item, var requestRoute) {
+  menuCard(var item, var requestRoute, var icon) {
     return Container(
       decoration: customBoxDecoration.box(),
       height: 20,
@@ -34,19 +36,25 @@ class _EmployerDashboardState extends State<EmployerDashboard> {
             borderRadius: BorderRadius.circular(10.0),
           ),
           // color: Colors.teal[200],
-          child: Center(
-            child: Padding(
-              padding: EdgeInsets.all(5),
-              child: Text(
-                item,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16.0,
-                    fontFamily: 'Quicksand'),
-                textAlign: TextAlign.center,
+          child: Padding(padding: EdgeInsets.only(top: 25),
+              child:Column(children: [
+            Icon(icon, color: Colors.green,size: 30,),
+            SizedBox(height: 10,),
+            Center(
+              child: Padding(
+                padding: EdgeInsets.all(5),
+                child: Text(
+                  item,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16.0,
+                      fontFamily: 'Quicksand'),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
-          ),
+          ],)),
+
         ),
         onTap: () => Navigator.push(
           context,
@@ -61,11 +69,11 @@ class _EmployerDashboardState extends State<EmployerDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.grey[50],
       appBar: AppBar(
         leading: Icon(
           
-          Icons.info_outline,
+          Icons.menu,
           color: Colors.black,
         ),
         actions: <Widget>[
@@ -83,53 +91,60 @@ class _EmployerDashboardState extends State<EmployerDashboard> {
         ],
         elevation: 0.0,
         title: Text(
-          'Nanny Employer',
+          'Nanny Academy',
           style: TextStyle(
-              fontSize: 20, fontFamily: 'Quicksand', color: Colors.black),
+              fontSize: 16, fontFamily: 'Quicksand', color: Colors.black),
         ),
         centerTitle: true,
         backgroundColor: Color.fromRGBO(255, 200, 124, 1),
       ),
       body: ListView(
         children: <Widget>[
-          // Container(
-          //   padding: EdgeInsets.only(top: 10),
-          //   child: Center(
-          //     child: Text(
-          //       'Welcome to Nanny Employer',
-          //       style: TextStyle(
-          //         fontSize: 18,
-          //         fontFamily: 'Quicksand',
-          //       ),
-          //     ),
-          //   ),
-          // ),
+          SizedBox(height: 30,),
+          Container(
+            padding: EdgeInsets.only(top: 10),
+            child: Center(
+              child: Text(
+                'Welcome to Nanny Academy\nClient App',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontFamily: 'Quicksand',
+                ),
+              ),
+            ),
+          ),
           SizedBox(
             height: 50,
           ),
+
+
           Container(
             padding: EdgeInsets.only(left: 25, right: 15),
             height: MediaQuery.of(context).size.height * 0.715,
             child: Center(
               child: GridView.count(
                 padding:
-                    const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 10),
+                    const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 10),
                 crossAxisSpacing: 10.0,
                 mainAxisSpacing: 10.0,
                 crossAxisCount: 2,
                 children: [
-                  menuCard('Make new search', RequestForService()),
-                  menuCard('Service requests', SearchResults()),
-                  // menuCard('Payment Methods', MyPayments()),
+                  menuCard('Request results', SearchResults(),Icons.find_replace_outlined,),
+                  menuCard('Find care givers', RequestForService(),Icons.search,),
+                  menuCard('Scheduled Meetings', MyRequests(jobStatus:'Pending'), Icons.calendar_today_outlined,),
+
                 ],
               ),
             ),
           ),
+
+
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        tooltip: 'Update Details',
+        tooltip: 'Profile Details',
         elevation: 0.8,
         backgroundColor: Color.fromRGBO(255, 200, 124, 1),
         child: const Icon(Icons.person),
@@ -142,7 +157,7 @@ class _EmployerDashboardState extends State<EmployerDashboard> {
           notchMargin: 8.0,
           child: Container(
             height: 60,
-          )),
+          ),),
     );
   }
 }

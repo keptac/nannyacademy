@@ -3,28 +3,41 @@ import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:nannyacademy/widgets/bottomSheetAdmin.dart';
 
 class ActivatedEmployers extends StatefulWidget {
+  final activeEmployment;
+  ActivatedEmployers({Key key, @required this.activeEmployment}) : super(key: key);
+
   @override
   _ActivatedEmployersState createState() => _ActivatedEmployersState();
 }
 
 class _ActivatedEmployersState extends State<ActivatedEmployers> {
+
+
+  //TODO: Search based on activeEmployment
   List serviceRequests = [
     {
+      "profileid":"",
       "firstName": "Kelvin",
       "surname": "Chelenje",
       "gender": "MALE",
-      "age": "28",
-      "services": "Gold - Level 2",
-      "location": "186 Helvetia Drive Borrowdale",
+      "address": "186 Helvetia Drive Borrowdale",
       "phoneNumber": "263785302628",
+      "idNumber": "2021-10-30",
       "photoUrl":
           "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
-      "employeeId": "58-293952-Q-86",
+
       "verificationStatus": "Verified",
-      "dob": "2021-10-30",
       "applicationNumber": "REQ67889997",
-      "employer": "Kelvin Chelenje"
+      "services": "Gold - Level 2",
+      "employeeCount":1,
+      "activeEmployment":false,  // widget.activeEmployment
+      "employeeId": "58-293952-Q-86",
+      "employeeName": "Kelvin",
+
     }
+
+
+
   ];
 
   Widget serviceDisplay(var title, var value) {
@@ -108,16 +121,11 @@ class _ActivatedEmployersState extends State<ActivatedEmployers> {
                       serviceDisplay("Gender", serviceRequest['gender']),
                       serviceDisplay(
                           "Phone Number", serviceRequest['phoneNumber']),
-                      serviceDisplay("Address", serviceRequest['location']),
-                      serviceDisplay(
-                          "Date of Birth",
-                          serviceRequest['dob'] +
-                              ' (' +
-                              serviceRequest['age'] +
-                              ')'),
-                      serviceRequest['verificationStatus'] == "Employed"
+                      serviceDisplay("Address", serviceRequest['address']),
+
+                      serviceRequest['activeEmployment']
                           ? serviceDisplay(
-                              "Employer", serviceRequest['employer'])
+                              "Employee", serviceRequest['employeeName'])
                           : Text("")
                     ],
                   ),

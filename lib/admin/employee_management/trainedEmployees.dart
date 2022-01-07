@@ -3,11 +3,15 @@ import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:nannyacademy/widgets/bottomSheetAdmin.dart';
 
 class TrainedEmployees extends StatefulWidget {
+  final employmentStatus;
+
+  TrainedEmployees({Key key, @required this.employmentStatus}):super(key: key);
   @override
   _TrainedEmployeesState createState() => _TrainedEmployeesState();
 }
 
 class _TrainedEmployeesState extends State<TrainedEmployees> {
+  //TODO: Get Care giver applications by status
   List serviceRequests = [
     {
       "firstName": "Fradrick",
@@ -20,10 +24,11 @@ class _TrainedEmployeesState extends State<TrainedEmployees> {
       "photoUrl":
           "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
       "employeeId": "58-293952-Q-86",
-      "employmentStatus": "Employed",
+      "employmentStatus": "Employed", //Widget.employmentStatus
       "dob": "2021-10-30",
       "applicationNumber": "REQ67889997",
-      "employer": "Kelvin Chelenje"
+      "employer": "Kelvin Chelenje",
+      "employmentCount":1
     }
   ];
 
@@ -143,7 +148,7 @@ class _TrainedEmployeesState extends State<TrainedEmployees> {
                         style: TextStyle(color: Colors.white, fontSize: 13),
                       ),
                       onPressed: () {},
-                      backgroundColor: Colors.green,
+                      backgroundColor: serviceRequest['employmentStatus']=='Employed'?Colors.green:Colors.orange,
                       elevation: 1,
                     )
                   ],

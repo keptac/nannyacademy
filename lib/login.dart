@@ -22,6 +22,15 @@ class _LoginPageState extends State<LoginPage> {
   final _auth = FirebaseAuth.instance;
 
   void _login() async {
+
+    //TODO: Remove this forced route
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EmployerDashboard(),
+      ),
+    );
+
     setState(() {
       _falsePassword = false;
     });

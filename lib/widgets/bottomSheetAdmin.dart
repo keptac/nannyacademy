@@ -4,7 +4,8 @@ class BottomSheetAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 70,
+      margin: EdgeInsets.only(top:5),
+      height: 65,
       decoration: BoxDecoration(
         image: new DecorationImage(
           fit: BoxFit.cover,
@@ -28,7 +29,7 @@ class BottomSheetAdmin extends StatelessWidget {
           'NANNY ADMIN',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 30,
+            fontSize: 24,
             letterSpacing: 5,
             fontFamily: 'Quicksand',
           ),

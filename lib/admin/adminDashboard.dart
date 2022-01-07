@@ -17,6 +17,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
   CustomBoxDecoration customBoxDecoration = CustomBoxDecoration();
   Future signOut() async {
     await FirebaseAuth.instance.signOut();
+    Navigator.pop(context);
     Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -70,17 +71,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
             color: Colors.black,
           ),
           actions: <Widget>[
-            Padding(
-                padding: EdgeInsets.only(right: 20.0),
-                child: InkWell(
-                  onTap: () {
-                    signOut();
-                  },
-                  child: Icon(
-                    Icons.lock,
-                    size: 26.0,
-                  ),
-                )),
           ],
           elevation: 0.0,
           title: Text(
@@ -107,16 +97,25 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   mainAxisSpacing: 10.0,
                   crossAxisCount: 2,
                   children: [
-                    menuCard('Manage Nannies', ManageEmployees()),
-                    menuCard('Manage Employers', ManagerEmployers()),
-                    menuCard('Payments', RequestForService()),
-                    menuCard('View Requests', SearchResults()),
+                    menuCard('Manage Care givers', ManageEmployees()),
+                    menuCard('Manage Clients', ManagerEmployers()),
+                    menuCard('View Payments', RequestForService()),
+                    menuCard('View Client Requests', SearchResults()),
                   ],
                 ),
               ),
             ),
           ],
         ),
+
+    // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+    floatingActionButton: FloatingActionButton(
+      tooltip: 'Log Out',
+      elevation: 0.1,
+      backgroundColor: Colors.black, //Color.fromRGBO(255, 200, 124, 1),
+      child: const Icon(Icons.lock),
+      onPressed: () =>  signOut(),
+    ),
         bottomNavigationBar: BottomSheetAdmin());
   }
 }

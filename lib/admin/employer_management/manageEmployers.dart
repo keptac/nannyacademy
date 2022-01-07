@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nannyacademy/admin/ADMINDASHBOARD.dart';
 import 'package:nannyacademy/admin/employer_management/activeEmployers.dart';
 import 'package:nannyacademy/admin/employer_management/employerRegistrations.dart';
 import 'package:nannyacademy/widgets/bottomSheetAdmin.dart';
@@ -18,7 +17,7 @@ class _ManagerEmployersState extends State<ManagerEmployers> {
           actions: <Widget>[],
           elevation: 0.0,
           title: Text(
-            'Manage Employers',
+            'Manage Clients',
             style: TextStyle(
               // fontSize: 20,
               fontFamily: 'Quicksand',
@@ -55,6 +54,7 @@ class _ManagerEmployersState extends State<ManagerEmployers> {
                 subtitle: Text("Pending KYC verification"),
                 onTap: () => Navigator.push(
                   context,
+
                   MaterialPageRoute(
                     builder: (context) => EmployerRegistrations(),
                   ),
@@ -79,28 +79,50 @@ class _ManagerEmployersState extends State<ManagerEmployers> {
                   ),
                 ),
                 title: const Text(
-                  'Activated Employers',
+                  'Active Clients',
                   style: TextStyle(color: Colors.black),
                 ),
-                subtitle: Text("Verified Profiles"),
+                subtitle: Text("Has active employments"),
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ActivatedEmployers(),
+                    builder: (context) => ActivatedEmployers(activeEmployment:true),
+                  ),
+                ),
+              ),
+            ),
+            Card(
+              elevation: 1,
+              margin: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              color: Colors.white,
+              child: ListTile(
+                contentPadding:
+                EdgeInsets.symmetric(vertical: 7, horizontal: 20),
+                leading: CircleAvatar(
+                  backgroundColor: Color.fromRGBO(255, 200, 124, 1),
+                  child: Icon(
+                    Icons.people,
+                    color: Colors.white,
+                  ),
+                ),
+                title: const Text(
+                  'Inactive Clients',
+                  style: TextStyle(color: Colors.black),
+                ),
+                subtitle: Text("No active employments"),
+                onTap: () => Navigator.push(
+                  context,
+
+                  MaterialPageRoute(
+                    builder: (context) => ActivatedEmployers(activeEmployment:false),
                   ),
                 ),
               ),
             ),
           ],
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: FloatingActionButton(
-          tooltip: 'Home',
-          elevation: 0.5,
-          backgroundColor: Color.fromRGBO(255, 200, 124, 1),
-          child: const Icon(Icons.home),
-          onPressed: () => Navigator.push(context,
-              MaterialPageRoute(builder: (context) => AdminDashboard())),
         ),
         bottomNavigationBar: BottomSheetAdmin());
   }

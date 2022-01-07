@@ -52,7 +52,6 @@ class _UploadKycState extends State<UploadKyc> {
   }
 
   //TODO: Upload the documents to a server
-
   void _upload() async{
     if ((idNumber == '' &&
         idNumber == null) ||

@@ -10,18 +10,22 @@ class EmployerRegistrations extends StatefulWidget {
 class _EmployerRegistrationsState extends State<EmployerRegistrations> {
   List serviceRequests = [
     {
-      "firstName": "Zivanani",
-      "surname": "Gwembere",
-      "gender": "Male",
-      "services": "Silver - Level 1",
-      "location": "186 Helvetia Drive Borrowdale",
+      "firstName": "Kelvin",
+      "surname": "Chelenje",
+      "gender": "MALE",
+      "address": "186 Helvetia Drive Borrowdale",
       "phoneNumber": "263785302628",
+      "idNumber": "2021-10-30",
       "photoUrl":
-          "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
-      "employeeId": "58-293952-Q-86",
-      "applicationStatus": "Pending",
-      "dob": "2021-10-30",
-      "idNumber": "REQ67889997",
+      "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
+
+      "verificationStatus": "Pending",
+      "applicationNumber": "REQ67889997",
+      "services": "Gold - Level 2",
+      "employeeCount":0,
+      "activeEmployment":false,  // widget.activeEmployment
+      "employeeId": "",
+      "employeeName": ""
     }
   ];
 
@@ -83,7 +87,7 @@ class _EmployerRegistrationsState extends State<EmployerRegistrations> {
               title: Text(serviceRequest['firstName'] +
                   ' ' +
                   serviceRequest['surname']),
-              subtitle: Text(serviceRequest['applicationStatus']),
+              subtitle: Text(serviceRequest['verificationStatus']),
               children: <Widget>[
                 Divider(
                   thickness: 1.0,
@@ -105,12 +109,10 @@ class _EmployerRegistrationsState extends State<EmployerRegistrations> {
                         height: 10,
                       ),
                       serviceDisplay("ID Number", serviceRequest['idNumber']),
-                      serviceDisplay("Services", serviceRequest['services']),
                       serviceDisplay("Gender", serviceRequest['gender']),
                       serviceDisplay(
                           "Phone Number", serviceRequest['phoneNumber']),
-                      serviceDisplay("Address", serviceRequest['location']),
-                      serviceDisplay("Date of Birth", serviceRequest['dob']),
+                      serviceDisplay("Address", serviceRequest['address'])
                     ],
                   ),
                 ),

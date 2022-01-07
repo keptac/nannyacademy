@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'dart:math';
@@ -15,6 +16,7 @@ class _RequestForServiceState extends State<RequestForService> {
   final _endAgeController = TextEditingController();
   String _genderVal = 'Male';
   int group = 1;
+  final _auth = FirebaseAuth.instance;
   final LocalStorage storage = new LocalStorage('employeePreference');
   String employeeClassSelected = 'Silver (xp 0 - 6 Months)';
   String serviceDurationSelected = 'Live-in (2 off days)';
@@ -35,7 +37,7 @@ class _RequestForServiceState extends State<RequestForService> {
       padding: EdgeInsets.only(left: 40, right: 10, bottom: 15, top: 15),
       child: Row(
         children: <Widget>[
-          Text('Gender: * '),
+          Text('Gender: * ', style: TextStyle(fontFamily: 'Quicksand'),),
           Radio(
             value: 1,
             groupValue: group,
@@ -46,7 +48,7 @@ class _RequestForServiceState extends State<RequestForService> {
               });
             },
           ),
-          Text('Male'),
+          Text('Male',  style: TextStyle(fontFamily: 'Quicksand'),),
           // SizedBox(width: 15.0),
           Radio(
             groupValue: group,
@@ -58,7 +60,7 @@ class _RequestForServiceState extends State<RequestForService> {
               });
             },
           ),
-          Text('Female'),
+          Text('Female',  style: TextStyle(fontFamily: 'Quicksand'),),
         ],
       ),
     );
@@ -66,17 +68,21 @@ class _RequestForServiceState extends State<RequestForService> {
 
   Future _openAgreeDialog(context, var employeeClass, var serviceType) async {
     final random = new Random();
-    int randomNumber = random.nextInt(1000000);
+    int randomNumber = random.nextInt(10000000);
     String requestNumber = "REQ" + randomNumber.toString();
+
+    final User user = _auth.currentUser;
+    final uid = user.uid;
     var requestBody = {
       "serviceName": employeeClass,
-      "startSalary": serviceType,
+      "serviceType": serviceType,
       "startAge": _startAgeController.text,
       "endAge": _endAgeController.text,
       "gender": _genderVal,
-      "userId": "1000", //Get from user session
-      "requestId": requestNumber,
-      "paymentStatus": "Pending"
+      "userId": uid,
+      "requestNumber": requestNumber,
+      "paymentStatus": "Pending",
+      "requestStatus":"Pending"
     };
 
     final info = json.encode(requestBody);
@@ -97,12 +103,12 @@ class _RequestForServiceState extends State<RequestForService> {
       children: [
         Text(
           title,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17, fontFamily: 'Quicksand'),
           textAlign: TextAlign.center,
         ),
         Text(
           value == null ? '' : value,
-          style: TextStyle(fontSize: 16),
+          style: TextStyle(fontSize: 16,fontFamily: 'Quicksand'),
           textAlign: TextAlign.center,
         ),
         SizedBox(
@@ -115,7 +121,7 @@ class _RequestForServiceState extends State<RequestForService> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
         elevation: 0.0,
         title: Text(
@@ -130,11 +136,11 @@ class _RequestForServiceState extends State<RequestForService> {
       ),
       body: Container(
           margin: EdgeInsets.only(left: 10, right: 10, top: 20),
-          height: MediaQuery.of(context).size.height * 0.8,
+          height: MediaQuery.of(context).size.height *0.85,
           child: Stack(
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.72,
+                // height: MediaQuery.of(context).size.height * 0.72,
                 child: Card(
                   child: ListView(
                     padding: EdgeInsets.only(top: 30),
@@ -142,7 +148,7 @@ class _RequestForServiceState extends State<RequestForService> {
                       Container(
                         margin:
                             EdgeInsets.only(left: 37, right: 37, bottom: 10),
-                        child: Text("Nanny Class"),
+                        child: Text("Nanny Class", style: TextStyle(fontFamily: 'Quicksand',fontSize: 15),),
                       ),
                       Container(
                         height: 58,
@@ -155,7 +161,7 @@ class _RequestForServiceState extends State<RequestForService> {
                         margin:
                             EdgeInsets.only(left: 37, right: 37, bottom: 15),
                         child: DropdownButton(
-                          underline: Text(""),
+                          underline: Text("",  style: TextStyle(fontFamily: 'Quicksand'),),
                           value: employeeClassSelected,
                           icon: Icon(Icons.keyboard_arrow_down),
                           items: employeeClasses.map((String employeeClasses) {
@@ -163,7 +169,7 @@ class _RequestForServiceState extends State<RequestForService> {
                               value: employeeClasses,
                               child: Padding(
                                 padding: EdgeInsets.only(left: 10, top: 5),
-                                child: Text(employeeClasses),
+                                child: Text(employeeClasses,   style: TextStyle(fontFamily: 'Quicksand',fontSize: 15),),
                               ),
                             );
                           }).toList(),
@@ -178,7 +184,7 @@ class _RequestForServiceState extends State<RequestForService> {
                       Container(
                         margin:
                             EdgeInsets.only(left: 37, right: 37, bottom: 10),
-                        child: Text("Service Type"),
+                        child: Text("Service Type",style: TextStyle(fontFamily: 'Quicksand',fontSize: 15),),
                       ),
 
                       Container(
@@ -201,7 +207,7 @@ class _RequestForServiceState extends State<RequestForService> {
                               value: serviceDurations,
                               child: Padding(
                                 padding: EdgeInsets.only(left: 10, top: 5),
-                                child: Text(serviceDurations),
+                                child: Text(serviceDurations,  style: TextStyle(fontFamily: 'Quicksand', fontSize: 15),),
                               ),
                             );
                           }).toList(),
@@ -221,6 +227,7 @@ class _RequestForServiceState extends State<RequestForService> {
                           child: TextField(
                             controller: _cityController,
                             keyboardType: TextInputType.text,
+                            style: TextStyle(fontFamily: 'Quicksand'),
                             decoration: InputDecoration(
                               prefixIcon: Icon(
                                 Icons.location_on,
@@ -228,6 +235,7 @@ class _RequestForServiceState extends State<RequestForService> {
                                 size: 20,
                               ),
                               labelText: 'City/Location *',
+
                               fillColor: Colors.white,
                               border: OutlineInputBorder(
                                 borderRadius:
@@ -245,6 +253,7 @@ class _RequestForServiceState extends State<RequestForService> {
                           child: TextField(
                             controller: _startAgeController,
                             keyboardType: TextInputType.number,
+                            style: TextStyle(fontFamily: 'Quicksand'),
                             decoration: InputDecoration(
                               prefixIcon: Icon(
                                 Icons.person_add_alt,
@@ -267,6 +276,7 @@ class _RequestForServiceState extends State<RequestForService> {
                           padding:
                               EdgeInsets.only(left: 40, right: 40, bottom: 15),
                           child: TextField(
+                            style: TextStyle(fontFamily: 'Quicksand'),
                             controller: _endAgeController,
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
@@ -293,7 +303,7 @@ class _RequestForServiceState extends State<RequestForService> {
                             left: 10, right: 10, top: 10, bottom: 10),
                         label: Text(
                           'Search Service',
-                          style: TextStyle(color: Colors.white, fontSize: 18),
+                          style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: 'Quicksand'),
                         ),
                         onPressed: () {
                           _openAgreeDialog(context, employeeClassSelected,

@@ -61,7 +61,7 @@ class _EmployerSettingsState extends State<EmployerSettings> {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MyRequests(),
+                  builder: (context) => MyRequests(jobStatus:'Granted'),
                 ),
               ),
             ),

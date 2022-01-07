@@ -7,11 +7,18 @@ import 'dart:async';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 
 class MyRequests extends StatefulWidget {
+  final String jobStatus;
+
+  MyRequests({Key key, @required this.jobStatus}):super(key: key);
+
   @override
   _MyRequestsState createState() => _MyRequestsState();
 }
 
 class _MyRequestsState extends State<MyRequests> {
+  //TODO: Search by jobStatus widget.jobStatus
+
+
   List serviceRequests = [
     {
       "firstName": "Charlotte",
@@ -24,8 +31,8 @@ class _MyRequestsState extends State<MyRequests> {
       "photoUrl":
           "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
       "employeeId": "58-293952-Q-86",
-      "jobStatus": "granted",
-      "requestStatus": "approved",
+      "jobStatus": "Granted",
+      "requestStatus": "Approved",
       "serviceRequested": "watering the garden ",
       "requestType": "Gardener",
       "meetingDate": "2021-10-30",
@@ -143,11 +150,11 @@ class _MyRequestsState extends State<MyRequests> {
               borderRadius: const BorderRadius.all(Radius.circular(7.0)),
               initialElevation: 3,
               baseColor: Colors.white,
-              expandedColor: serviceRequest['requestStatus'] == "approved"
+              expandedColor: serviceRequest['requestStatus'] == "Approved"
                   ? Colors.green[50]
                   : Colors.orange[50],
               leading: CircleAvatar(
-                backgroundColor: serviceRequest['requestStatus'] == "approved"
+                backgroundColor: serviceRequest['requestStatus'] == "Approved"
                     ? Colors.green
                     : Color.fromRGBO(255, 200, 124, 1),
                 child: Text(
@@ -155,7 +162,7 @@ class _MyRequestsState extends State<MyRequests> {
                   style: TextStyle(color: Colors.white),
                 ),
               ),
-              title: serviceRequest['requestStatus'] == "approved"
+              title: serviceRequest['requestStatus'] == "Approved"
                   ? Text(serviceRequest['firstName'] +
                       ' ' +
                       serviceRequest['surname'])
@@ -173,7 +180,7 @@ class _MyRequestsState extends State<MyRequests> {
                   ),
                   child: Column(
                     children: [
-                      serviceRequest['requestStatus'] == "approved"
+                      serviceRequest['requestStatus'] == "Approved"
                           ? CircleAvatar(
                               maxRadius: 30,
                               backgroundImage:
@@ -190,7 +197,7 @@ class _MyRequestsState extends State<MyRequests> {
                       serviceDisplay("Services", serviceRequest['services']),
                       serviceDisplay("Gender", serviceRequest['gender']),
                       serviceDisplay("Age", serviceRequest['age']),
-                      serviceRequest['requestStatus'] == "approved"
+                      serviceRequest['requestStatus'] == "Approved"
                           ? serviceDisplay(
                               "Phone Nunber", serviceRequest['phoneNumber'])
                           : Text(""),
@@ -207,13 +214,13 @@ class _MyRequestsState extends State<MyRequests> {
                   thickness: 1.0,
                   height: 1.0,
                 ),
-                serviceRequest['requestStatus'] == "approved"
+                serviceRequest['requestStatus'] == "Approved"
                     ? ButtonBar(
                         alignment: MainAxisAlignment.spaceAround,
                         buttonHeight: 52.0,
                         buttonMinWidth: 90.0,
                         children: <Widget>[
-                          serviceRequest['jobStatus'] == "granted"
+                          serviceRequest['jobStatus'] == "Granted"
                               ? ActionChip(
                                   padding: EdgeInsets.only(
                                       left: 10, right: 10, top: 10, bottom: 10),
