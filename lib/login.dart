@@ -77,7 +77,7 @@ class _LoginPageState extends State<LoginPage> {
               builder: (ctx) => AlertDialog(
                 title: Text("Pending Activation"),
                 content: Text(
-                    'Thank you for registering. Your account is not activated or verified. We will send you an email once your application is received. '),
+                    'Thank you for registering. Your profile is being verified. We will send you an email once your account is activated.'),
                 actions: [
                   TextButton(
                     onPressed: () {
