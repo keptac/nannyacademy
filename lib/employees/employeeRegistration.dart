@@ -7,6 +7,8 @@ import 'dart:async';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
 
+
+
 class EmployeeRegistration extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _EmployeeRegistrationState();
@@ -62,6 +64,8 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
         'employee',
       );
     });
+
+    //TODO: Route to upload KYC page the to PasswordCreation()
 
     Navigator.push(
       context,
@@ -176,7 +180,7 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
         child: ListView(
           padding: EdgeInsets.only(top: 60),
           children: <Widget>[
-            SizedBox(height: 25),
+            SizedBox(height: 20),
             Center(
               child: Text(
                 'Apply to Nanny Academy Training',
@@ -186,7 +190,7 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
                     fontFamily: 'Quicksand'),
               ),
             ),
-            SizedBox(height: 15),
+            // SizedBox(height: 15),
             SizedBox(
               width: 10,
               height: 35,
