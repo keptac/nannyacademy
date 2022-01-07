@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nannyacademy/passwordCreation.dart';
+import 'package:nannyacademy/uploadKyc.dart';
 import 'package:nannyacademy/widgets/genericTextField.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
-
 
 
 class EmployeeRegistration extends StatefulWidget {
@@ -65,16 +64,13 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
       );
     });
 
-    //TODO: Route to upload KYC page the to PasswordCreation()
-
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PasswordCreation(
-          userTypeValue: 'employee',
-        ),
+        builder: (context) => UploadKyc(),
       ),
     );
+
   }
 
   Widget _radio() {

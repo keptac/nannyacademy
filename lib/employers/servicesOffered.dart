@@ -107,7 +107,6 @@ class _ServicesOfferedState extends State<ServicesOffered> {
               ),
             ),
 
-
             SizedBox(height: 40),
          Center(
             child: ActionChip(
@@ -119,7 +118,8 @@ class _ServicesOfferedState extends State<ServicesOffered> {
               onPressed:  () {
                 print(_serviceOption);
                Navigator.push(
-               context, MaterialPageRoute(builder: (context) => EmployerRegistration()));
+                context, MaterialPageRoute(builder: (context) => EmployerRegistration()),
+               );
              },
               backgroundColor: Color.fromRGBO(255, 200, 124, 1),
               elevation: 1,

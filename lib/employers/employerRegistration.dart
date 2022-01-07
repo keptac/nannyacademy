@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nannyacademy/passwordCreation.dart';
+import 'package:nannyacademy/uploadKyc.dart';
 import 'package:nannyacademy/widgets/genericTextField.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
@@ -62,7 +62,7 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PasswordCreation(userTypeValue: 'employer'),
+        builder: (context) => UploadKyc(),
       ),
     );
   }
@@ -146,7 +146,7 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
         child: ListView(
           padding: EdgeInsets.only(top: 60),
           children: <Widget>[
-            SizedBox(height: 60),
+            SizedBox(height: 20),
             Center(
               child: Text(
                 'Let us know who you are 😊',
@@ -156,7 +156,7 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
                     fontFamily: 'Quicksand'),
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             SizedBox(
               width: 10,
               height: 35,
@@ -202,6 +202,7 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
               TextInputType.number,
               Color.fromRGBO(255, 200, 124, 1),
             ),
+            SizedBox(height: 10,),
             _proceedButton()
           ],
         ),
