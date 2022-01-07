@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:nannyacademy/login.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
-import 'package:nannyacademy/services/rest_api.dart';
+// import 'package:nannyacademy/services/rest_api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -126,7 +126,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
         } else {
           final body = {
             "profileid": userid.user.uid,
-            "firstname": firstName,
+            "firstName": firstName,
             "surname": surname,
             "idNumber": idNumber,
             "gender": gender,
@@ -136,7 +136,13 @@ class _PasswordCreationState extends State<PasswordCreation> {
             "userType": userType,
             "emailAddress": _emailController.text,
             "channel": "MOBILE",
-            "verificationStatus": "Pending"
+            "verificationStatus": "Pending",
+            "photoUrl":"https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
+            "services": "",
+            "employeeCount":0,
+            "activeEmployment":false,
+            "employeeId": "",
+            "employeeName": ""
           };
 
           await FirebaseFirestore.instance
@@ -202,73 +208,73 @@ class _PasswordCreationState extends State<PasswordCreation> {
     }
   }
 
-  void _authReg(var body, String userType) async {
-    if (userType == 'nanny') {
-      final applicationBody = {
-        "idNumber": body.idNumber,
-        "registrationStatus": "pending",
-        "channel": "MOBILE"
-      };
+  // void _authReg(var body, String userType) async {
+  //   if (userType == 'nanny') {
+  //     final applicationBody = {
+  //       "idNumber": body.idNumber,
+  //       "registrationStatus": "pending",
+  //       "channel": "MOBILE"
+  //     };
+  //
+  //     // Invoking Application Registration function if user is a nanny
+  //     _applicationReg(applicationBody);
+  //   } else {
+  //     // Making an API Call for auth Service
+  //     ApiService.authReg(body).then((success) {
+  //       if (success) {
+  //         setState(() {
+  //           statusResponse = "Profile Created.";
+  //         });
+  //         //delay then route
+  //         Future.delayed(
+  //           const Duration(milliseconds: 3000),
+  //           () {
+  //             Navigator.push(
+  //               context,
+  //               MaterialPageRoute(
+  //                 builder: (context) => LoginPage(),
+  //               ),
+  //             );
+  //           },
+  //         );
+  //       } else {
+  //         loading = false;
+  //         setState(() {
+  //           _errorMsg = "An error occured while processing your request";
+  //         });
+  //         return;
+  //       }
+  //     });
+  //   }
+  // }
 
-      // Invoking Application Registration function if user is a nanny
-      _applicationReg(applicationBody);
-    } else {
-      // Making an API Call for auth Service
-      ApiService.authReg(body).then((success) {
-        if (success) {
-          setState(() {
-            statusResponse = "Profile Created.";
-          });
-          //delay then route
-          Future.delayed(
-            const Duration(milliseconds: 3000),
-            () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => LoginPage(),
-                ),
-              );
-            },
-          );
-        } else {
-          loading = false;
-          setState(() {
-            _errorMsg = "An error occured while processing your request";
-          });
-          return;
-        }
-      });
-    }
-  }
-
-  void _applicationReg(var body) async {
-    ApiService.applicationReg(body).then((success) {
-      if (success) {
-        setState(() {
-          statusResponse = "Application submitted successfully.";
-        });
-
-        Future.delayed(
-          const Duration(milliseconds: 3000),
-          () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => LoginPage(),
-              ),
-            );
-          },
-        );
-      } else {
-        loading = false;
-        setState(() {
-          _errorMsg = "An error occured while processing your request";
-        });
-        return;
-      }
-    });
-  }
+  // void _applicationReg(var body) async {
+  //   ApiService.applicationReg(body).then((success) {
+  //     if (success) {
+  //       setState(() {
+  //         statusResponse = "Application submitted successfully.";
+  //       });
+  //
+  //       Future.delayed(
+  //         const Duration(milliseconds: 3000),
+  //         () {
+  //           Navigator.push(
+  //             context,
+  //             MaterialPageRoute(
+  //               builder: (context) => LoginPage(),
+  //             ),
+  //           );
+  //         },
+  //       );
+  //     } else {
+  //       loading = false;
+  //       setState(() {
+  //         _errorMsg = "An error occured while processing your request";
+  //       });
+  //       return;
+  //     }
+  //   });
+  // }
 
   Widget _textField(
       IconData icon, TextEditingController contolller, String label) {
