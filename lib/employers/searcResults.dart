@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 
@@ -5,6 +6,7 @@ import 'package:intl/intl.dart';
 
 import 'dart:async';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
+import 'package:nannyacademy/employers/myRequests.dart';
 
 class SearchResults extends StatefulWidget {
   @override
@@ -26,20 +28,65 @@ class _SearchResultsState extends State<SearchResults> {
       "photoUrl":
           "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
       "employeeId": "58-293952-Q-86",
-      "jobStatus": "pending",
-      "requestStatus": "approved",
+      "jobStatus": "Pending",
+      "requestStatus": "Approved",
       "serviceRequested": "Silver 1 - Stay In ",
-      "meetingDate": "2021-10-30",
       "active": "1",
       "salary": "1000",
       "requestNumber": "REQ678897",
     },
   ];
-  //TODO: On Offer job save to employments table
-  //TODO: on schedule a meeting save to employments table
 
   String _meetingText = 'Meeting Date *';
-  var _finaldate;
+  var _finalDate;
+
+  void _scheduleMeeting(var body) async {
+    body['meetingDate'] = _finalDate;
+    try {
+      await FirebaseFirestore.instance
+          .collection('Employments')
+          .add(body);
+      //TODO: send email to all parties
+
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text('Success'),
+          content: Text('Meeting scheduled successfully'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyRequests(jobStatus:'Pending'),
+                  ),
+                );
+              },
+              child: Text('Ok'),
+            )
+          ],
+        ),
+      );
+    } on FirebaseException catch (e) {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text(' Ops! Failed to Schedule Meeting. Try again later.'),
+          content: Text('${e.message}'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+              child: Text('Dismiss'),
+            )
+          ],
+        ),
+      );
+    }
+  }
 
   Widget serviceDisplay(var title, var value) {
     return Column(
@@ -73,8 +120,8 @@ class _SearchResultsState extends State<SearchResults> {
   void callDatePicker() async {
     var _newDateTime = await getDate();
     setState(() {
-      _finaldate = DateFormat('dd-MM-yyyy').format(_newDateTime);
-      _meetingText = _finaldate.toString();
+      _finalDate = DateFormat('dd-MM-yyyy').format(_newDateTime);
+      _meetingText = _finalDate.toString();
     });
   }
 
@@ -93,7 +140,7 @@ class _SearchResultsState extends State<SearchResults> {
     );
   }
 
-  Widget _buildPopupDialog(BuildContext context) {
+  Widget _buildPopupDialog(BuildContext context, var serviceRequest) {
     return new AlertDialog(
       title: const Text(
         'Select Meeting Date',
@@ -109,6 +156,8 @@ class _SearchResultsState extends State<SearchResults> {
       actions: <Widget>[
         new TextButton(
           onPressed: () {
+            _scheduleMeeting(serviceRequest);
+
             Navigator.of(context).pop();
           },
           // textColor: Theme.of(context).primaryColor,
@@ -148,14 +197,14 @@ class _SearchResultsState extends State<SearchResults> {
                     borderRadius: const BorderRadius.all(Radius.circular(7.0)),
                     initialElevation: 3,
                     baseColor: Colors.white,
-                    expandedColor: serviceRequest['requestStatus'] == "approved"
+                    expandedColor: serviceRequest['requestStatus'] == "Approved"
                         ? Colors.green[50]
                         : Colors.orange[50],
                     leading: CircleAvatar(
                       maxRadius: 30,
                       backgroundImage: NetworkImage(serviceRequest['photoUrl']),
                     ),
-                    title: serviceRequest['requestStatus'] == "approved"
+                    title: serviceRequest['requestStatus'] == "Approved"
                         ? Text(serviceRequest['firstName'] +
                             ' ' +
                             serviceRequest['surname'])
@@ -173,7 +222,7 @@ class _SearchResultsState extends State<SearchResults> {
                         ),
                         child: Column(
                           children: [
-                            serviceRequest['requestStatus'] == "approved"
+                            serviceRequest['requestStatus'] == "Approved"
                                 ? CircleAvatar(
                                     maxRadius: 30,
                                     backgroundImage: NetworkImage(
@@ -191,16 +240,14 @@ class _SearchResultsState extends State<SearchResults> {
                                 "Services", serviceRequest['services']),
                             serviceDisplay("Gender", serviceRequest['gender']),
                             serviceDisplay("Age", serviceRequest['age']),
-                            serviceRequest['requestStatus'] == "approved"
-                                ? serviceDisplay("Phone Nunber",
+                            serviceRequest['requestStatus'] == "Approved"
+                                ? serviceDisplay("Phone Number",
                                     serviceRequest['phoneNumber'])
                                 : Text(""),
                             serviceDisplay("Request Description",
                                 serviceRequest['serviceRequested']),
                             serviceDisplay("Service Requested By",
                                 serviceRequest['location']),
-                            serviceDisplay(
-                                "Meeting Date", serviceRequest['meetingDate']),
                           ],
                         ),
                       ),
@@ -208,7 +255,7 @@ class _SearchResultsState extends State<SearchResults> {
                         thickness: 1.0,
                         height: 1.0,
                       ),
-                      serviceRequest['requestStatus'] == "approved"
+                      serviceRequest['requestStatus'] == "Approved"
                           ? ButtonBar(
                               alignment: MainAxisAlignment.spaceAround,
                               buttonHeight: 52.0,
@@ -250,28 +297,11 @@ class _SearchResultsState extends State<SearchResults> {
                                                 context: context,
                                                 builder: (BuildContext
                                                         context) =>
-                                                    _buildPopupDialog(context),
+                                                    _buildPopupDialog(context, serviceRequest),
                                               );
                                             },
                                             backgroundColor: Color.fromRGBO(
                                                 255, 200, 124, 1),
-                                            elevation: 1,
-                                          ),
-                                          SizedBox(width: 50),
-                                          ActionChip(
-                                            padding: EdgeInsets.only(
-                                                left: 10,
-                                                right: 10,
-                                                top: 10,
-                                                bottom: 10),
-                                            label: Text(
-                                              'Offer Job',
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 13),
-                                            ),
-                                            onPressed: () {},
-                                            backgroundColor: Colors.green,
                                             elevation: 1,
                                           ),
                                         ],

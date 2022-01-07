@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 
@@ -17,7 +18,6 @@ class MyRequests extends StatefulWidget {
 
 class _MyRequestsState extends State<MyRequests> {
   //TODO: Search by jobStatus widget.jobStatus
-
 
   List serviceRequests = [
     {
@@ -43,7 +43,130 @@ class _MyRequestsState extends State<MyRequests> {
   ];
 
   String _meetingText = 'Meeting Date *';
-  var _finaldate;
+  var _finalDate;
+
+
+  void _scheduleMeeting(var body) async {
+
+    try {
+      //Get the document ID to update
+      final QuerySnapshot result = await FirebaseFirestore.instance
+          .collection('Employments')
+          .where('requestNumber', isEqualTo: body['requestNumber'])
+          .get();
+      await FirebaseFirestore.instance
+          .collection('Employments')
+          .doc(result.docs[0].id)
+          .update({'meetingDate':_finalDate});
+
+      //TODO: send email to all parties
+
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text('Success'),
+          content: Text('Meeting rescheduled successfully'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyRequests(jobStatus:'Pending'),
+                  ),
+                );
+              },
+              child: Text('Ok'),
+            )
+          ],
+        ),
+      );
+
+    } on FirebaseException catch (e) {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text(' Ops! Failed to Schedule Meeting. Try again later.'),
+          content: Text('${e.message}'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+              child: Text('Dismiss'),
+            )
+          ],
+        ),
+      );
+    }
+  }
+
+  void _offerJob(var body) async {
+    try {
+      //Get the document ID to update
+      final QuerySnapshot serviceRequestId = await FirebaseFirestore.instance
+          .collection('Service Requests')
+          .where('requestNumber', isEqualTo: body['requestNumber'])
+          .get();
+      await FirebaseFirestore.instance
+          .collection('Service Requests')
+          .doc(serviceRequestId.docs[0].id)
+          .update({'requestStatus':'Completed'});
+
+      final QuerySnapshot employmentDocumentId = await FirebaseFirestore.instance
+          .collection('Employments')
+          .where('requestNumber', isEqualTo: body['requestNumber'])
+          .get();
+      await FirebaseFirestore.instance
+          .collection('Employments')
+          .doc(employmentDocumentId.docs[0].id)
+          .update({'jobStatus':'Granted'});
+
+      //TODO: send email to all parties
+
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text('Success'),
+          content: Text('Job offer successfully submitted. You will receive an email shortly with your confirmation and invoice details.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyRequests(jobStatus:'Granted'),
+                  ),
+                );
+              },
+              child: Text('Ok'),
+            )
+          ],
+        ),
+      );
+
+    } on FirebaseException catch (e) {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text(' Ops! Failed to offer job. Try again later.'),
+          content: Text('${e.message}'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+              child: Text('Dismiss'),
+            )
+          ],
+        ),
+      );
+
+    }
+  }
+
 
   Widget serviceDisplay(var title, var value) {
     return Column(
@@ -77,8 +200,8 @@ class _MyRequestsState extends State<MyRequests> {
   void callDatePicker() async {
     var _newDateTime = await getDate();
     setState(() {
-      _finaldate = DateFormat('dd-MM-yyyy').format(_newDateTime);
-      _meetingText = _finaldate.toString();
+      _finalDate = DateFormat('dd-MM-yyyy').format(_newDateTime);
+      _meetingText = _finalDate.toString();
     });
   }
 
@@ -97,7 +220,7 @@ class _MyRequestsState extends State<MyRequests> {
     );
   }
 
-  Widget _buildPopupDialog(BuildContext context) {
+  Widget _buildPopupDialog(BuildContext context, var serviceRequest) {
     return new AlertDialog(
       title: const Text(
         'Select Meeting Date',
@@ -113,6 +236,7 @@ class _MyRequestsState extends State<MyRequests> {
       actions: <Widget>[
         new TextButton(
           onPressed: () {
+            _scheduleMeeting(serviceRequest);
             Navigator.of(context).pop();
           },
           // textColor: Theme.of(context).primaryColor,
@@ -250,7 +374,7 @@ class _MyRequestsState extends State<MyRequests> {
                                         showDialog(
                                           context: context,
                                           builder: (BuildContext context) =>
-                                              _buildPopupDialog(context),
+                                              _buildPopupDialog(context, serviceRequest),
                                         );
                                       },
                                       backgroundColor:
@@ -269,7 +393,9 @@ class _MyRequestsState extends State<MyRequests> {
                                         style: TextStyle(
                                             color: Colors.white, fontSize: 13),
                                       ),
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        _offerJob(serviceRequest);
+                                      },
                                       backgroundColor: Colors.green,
                                       elevation: 1,
                                     ),
