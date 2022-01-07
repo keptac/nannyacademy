@@ -75,15 +75,15 @@ class _LoginPageState extends State<LoginPage> {
             showDialog(
               context: context,
               builder: (ctx) => AlertDialog(
-                title: Text("Unauthorised"),
+                title: Text("Pending Activation"),
                 content: Text(
-                    'Your account is not activated or verified. Please contact Nanny Academy'),
+                    'Thank you for registering. Your account is not activated or verified. We will send you an email once your application is received. '),
                 actions: [
                   TextButton(
                     onPressed: () {
                       Navigator.of(ctx).pop();
                     },
-                    child: Text('Dismiss'),
+                    child: Text('Close'),
                   )
                 ],
               ),

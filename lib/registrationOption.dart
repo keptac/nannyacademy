@@ -68,10 +68,10 @@ class RegistrationOptions extends StatelessWidget {
             Center(
               child: Row(
                 children: [
-                  _optionButton(context, 'Employee', EmployeeRegistration(),
+                  _optionButton(context, 'Care giver', EmployeeRegistration(),
                       Color.fromRGBO(233, 166, 184, 1)),
                   // SizedBox(width: 10),
-                  _optionButton(context, 'Employer', EmployerRegistration(),
+                  _optionButton(context, 'Client', EmployerRegistration(),
                       Color.fromRGBO(255, 200, 124, 1)),
                 ],
               ),

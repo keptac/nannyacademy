@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
+import 'package:intl/intl.dart';
 import 'package:nannyacademy/widgets/bottomSheetAdmin.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EmployeeApplications extends StatefulWidget {
   @override
@@ -8,23 +10,7 @@ class EmployeeApplications extends StatefulWidget {
 }
 
 class _EmployeeApplicationsState extends State<EmployeeApplications> {
-  List serviceRequests = [
-    {
-      "firstName": "Charlotte",
-      "surname": "Phezulani",
-      "gender": "FEMALE",
-      "age": "23",
-      "services": "Silver - Level 1",
-      "address": "186 Helvetia Drive Borrowdale",
-      "phoneNumber": "263785302628",
-      "photoUrl":
-          "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
-      "idNumber": "58-293952-Q-86",
-      "applicationStatus": "Pending",
-      "dob": "2021-10-30",
-      "applicationNumber": "REQ67889997",
-    }
-  ];
+  List serviceRequests = [];
 
   Widget serviceDisplay(var title, var value) {
     return Column(
@@ -62,75 +48,89 @@ class _EmployeeApplicationsState extends State<EmployeeApplications> {
         centerTitle: true,
         backgroundColor: Color.fromRGBO(255, 200, 124, 1),
       ),
-      body: ListView.builder(
-        // padding: const EdgeInsets.all(8),
+      body: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('Employee Accounts')
+              .where('applicationStatus', isEqualTo: 'Pending')
+              .snapshots(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-        itemCount: serviceRequests.length,
-        itemBuilder: (BuildContext context, int index) {
-          var serviceRequest = serviceRequests[index];
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-            child: ExpansionTileCard(
-              borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-              initialElevation: 1,
-              baseColor: Colors.white,
-              leading: CircleAvatar(
-                backgroundColor: Colors.grey,
-                child: Text(
-                  (index + 1).toString(),
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              title: Text(serviceRequest['firstName'] +
-                  ' ' +
-                  serviceRequest['surname']),
-              subtitle: Text(serviceRequest['applicationStatus']),
-              children: <Widget>[
-                Divider(
-                  thickness: 1.0,
-                  height: 1.0,
-                ),
-                Padding(
+            return ListView(
+              children: snapshot.data.docs.map((document) {
+                final from = DateFormat("dd-MM-yyyy").parse(document['dob']);
+                final to = DateTime.now();
+
+                return Padding(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 10.0,
-                    vertical: 8.0,
-                  ),
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        maxRadius: 25,
-                        backgroundImage:
-                            NetworkImage(serviceRequest['photoUrl']),
+                      horizontal: 20.0, vertical: 10),
+                  child: ExpansionTileCard(
+                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                    initialElevation: 1,
+                    baseColor: Colors.white,
+                    leading: CircleAvatar(
+                      backgroundColor: Colors.grey,
+                      child: Text(
+                        (1).toString(),
+                        style: TextStyle(color: Colors.white),
                       ),
-                      SizedBox(
-                        height: 10,
+                    ),
+                    title:
+                        Text(document['firstName'] + ' ' + document['surname']),
+                    subtitle: Text(document['applicationStatus']),
+                    children: <Widget>[
+                      Divider(
+                        thickness: 1.0,
+                        height: 1.0,
                       ),
-                      serviceDisplay("Application Number",
-                          serviceRequest['applicationNumber']),
-                      serviceDisplay("Services", serviceRequest['services']),
-                      serviceDisplay("Gender", serviceRequest['gender']),
-                      serviceDisplay(
-                          "Phone Number", serviceRequest['phoneNumber']),
-                      serviceDisplay("Address", serviceRequest['address']),
-                      serviceDisplay(
-                          "Date of Birth",
-                          serviceRequest['dob'] +
-                              ' (' +
-                              serviceRequest['age'] +
-                              ')'),
-                    ],
-                  ),
-                ),
-                Divider(
-                  thickness: 1.0,
-                  height: 1.0,
-                ),
-                ButtonBar(
-                  alignment: MainAxisAlignment.spaceAround,
-                  buttonHeight: 52.0,
-                  buttonMinWidth: 90.0,
-                  children: <Widget>[
-                     Row(
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0,
+                          vertical: 8.0,
+                        ),
+                        child: Column(
+                          children: [
+                            CircleAvatar(
+                              maxRadius: 25,
+                              backgroundImage:
+                                  NetworkImage(document['photoUrl']),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            serviceDisplay("Application Number",
+                                document['applicationNumber']),
+                            // serviceDisplay("Services", document['services']),
+                            serviceDisplay("Gender", document['gender']),
+                            serviceDisplay(
+                                "Phone Number", document['phoneNumber']),
+                            serviceDisplay("Address", document['address']),
+                            serviceDisplay(
+                                "Date of Birth",
+                                document['dob'] +
+                                    ' (' +
+                                    (to.difference(from).inDays / 365.4)
+                                        .round()
+                                        .toString() +
+                                    ')'),
+                          ],
+                        ),
+                      ),
+                      Divider(
+                        thickness: 1.0,
+                        height: 1.0,
+                      ),
+                      ButtonBar(
+                        alignment: MainAxisAlignment.spaceAround,
+                        buttonHeight: 52.0,
+                        buttonMinWidth: 90.0,
+                        children: <Widget>[
+                          Row(
                             children: [
                               ActionChip(
                                 padding: EdgeInsets.only(
@@ -159,13 +159,14 @@ class _EmployeeApplicationsState extends State<EmployeeApplications> {
                               ),
                             ],
                           ),
-                  ],
-                )
-              ],
-            ),
-          );
-        },
-      ),
+                        ],
+                      )
+                    ],
+                  ),
+                );
+              }).toList(),
+            );
+          }),
       bottomNavigationBar: BottomSheetAdmin(),
     );
   }

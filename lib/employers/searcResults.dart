@@ -34,6 +34,27 @@ class _SearchResultsState extends State<SearchResults> {
       "active": "1",
       "salary": "1000",
       "requestNumber": "REQ678897",
+    },
+    {
+      "verified": true,
+      "firstName": "Care",
+      "surname": "Giver 2",
+      "gender": "FEMALE",
+      "age": "35",
+      "services": "Gardener",
+      "location": "Lagos",
+      "phoneNumber": "263785********",
+      "photoUrl": "",
+      // "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
+      "employeeId": "58-293952-Q-86",
+      "jobStatus": "pending",
+      "requestStatus": "approved",
+      "serviceRequested": "Silver 1 - Stay In ",
+      "requestType": "Gardener",
+      "meetingDate": "2021-10-30",
+      "active": "1",
+      "salary": "1000",
+      "requestNumber": "REQ678897",
     }
   ];
 

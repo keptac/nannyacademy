@@ -51,6 +51,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
 
     if (idNumber != null) {
       try {
+        
         final result = await _auth.createUserWithEmailAndPassword(
             email: _emailController.text, password: _passwordController.text);
 
