@@ -14,7 +14,7 @@ class SearchResults extends StatefulWidget {
 }
 
 class _SearchResultsState extends State<SearchResults> {
-  //request from server the requests. Search using the user email
+  //TODO: request from server the requests. who are not on hold in any employments
   List serviceRequestResults = [
     {
       "verified": true,
@@ -34,6 +34,9 @@ class _SearchResultsState extends State<SearchResults> {
       "active": "1",
       "salary": "1000",
       "requestNumber": "REQ678897",
+
+      "employerId": "763",
+      "employerName": "Name",
     },
   ];
 
@@ -42,6 +45,8 @@ class _SearchResultsState extends State<SearchResults> {
 
   void _scheduleMeeting(var body) async {
     body['meetingDate'] = _finalDate;
+    body['jobStatus'] = "Hold";
+
     try {
       await FirebaseFirestore.instance
           .collection('Employments')
@@ -60,7 +65,7 @@ class _SearchResultsState extends State<SearchResults> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MyRequests(jobStatus:'Pending'),
+                    builder: (context) => MyRequests(jobStatus:'Hold'),
                   ),
                 );
               },

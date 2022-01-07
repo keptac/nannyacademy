@@ -132,7 +132,7 @@ class _EmployerDashboardState extends State<EmployerDashboard> {
                 children: [
                   menuCard('Request results', SearchResults(),Icons.find_replace_outlined,),
                   menuCard('Find care givers', RequestForService(),Icons.search,),
-                  menuCard('Scheduled Meetings', MyRequests(jobStatus:'Pending'), Icons.calendar_today_outlined,),
+                  menuCard('Scheduled Meetings', MyRequests(jobStatus:'Hold'), Icons.calendar_today_outlined,),
 
                 ],
               ),

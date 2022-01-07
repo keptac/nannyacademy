@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:nannyacademy/widgets/bottomSheetAdmin.dart';
@@ -8,26 +9,74 @@ class EmployerRegistrations extends StatefulWidget {
 }
 
 class _EmployerRegistrationsState extends State<EmployerRegistrations> {
-  List serviceRequests = [
-    {
-      "firstName": "Kelvin",
-      "surname": "Chelenje",
-      "gender": "MALE",
-      "address": "186 Helvetia Drive Borrowdale",
-      "phoneNumber": "263785302628",
-      "idNumber": "2021-10-30",
-      "photoUrl":
-      "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
+  // List serviceRequests = [
+  //   {
+  //     "firstName": "Kelvin",
+  //     "surname": "Chelenje",
+  //     "gender": "MALE",
+  //     "address": "186 Helvetia Drive Borrowdale",
+  //     "phoneNumber": "263785302628",
+  //     "idNumber": "2021-10-30",
+  //     "photoUrl":
+  //     "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
+  //
+  //     "verificationStatus": "Pending",
+  //     "applicationNumber": "REQ67889997",
+  //     "services": "Gold - Level 2",
+  //     "employeeCount":0,
+  //     "activeEmployment":false,  // widget.activeEmployment
+  //     "employeeId": "",
+  //     "employeeName": ""
+  //   }
+  // ];
 
-      "verificationStatus": "Pending",
-      "applicationNumber": "REQ67889997",
-      "services": "Gold - Level 2",
-      "employeeCount":0,
-      "activeEmployment":false,  // widget.activeEmployment
-      "employeeId": "",
-      "employeeName": ""
+
+  int index = 0;
+
+  void _approval(var id, var decision) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('Employer Accounts')
+          .doc(id)
+          .update({'verificationStatus': decision});
+
+      //TODO: send email to all parties
+
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text('Success'),
+          content: Text('Application Response submitted successfully.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+              child: Text('Ok'),
+            )
+          ],
+        ),
+      );
+
+    } on FirebaseException catch (e) {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text(' Ops! Failed to submit response. Try again later.'),
+          content: Text('${e.message}'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+              child: Text('Dismiss'),
+            )
+          ],
+        ),
+      );
     }
-  ];
+  }
+
 
   Widget serviceDisplay(var title, var value) {
     return Column(
@@ -65,12 +114,21 @@ class _EmployerRegistrationsState extends State<EmployerRegistrations> {
         centerTitle: true,
         backgroundColor: Color.fromRGBO(255, 200, 124, 1),
       ),
-      body: ListView.builder(
-        // padding: const EdgeInsets.all(8),
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('Employer Accounts')
+        .where('verificationStatus', isEqualTo: "Pending")
+        .snapshots(),
+    builder:
+    (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+    if (!snapshot.hasData) {
+    return Center(
+    child: CircularProgressIndicator(),
+    );
+    }
 
-        itemCount: serviceRequests.length,
-        itemBuilder: (BuildContext context, int index) {
-          var serviceRequest = serviceRequests[index];
+    return ListView(
+    children: snapshot.data.docs.map((serviceRequest) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
             child: ExpansionTileCard(
@@ -134,7 +192,9 @@ class _EmployerRegistrationsState extends State<EmployerRegistrations> {
                             'Decline Application',
                             style: TextStyle(color: Colors.white, fontSize: 13),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            _approval(serviceRequest.id, "Declined");
+                          },
                           backgroundColor: Colors.red.shade900,
                           elevation: 1,
                         ),
@@ -146,7 +206,9 @@ class _EmployerRegistrationsState extends State<EmployerRegistrations> {
                             'Approve ',
                             style: TextStyle(color: Colors.white, fontSize: 13),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            _approval(serviceRequest.id, "Approved");
+                          },
                           backgroundColor: Colors.green,
                           elevation: 1,
                         ),
@@ -158,7 +220,9 @@ class _EmployerRegistrationsState extends State<EmployerRegistrations> {
             ),
           );
         },
-      ),
+      ).toList(),
+    );
+    }),
       bottomNavigationBar: BottomSheetAdmin(),
     );
   }

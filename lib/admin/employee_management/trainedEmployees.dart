@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:nannyacademy/widgets/bottomSheetAdmin.dart';
@@ -11,26 +12,28 @@ class TrainedEmployees extends StatefulWidget {
 }
 
 class _TrainedEmployeesState extends State<TrainedEmployees> {
-  //TODO: Get Care giver applications by status
-  List serviceRequests = [
-    {
-      "firstName": "Fradrick",
-      "surname": "Chelenje",
-      "gender": "MALE",
-      "age": "28",
-      "services": "Gold - Level 2",
-      "location": "186 Helvetia Drive Borrowdale",
-      "phoneNumber": "263785302628",
-      "photoUrl":
-          "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
-      "employeeId": "58-293952-Q-86",
-      "employmentStatus": "Employed", //Widget.employmentStatus
-      "dob": "2021-10-30",
-      "applicationNumber": "REQ67889997",
-      "employer": "Kelvin Chelenje",
-      "employmentCount":1
-    }
-  ];
+
+  // List serviceRequests = [
+  //   {
+  //     "firstName": "Fradrick",
+  //     "surname": "Chelenje",
+  //     "gender": "MALE",
+  //     "age": "28",
+  //     "services": "Gold - Level 2",
+  //     "location": "186 Helvetia Drive Borrowdale",
+  //     "phoneNumber": "263785302628",
+  //     "photoUrl":
+  //         "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
+  //     "employeeId": "58-293952-Q-86",
+  //     "employmentStatus": "Employed", //Widget.employmentStatus
+  //     "dob": "2021-10-30",
+  //     "applicationNumber": "REQ67889997",
+  //     "employer": "Kelvin Chelenje",
+  //     "employmentCount":1
+  //   }
+  // ];
+
+  int index = 0;
 
   Widget serviceDisplay(var title, var value) {
     return Column(
@@ -68,12 +71,21 @@ class _TrainedEmployeesState extends State<TrainedEmployees> {
         centerTitle: true,
         backgroundColor: Color.fromRGBO(255, 200, 124, 1),
       ),
-      body: ListView.builder(
-        // padding: const EdgeInsets.all(8),
+      body:StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('Employee Accounts')
+        .where('employmentStatus', isEqualTo: widget.employmentStatus)
+        .snapshots(),
+    builder:
+    (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+    if (!snapshot.hasData) {
+    return Center(
+    child: CircularProgressIndicator(),
+    );
+    }
 
-        itemCount: serviceRequests.length,
-        itemBuilder: (BuildContext context, int index) {
-          var serviceRequest = serviceRequests[index];
+    return ListView(
+    children: snapshot.data.docs.map((serviceRequest) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
             child: ExpansionTileCard(
@@ -156,8 +168,11 @@ class _TrainedEmployeesState extends State<TrainedEmployees> {
               ],
             ),
           );
-        },
-      ),
+
+    }).toList(),
+    );
+    }),
+
       bottomNavigationBar: BottomSheetAdmin(),
     );
   }

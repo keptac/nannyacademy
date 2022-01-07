@@ -44,16 +44,11 @@ class _MyRequestsState extends State<MyRequests> {
   String _meetingText = 'Meeting Date *';
   var _finalDate;
 
-  void _scheduleMeeting(var body) async {
+  void _scheduleMeeting(var id) async {
     try {
-      //Get the document ID to update
-      final QuerySnapshot result = await FirebaseFirestore.instance
-          .collection('Employments')
-          .where('requestNumber', isEqualTo: body['requestNumber'])
-          .get();
       await FirebaseFirestore.instance
           .collection('Employments')
-          .doc(result.docs[0].id)
+          .doc(id)
           .update({'meetingDate':_finalDate});
 
       //TODO: send email to all parties
@@ -99,25 +94,21 @@ class _MyRequestsState extends State<MyRequests> {
     }
   }
 
-  void _offerJob(var body) async {
+  void _offerJob(var id) async {
     try {
-      //Get the document ID to update
-      final QuerySnapshot serviceRequestId = await FirebaseFirestore.instance
-          .collection('Service Requests')
-          .where('requestNumber', isEqualTo: body['requestNumber'])
-          .get();
+      // final QuerySnapshot employmentDocumentId = await FirebaseFirestore.instance
+      //     .collection('Employments')
+      //     .where('requestNumber', isEqualTo: body['requestNumber'])
+      //     .get();
+
       await FirebaseFirestore.instance
           .collection('Service Requests')
-          .doc(serviceRequestId.docs[0].id)
+          .doc(id)
           .update({'requestStatus':'Completed'});
 
-      final QuerySnapshot employmentDocumentId = await FirebaseFirestore.instance
-          .collection('Employments')
-          .where('requestNumber', isEqualTo: body['requestNumber'])
-          .get();
       await FirebaseFirestore.instance
           .collection('Employments')
-          .doc(employmentDocumentId.docs[0].id)
+          .doc(id)
           .update({'jobStatus':'Granted'});
 
       //TODO: send email to all parties
@@ -378,7 +369,7 @@ class _MyRequestsState extends State<MyRequests> {
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) =>
-                                      _buildPopupDialog(context, serviceRequest),
+                                      _buildPopupDialog(context, serviceRequest.id),
                                 );
                               },
                               backgroundColor:
@@ -398,7 +389,7 @@ class _MyRequestsState extends State<MyRequests> {
                                     color: Colors.white, fontSize: 13),
                               ),
                               onPressed: () {
-                                _offerJob(serviceRequest);
+                                _offerJob(serviceRequest.id);
                               },
                               backgroundColor: Colors.green,
                               elevation: 1,

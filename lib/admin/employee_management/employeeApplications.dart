@@ -10,7 +10,50 @@ class EmployeeApplications extends StatefulWidget {
 }
 
 class _EmployeeApplicationsState extends State<EmployeeApplications> {
-  List serviceRequests = [];
+
+  void _approval(var id, var decision) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('Employee Accounts')
+          .doc(id)
+          .update({'applicationStatus': decision});
+
+      //TODO: send email to all parties
+
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text('Success'),
+          content: Text('Application Response submitted successfully.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+              child: Text('Ok'),
+            )
+          ],
+        ),
+      );
+
+    } on FirebaseException catch (e) {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text(' Ops! Failed to submit response. Try again later.'),
+          content: Text('${e.message}'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+              child: Text('Dismiss'),
+            )
+          ],
+        ),
+      );
+    }
+  }
 
   Widget serviceDisplay(var title, var value) {
     return Column(
@@ -140,7 +183,9 @@ class _EmployeeApplicationsState extends State<EmployeeApplications> {
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 13),
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  _approval(document.id, "Declined");
+                                },
                                 backgroundColor: Colors.red.shade900,
                                 elevation: 1,
                               ),
@@ -153,7 +198,9 @@ class _EmployeeApplicationsState extends State<EmployeeApplications> {
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 13),
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  _approval(document.id, "Approved");
+                                },
                                 backgroundColor: Colors.green,
                                 elevation: 1,
                               ),
