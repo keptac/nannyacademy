@@ -203,7 +203,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
     } else {
       setState(() {
         loading = false;
-        _errorMsg = "Failed to retrieve your details. Contact NANY ACADEMY";
+        _errorMsg = "Failed to retrieve your details. Contact NANNY ACADEMY";
       });
     }
   }
