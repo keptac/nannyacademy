@@ -18,10 +18,12 @@ class _EmployeeApplicationsState extends State<EmployeeApplications> {
       .where('profileid', isEqualTo: profileid)
       .get();
 
-      await FirebaseFirestore.instance
-      .collection('Account Type')
-      .doc(results.docs[0].id)
-      .update({'activated':true});
+     if(decision=='Approved'){
+       await FirebaseFirestore.instance
+           .collection('Account Type')
+           .doc(results.docs[0].id)
+           .update({'activated':true});
+     }
 
       await FirebaseFirestore.instance
           .collection('Employee Accounts')

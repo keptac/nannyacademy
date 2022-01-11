@@ -125,17 +125,15 @@ class _TrainedEmployeesState extends State<TrainedEmployees> {
                           ),
                           serviceDisplay("Application Number",
                               serviceRequest['applicationNumber']),
-                          serviceDisplay("Services", serviceRequest['services']),
+                          // serviceDisplay("Services", serviceRequest['services']),
                           serviceDisplay("Gender", serviceRequest['gender']),
                           serviceDisplay(
                               "Phone Number", serviceRequest['phoneNumber']),
-                          serviceDisplay("Address", serviceRequest['location']),
+                          serviceDisplay("Address", serviceRequest['address']),
                           serviceDisplay(
                               "Date of Birth",
-                              serviceRequest['dob'] +
-                                  ' (' +
-                                  serviceRequest['age'] +
-                                  ')'),
+                              serviceRequest['dob']
+                          ),
                           serviceRequest['employmentStatus'] == "Employed"
                               ? serviceDisplay(
                                   "Employer", serviceRequest['employer'])
