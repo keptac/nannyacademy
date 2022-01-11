@@ -11,7 +11,6 @@ import 'package:intl/intl.dart';
 import 'dart:async';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:nannyacademy/employers/myRequests.dart';
-import 'package:nannyacademy/services/rest_api.dart';
 
 class SearchResults extends StatefulWidget {
 
@@ -51,10 +50,10 @@ class _SearchResultsState extends State<SearchResults> {
 
   File popFile;
   String _meetingText = 'Meeting Date *';
-  var _finalDate;
   String popText = 'POP *';
   String _errorMsg = '';
 
+  var _finalDate;
   final _receiptNumber = TextEditingController();
   final _amount = TextEditingController();
 
@@ -108,6 +107,93 @@ class _SearchResultsState extends State<SearchResults> {
     }
   }
 
+  void _choose() async {
+    popFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      popText = popFile.path.split("/").last;
+    });
+  }
+
+  //Uploads the files
+  void _upload() async{
+    if (popFile == null) {
+      setState(() {
+        _errorMsg = 'Please Proof of payment';
+      });
+    } else {
+      String popBase64Image = base64Encode(popFile.readAsBytesSync());
+      String popFileName = popFile.path.split("/").last;
+
+      final data = {
+        "requestNumber": widget.requestNumber,
+        "amount": _amount.text,
+        "receiptNumber": _receiptNumber.text,
+        "pof": {
+          "image": popBase64Image,
+          "name": popFileName,
+          "description": "Proof of Payment File upload"
+        },
+      };
+
+      try {
+        await FirebaseFirestore.instance
+            .collection('Payments')
+            .add(data);
+
+        showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text(' Success!'),
+            content: Text('Proof of payment has been submitted successfully.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+                child: Text('Close'),
+              )
+            ],
+          ),
+        );
+      } on FirebaseException catch (e) {
+        showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text(' Oops! Upload failed try again later.'),
+            content: Text('${e.message}'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+                child: Text('Close'),
+              )
+            ],
+          ),
+        );
+      }
+
+      Navigator.pop(context);
+    }
+  }
+
+  void callDatePicker() async {
+    var _newDateTime = await getDate();
+    setState(() {
+      _finalDate = DateFormat('dd-MM-yyyy').format(_newDateTime);
+      _meetingText = _finalDate.toString();
+    });
+  }
+
+  Future<DateTime> getDate() {
+    return showRoundedDatePicker(
+        context: context,
+        initialDate: DateTime(DateTime.now().year - 11),
+        firstDate: DateTime(DateTime.now().year - 50),
+        lastDate: DateTime(DateTime.now().year - 9),
+        borderRadius: 16);
+  }
+
   Widget serviceDisplay(var title, var value) {
     return Column(
       children: [
@@ -126,23 +212,6 @@ class _SearchResultsState extends State<SearchResults> {
         ),
       ],
     );
-  }
-
-  Future<DateTime> getDate() {
-    return showRoundedDatePicker(
-        context: context,
-        initialDate: DateTime(DateTime.now().year - 11),
-        firstDate: DateTime(DateTime.now().year - 50),
-        lastDate: DateTime(DateTime.now().year - 9),
-        borderRadius: 16);
-  }
-
-  void callDatePicker() async {
-    var _newDateTime = await getDate();
-    setState(() {
-      _finalDate = DateFormat('dd-MM-yyyy').format(_newDateTime);
-      _meetingText = _finalDate.toString();
-    });
   }
 
   Widget _selectDate(context) {
@@ -201,7 +270,7 @@ class _SearchResultsState extends State<SearchResults> {
           SizedBox(height:10),
           TextField(
             controller: _amount,
-            keyboardType: TextInputType.text,
+            keyboardType: TextInputType.number,
             style: TextStyle(fontFamily: 'Quicksand', fontSize: 12),
             decoration: InputDecoration(
               prefixIcon: Icon(
@@ -251,61 +320,10 @@ class _SearchResultsState extends State<SearchResults> {
             Navigator.of(context).pop();
             _upload();
           },
-          child: const Text('Submit'),
+          child: const Text('Submit Proof'),
         ),
       ],
     );
-  }
-
-  void _choose() async {
-      popFile = await ImagePicker.pickImage(source: ImageSource.gallery);
-      setState(() {
-        popText = popFile.path.split("/").last;
-      });
-  }
-
-  //TODO: Map to API then return document server reference
-  void _upload() async{
-    if (popFile == null) {
-      setState(() {
-        _errorMsg = 'Please Proof of payment';
-      });
-    } else {
-      String popBase64Image = base64Encode(popFile.readAsBytesSync());
-      String popFileName = popFile.path.split("/").last;
-
-      Map data = {
-        "requestNumber": widget.requestNumber,
-        "pof": {
-          "image": popBase64Image,
-          "name": popFileName,
-          "description": "Proof of Residence File upload"
-        },
-      };
-
-      var body = json.encode(data);
-
-      ApiService.registerUser(body).then((res) {
-        print(res);
-        if (res['message'] == 'success') {
-        } else if (res['message'] == 'failse') {
-          setState(() {
-            _errorMsg = res['message']['reason'];
-          });
-        } else {
-          setState(() {
-            _errorMsg ='Failed to upload data please contact Nanny Academy';
-          });
-
-        }
-      }).catchError((err) {
-        setState(() {
-          _errorMsg ='Failed to update Nanny Academy please contact Nanny Academy';
-        });
-        print(err);
-      });
-      Navigator.pop(context);
-    }
   }
 
   Widget _uploadButton(String label) {
@@ -365,8 +383,6 @@ class _SearchResultsState extends State<SearchResults> {
       ),
       body: serviceRequestResults.length > 0
           ? ListView.builder(
-              // padding: const EdgeInsets.all(8),
-
               itemCount: serviceRequestResults.length,
               itemBuilder: (BuildContext context, int index) {
                 var serviceRequest = serviceRequestResults[index];
