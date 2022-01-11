@@ -88,7 +88,8 @@ class _PasswordCreationState extends State<PasswordCreation> {
             "applicationNumber": applicationNumber,
             "photoUrl":
                 "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
-            "employmentStatus":"Pending"
+            "employmentStatus":"Pending",
+            "employer":""
           };
 
           await FirebaseFirestore.instance

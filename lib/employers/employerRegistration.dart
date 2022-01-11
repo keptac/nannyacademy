@@ -51,7 +51,7 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
       );
       pref.setString(
         'phoneNumber',
-        _addressController.text,
+        _phoneNumberController.text,
       );
       pref.setString(
         'userType',

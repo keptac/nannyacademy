@@ -33,8 +33,20 @@ class _EmployerRegistrationsState extends State<EmployerRegistrations> {
 
   int index = 0;
 
-  void _approval(var id, var decision) async {
+  void _approval(var id, var decision, var profileid) async {
     try {
+      var results =  await FirebaseFirestore.instance
+          .collection('Account Type')
+          .where('profileid', isEqualTo: profileid)
+          .get();
+
+      if(decision=='Approved'){
+        await FirebaseFirestore.instance
+            .collection('Account Type')
+            .doc(results.docs[0].id)
+            .update({'activated':true});
+      }
+
       await FirebaseFirestore.instance
           .collection('Employer Accounts')
           .doc(id)
@@ -193,7 +205,7 @@ class _EmployerRegistrationsState extends State<EmployerRegistrations> {
                             style: TextStyle(color: Colors.white, fontSize: 13),
                           ),
                           onPressed: () {
-                            _approval(serviceRequest.id, "Declined");
+                            _approval(serviceRequest.id, "Declined", serviceRequest['profileid']);
                           },
                           backgroundColor: Colors.red.shade900,
                           elevation: 1,
@@ -207,7 +219,7 @@ class _EmployerRegistrationsState extends State<EmployerRegistrations> {
                             style: TextStyle(color: Colors.white, fontSize: 13),
                           ),
                           onPressed: () {
-                            _approval(serviceRequest.id, "Approved");
+                            _approval(serviceRequest.id, "Approved", serviceRequest['profileid']);
                           },
                           backgroundColor: Colors.green,
                           elevation: 1,
