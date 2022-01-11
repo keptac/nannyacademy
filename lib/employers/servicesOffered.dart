@@ -41,9 +41,7 @@ class _ServicesOfferedState extends State<ServicesOffered> {
                     fontFamily: 'Quicksand'),
               ),
             ),
-
             SizedBox(height: 60),
-
             Row(
               children: <Widget>[
                 SizedBox(width: 15.0),
@@ -92,9 +90,7 @@ class _ServicesOfferedState extends State<ServicesOffered> {
                 Text('Hourly Baby Sitter (< 6 hours)'),
               ],
             ),
-
             SizedBox(height: 40),
-
             Container(
               margin: EdgeInsets.only(left:20, right:30),
               child: Text(
@@ -106,7 +102,6 @@ class _ServicesOfferedState extends State<ServicesOffered> {
                 ),
               ),
             ),
-
             SizedBox(height: 40),
          Center(
             child: ActionChip(

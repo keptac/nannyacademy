@@ -24,12 +24,12 @@ class _LoginPageState extends State<LoginPage> {
   void _login() async {
 
     //TODO: Remove this forced route
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => EmployerDashboard(),
-      ),
-    );
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) => EmployerDashboard(),
+    //   ),
+    // );
 
     setState(() {
       _falsePassword = false;
@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: () {
                       Navigator.of(ctx).pop();
                     },
-                    child: Text('Close'),
+                    child: Text('Ok'),
                   )
                 ],
               ),
@@ -128,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () {
                   Navigator.of(ctx).pop();
                 },
-                child: Text('Retry'),
+                child: Text('Close'),
               )
             ],
           ),

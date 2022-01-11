@@ -11,8 +11,18 @@ class EmployeeApplications extends StatefulWidget {
 
 class _EmployeeApplicationsState extends State<EmployeeApplications> {
 
-  void _approval(var id, var decision) async {
+  void _approval(var id, var decision, var profileid) async {
     try {
+     var results =  await FirebaseFirestore.instance
+      .collection('Account Type')
+      .where('profileid', isEqualTo: profileid)
+      .get();
+
+      await FirebaseFirestore.instance
+      .collection('Account Type')
+      .doc(results.docs[0].id)
+      .update({'activated':true});
+
       await FirebaseFirestore.instance
           .collection('Employee Accounts')
           .doc(id)
@@ -184,7 +194,7 @@ class _EmployeeApplicationsState extends State<EmployeeApplications> {
                                       color: Colors.white, fontSize: 13),
                                 ),
                                 onPressed: () {
-                                  _approval(document.id, "Declined");
+                                  _approval(document.id, "Declined", document['profileid']);
                                 },
                                 backgroundColor: Colors.red.shade900,
                                 elevation: 1,
@@ -199,7 +209,7 @@ class _EmployeeApplicationsState extends State<EmployeeApplications> {
                                       color: Colors.white, fontSize: 13),
                                 ),
                                 onPressed: () {
-                                  _approval(document.id, "Approved");
+                                  _approval(document.id, "Approved",document['profileid']);
                                 },
                                 backgroundColor: Colors.green,
                                 elevation: 1,
