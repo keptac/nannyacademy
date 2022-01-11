@@ -1,20 +1,29 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:intl/intl.dart';
 
 import 'dart:async';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:nannyacademy/employers/myRequests.dart';
+import 'package:nannyacademy/services/rest_api.dart';
 
 class SearchResults extends StatefulWidget {
+
+  final String requestNumber;
+
+  SearchResults({Key key, @required this.requestNumber}):super(key:key);
   @override
   _SearchResultsState createState() => _SearchResultsState();
 }
 
 class _SearchResultsState extends State<SearchResults> {
-  //TODO: request from server the requests. who are not on hold in any employments
+  //TODO: request from server the requests. all requestsResults with widget.requestNumber
   List serviceRequestResults = [
     // {
     //   "verified": true,
@@ -40,8 +49,14 @@ class _SearchResultsState extends State<SearchResults> {
     // },
   ];
 
+  File popFile;
   String _meetingText = 'Meeting Date *';
   var _finalDate;
+  String popText = 'POP *';
+  String _errorMsg = '';
+
+  final _receiptNumber = TextEditingController();
+  final _amount = TextEditingController();
 
   void _scheduleMeeting(var body) async {
     body['meetingDate'] = _finalDate;
@@ -170,6 +185,166 @@ class _SearchResultsState extends State<SearchResults> {
         ),
       ],
     );
+  }
+
+  Widget _uploadPop(BuildContext context) {
+    return new AlertDialog(
+      title: Center(child:Text(
+        widget.requestNumber,
+        style: TextStyle(color: Colors.black, fontSize: 16),
+      ),),
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text(_errorMsg),
+          SizedBox(height:10),
+          TextField(
+            controller: _amount,
+            keyboardType: TextInputType.text,
+            style: TextStyle(fontFamily: 'Quicksand', fontSize: 12),
+            decoration: InputDecoration(
+              prefixIcon: Icon(
+                Icons.monetization_on_sharp,
+                color: Color.fromRGBO(255, 200, 124, 1),
+                size: 20,
+              ),
+              labelText: 'Amount Paid *',
+
+              fillColor: Colors.white,
+              border: OutlineInputBorder(
+                borderRadius:
+                BorderRadius.all(Radius.circular(10)),
+              ),
+            ),
+          ),
+
+          SizedBox(height: 10,),
+
+          TextField(
+            controller: _receiptNumber,
+            keyboardType: TextInputType.text,
+            style: TextStyle(fontFamily: 'Quicksand', fontSize: 12),
+            decoration: InputDecoration(
+              prefixIcon: Icon(
+                Icons.payment,
+                color: Color.fromRGBO(255, 200, 124, 1),
+                size: 20,
+              ),
+              labelText: 'Transaction Reference*',
+
+              fillColor: Colors.white,
+              border: OutlineInputBorder(
+                borderRadius:
+                BorderRadius.all(Radius.circular(10)),
+              ),
+            ),
+          ),
+          SizedBox(height: 10,),
+          _uploadButton(popText),
+
+        ],
+      ),
+      actions: <Widget>[
+        new TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+            _upload();
+          },
+          child: const Text('Submit'),
+        ),
+      ],
+    );
+  }
+
+  void _choose() async {
+      popFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+      setState(() {
+        popText = popFile.path.split("/").last;
+      });
+  }
+
+  //TODO: Map to API then return document server reference
+  void _upload() async{
+    if (popFile == null) {
+      setState(() {
+        _errorMsg = 'Please Proof of payment';
+      });
+    } else {
+      String popBase64Image = base64Encode(popFile.readAsBytesSync());
+      String popFileName = popFile.path.split("/").last;
+
+      Map data = {
+        "requestNumber": widget.requestNumber,
+        "pof": {
+          "image": popBase64Image,
+          "name": popFileName,
+          "description": "Proof of Residence File upload"
+        },
+      };
+
+      var body = json.encode(data);
+
+      ApiService.registerUser(body).then((res) {
+        print(res);
+        if (res['message'] == 'success') {
+        } else if (res['message'] == 'failse') {
+          setState(() {
+            _errorMsg = res['message']['reason'];
+          });
+        } else {
+          setState(() {
+            _errorMsg ='Failed to upload data please contact Nanny Academy';
+          });
+
+        }
+      }).catchError((err) {
+        setState(() {
+          _errorMsg ='Failed to update Nanny Academy please contact Nanny Academy';
+        });
+        print(err);
+      });
+      Navigator.pop(context);
+    }
+  }
+
+  Widget _uploadButton(String label) {
+    return InkWell(
+        child: Card(
+          shape: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black38),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+          elevation: 0,
+          child: SizedBox(
+            height: 50,
+            child: Row(
+              children: <Widget>[
+                Stack(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: Text(
+                        label,
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 170),
+                      child: Icon(
+                        Icons.file_present,
+                        color: Color.fromRGBO(255, 200, 124, 1),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+        onTap: () => _choose(),
+      );
+
   }
 
   @override
@@ -338,12 +513,36 @@ class _SearchResultsState extends State<SearchResults> {
                 );
               },
             )
-          : Center(
+          : Column(children: [
+            SizedBox(height: 200,),
+            Center(
               child: Text(
-              "No results returned. \nPending payment confirmation.",
-              style: TextStyle(fontSize: 17),
-              textAlign: TextAlign.center,
+                "No results returned. \nPending payment confirmation.",
+                style: TextStyle(fontSize: 17),
+                textAlign: TextAlign.center,
+              ),
             ),
+            SizedBox(height: 30,),
+            Center(
+              child: ActionChip(
+                padding: EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
+                label: Text(
+                  'Upload Proof of Payment',
+                  style: TextStyle(color: Colors.white, fontSize: 17),
+                ),
+                onPressed: (){
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext
+                    context) =>
+                        _uploadPop(context),
+                  );
+                },
+                backgroundColor: Colors.black, //Color.fromRGBO(255, 200, 124, 1), //Color.fromRGBO(233, 166, 184, 1),
+                elevation: 1,
+              ),
+            )
+      ],
       ),
     );
   }

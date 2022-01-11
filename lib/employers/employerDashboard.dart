@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:nannyacademy/employers/allRequestsMain.dart';
 import 'package:nannyacademy/employers/employeerProfile.dart';
 import 'package:nannyacademy/employers/myRequests.dart';
 import 'package:nannyacademy/employers/requestForService.dart';
-import 'package:nannyacademy/employers/searcResults.dart';
 import 'package:nannyacademy/login.dart';
 import 'package:nannyacademy/widgets/CustomBoxDecoration.dart';
 
@@ -130,7 +130,7 @@ class _EmployerDashboardState extends State<EmployerDashboard> {
                 mainAxisSpacing: 10.0,
                 crossAxisCount: 2,
                 children: [
-                  menuCard('Request results', SearchResults(),Icons.find_replace_outlined,),
+                  menuCard('Request results', AllRequestsMain(),Icons.find_replace_outlined,),
                   menuCard('Find care givers', RequestForService(),Icons.search,),
                   menuCard('Scheduled Meetings', MyRequests(jobStatus:'Hold'), Icons.calendar_today_outlined,),
 

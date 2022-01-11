@@ -94,16 +94,16 @@ class _MyRequestsState extends State<MyRequests> {
     }
   }
 
-  void _offerJob(var id) async {
+  void _offerJob(var id, var requestNumber) async {
     try {
-      // final QuerySnapshot employmentDocumentId = await FirebaseFirestore.instance
-      //     .collection('Employments')
-      //     .where('requestNumber', isEqualTo: body['requestNumber'])
-      //     .get();
+      final QuerySnapshot requestDocumentId = await FirebaseFirestore.instance
+          .collection('Service Requests')
+          .where('requestNumber', isEqualTo: requestNumber)
+          .get();
 
       await FirebaseFirestore.instance
           .collection('Service Requests')
-          .doc(id)
+          .doc(requestDocumentId.docs[0].id)
           .update({'requestStatus':'Completed'});
 
       await FirebaseFirestore.instance
@@ -389,7 +389,7 @@ class _MyRequestsState extends State<MyRequests> {
                                     color: Colors.white, fontSize: 13),
                               ),
                               onPressed: () {
-                                _offerJob(serviceRequest.id);
+                                _offerJob(serviceRequest.id, serviceRequest['requestNumber']);
                               },
                               backgroundColor: Colors.green,
                               elevation: 1,
