@@ -156,7 +156,7 @@ Nannies that match your request profile will appear in the REQUESTS RESULTS Menu
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => SearchResults(),
+                                        builder: (context) => SearchResults(requestNumber:widget.requestNumber),
                                       ),
                                     );
                               }on FirebaseException catch (e) {
