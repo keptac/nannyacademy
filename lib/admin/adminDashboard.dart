@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:nannyacademy/admin/allPayments.dart';
 import 'package:nannyacademy/admin/clientRequests.dart';
 import 'package:nannyacademy/admin/employee_management/manageEmployees.dart';
 import 'package:nannyacademy/admin/employer_management/manageEmployers.dart';
-import 'package:nannyacademy/employers/requestForService.dart';
 import 'package:nannyacademy/login.dart';
 import 'package:nannyacademy/widgets/CustomBoxDecoration.dart';
 import 'package:nannyacademy/widgets/bottomSheetAdmin.dart';
@@ -99,7 +99,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   children: [
                     menuCard('Manage Care givers', ManageEmployees()),
                     menuCard('Manage Clients', ManagerEmployers()),
-                    menuCard('View Payments', RequestForService()),
+                    menuCard('View Payments', AllPayments()),
                     menuCard('View Client Requests', ClientRequests()),
                   ],
                 ),
