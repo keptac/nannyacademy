@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nannyacademy/employers/clientRegistration.dart';
-import 'package:nannyacademy/employees/nanyRegistration.dart';
+import 'package:nannyacademy/employees/employeeRegistration.dart';
+import 'package:nannyacademy/employers/servicesOffered.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
 
 class RegistrationOptions extends StatelessWidget {
@@ -68,15 +68,46 @@ class RegistrationOptions extends StatelessWidget {
             Center(
               child: Row(
                 children: [
-                  _optionButton(context, 'Employee', NanyRegistration(),
+                  _optionButton(context, 'Care giver', EmployeeRegistration(),
                       Color.fromRGBO(233, 166, 184, 1)),
                   // SizedBox(width: 10),
-                  _optionButton(context, 'Employer', ClientRegistration(),
+                  _optionButton(context, 'Client', ServicesOffered(),
                       Color.fromRGBO(255, 200, 124, 1)),
                 ],
               ),
             ),
-            SizedBox(height: 60)
+            SizedBox(height: 50),
+            Center(
+              child: Text(
+                'NOTE',
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Quicksand'),
+              ),
+            ),
+            SizedBox(height: 30),
+            Container(
+              margin: EdgeInsets.only(left:30, right:30),
+              child: Text(
+                'Register as a Care giver if you would like to be trained by Nanny Academy to offer care giver services',
+                style: TextStyle(
+                    fontSize: 14,
+                    fontFamily: 'Quicksand'),
+              ),
+            ),
+            SizedBox(height: 40),
+            Container(
+              margin: EdgeInsets.only(left:30, right:30),
+              child: Text(
+                'Register as client if you would like to request Nanny Academy services. e.g. You would like to find a nanny to take care of your baby',
+                style: TextStyle(
+
+                    fontSize: 14,
+                    fontFamily: 'Quicksand'),
+              ),
+            ),
+            // SizedBox(height: 60)
           ],
         ),
       ),

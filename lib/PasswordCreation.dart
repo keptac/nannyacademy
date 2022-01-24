@@ -1,12 +1,25 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:nannyacademy/login.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
-import 'package:nannyacademy/services/rest_api.dart';
+// import 'package:nannyacademy/services/rest_api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+const spinkit = SpinKitChasingDots(
+  color: Colors.green,
+  size: 30.0,
+);
 
 class PasswordCreation extends StatefulWidget {
+  final userTypeValue;
+  PasswordCreation({Key key, @required this.userTypeValue}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _PasswordCreationState();
 }
@@ -15,11 +28,17 @@ class _PasswordCreationState extends State<PasswordCreation> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPassowordController = TextEditingController();
+  final _auth = FirebaseAuth.instance;
   String _errorMsg = '';
-  String userTypeValue;
+
+  String statusResponse = "Profile Created. KYC verification in progress.";
+  bool loading = false;
 
   void _register() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      loading = true;
+    });
 
     final String firstName = prefs.getString('firstName');
     final String surname = prefs.getString('surname');
@@ -29,97 +48,235 @@ class _PasswordCreationState extends State<PasswordCreation> {
     final String address = prefs.getString('address');
     final String phoneNumber = prefs.getString('phoneNumber');
     final String userType = prefs.getString('userType');
-    userTypeValue = userType;
-
-    final body = {
-      "firstname": firstName,
-      "surname": surname,
-      "idNumber": idNumber,
-      "gender": gender,
-      "dob": dob,
-      "phoneNumber": phoneNumber,
-      "address": address,
-      "userType": userType,
-      "emailAddress": _emailController.text,
-      "password": _passwordController.text,
-      "channel": "MOBILE"
-    };
-
-    final authBody = {
-      "idNumber": idNumber,
-      "emailAddress": _emailController.text,
-      "password": _passwordController.text,
-      "channel": "MOBILE"
-    };
-    
 
     if (idNumber != null) {
-      ApiService.registerUser(body).then((success) {
-        if (success) {
-          prefs.clear();
-          _authReg(authBody, userType);
-        } else {
-          setState(() {
-            _errorMsg = "An error occured while processing your request";
-          });
-          return;
-        }
-      });
-    } else {
-      setState(() {
-        _errorMsg = "Failed to retrieve your details. Contact NANY ACADEMY";
-      });
-    }
-  }
+      try {
+        
+        final result = await _auth.createUserWithEmailAndPassword(
+            email: _emailController.text, password: _passwordController.text);
 
-  void _authReg(var body, String userType) async {
-    if (userType == 'nany') {
-      final applicationBody = {
-        "idNumber": body.idNumber,
-        "registrationStatus": "pending",
-        "channel": "MOBILE"
-      };
+        final userid = result;
 
-      // Invoking Application Registration function if user is a nany
-      _applicationReg(applicationBody);
-    } else {
-      // Making an API Call for auth Service
-      ApiService.authReg(body).then((success) {
-        if (success) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => LoginPage(),
+        final usertypeMapping = {
+          "profileid": userid.user.uid,
+          "userType": userType,
+          "activated": false
+        };
+
+        await FirebaseFirestore.instance
+            .collection('Account Type')
+            .add(usertypeMapping);
+
+        if (userType == 'employee') {
+          final random = new Random();
+          int randomNumber = random.nextInt(1000000);
+          String applicationNumber = "APP" + randomNumber.toString();
+
+          final applicationBody = {
+            "profileid": userid.user.uid,
+            "idNumber": idNumber,
+            "applicationStatus": "Pending",
+            "channel": "MOBILE",
+            "firstName": firstName,
+            "surname": surname,
+            "gender": gender,
+            "dob": dob,
+            "phoneNumber": phoneNumber,
+            "address": address,
+            "userType": userType,
+            "emailAddress": _emailController.text,
+            "applicationNumber": applicationNumber,
+            "photoUrl":
+                "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
+            "employmentStatus":"Pending",
+            "employer":""
+          };
+
+          await FirebaseFirestore.instance
+              .collection('Employee Accounts')
+              .add(applicationBody);
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.blueGrey,
+              content: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child:
+                    Text('Sucessfully Register. Application Pending approval'),
+              ),
+              duration: Duration(seconds: 5),
             ),
           );
-        } else {
+
           setState(() {
-            _errorMsg = "An error occured while processing your request";
+            statusResponse = "Profile Created.";
           });
-          return;
+
+          //delay then route
+          Future.delayed(
+            const Duration(milliseconds: 3000),
+            () {
+              prefs.clear();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LoginPage(),
+                ),
+              );
+            },
+          );
+        } else {
+          final body = {
+            "profileid": userid.user.uid,
+            "firstName": firstName,
+            "surname": surname,
+            "idNumber": idNumber,
+            "gender": gender,
+            "dob": dob,
+            "phoneNumber": phoneNumber,
+            "address": address,
+            "userType": userType,
+            "emailAddress": _emailController.text,
+            "channel": "MOBILE",
+            "verificationStatus": "Pending",
+            "photoUrl":"https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
+            "services": "",
+            "employeeCount":0,
+            "activeEmployment":false,
+            "employeeId": "",
+            "employeeName": ""
+          };
+
+          await FirebaseFirestore.instance
+              .collection('Employer Accounts')
+              .add(body);
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.blueGrey,
+              content: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child:
+                    Text('Sucessfully Register. Account Pending Verification'),
+              ),
+              duration: Duration(seconds: 5),
+            ),
+          );
+
+          setState(() {
+            statusResponse = "Profile Created.";
+          });
+
+          //delay then route
+          Future.delayed(
+            const Duration(milliseconds: 3000),
+            () {
+              prefs.clear();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LoginPage(),
+                ),
+              );
+            },
+          );
         }
+      } on FirebaseAuthException catch (e) {
+        setState(() {
+          loading = false;
+          _errorMsg = "An error occured while processing your request";
+        });
+        showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text(' Ops! Registration Failed'),
+            content: Text('${e.message}'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+                child: Text('Okay'),
+              )
+            ],
+          ),
+        );
+      }
+    } else {
+      setState(() {
+        loading = false;
+        _errorMsg = "Failed to retrieve your details. Contact NANNY ACADEMY";
       });
     }
   }
 
-  void _applicationReg(var body) async {
-    // Making an API Call for Application Service
-    ApiService.applicationReg(body).then((success) {
-      if (success) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => LoginPage(),
-          ),
-        );
-      } else {
-        setState(() {
-          _errorMsg = "An error occured while processing your request";
-        });
-        return;
-      }
-    });
-  }
+  // void _authReg(var body, String userType) async {
+  //   if (userType == 'nanny') {
+  //     final applicationBody = {
+  //       "idNumber": body.idNumber,
+  //       "registrationStatus": "pending",
+  //       "channel": "MOBILE"
+  //     };
+  //
+  //     // Invoking Application Registration function if user is a nanny
+  //     _applicationReg(applicationBody);
+  //   } else {
+  //     // Making an API Call for auth Service
+  //     ApiService.authReg(body).then((success) {
+  //       if (success) {
+  //         setState(() {
+  //           statusResponse = "Profile Created.";
+  //         });
+  //         //delay then route
+  //         Future.delayed(
+  //           const Duration(milliseconds: 3000),
+  //           () {
+  //             Navigator.push(
+  //               context,
+  //               MaterialPageRoute(
+  //                 builder: (context) => LoginPage(),
+  //               ),
+  //             );
+  //           },
+  //         );
+  //       } else {
+  //         loading = false;
+  //         setState(() {
+  //           _errorMsg = "An error occured while processing your request";
+  //         });
+  //         return;
+  //       }
+  //     });
+  //   }
+  // }
+
+  // void _applicationReg(var body) async {
+  //   ApiService.applicationReg(body).then((success) {
+  //     if (success) {
+  //       setState(() {
+  //         statusResponse = "Application submitted successfully.";
+  //       });
+  //
+  //       Future.delayed(
+  //         const Duration(milliseconds: 3000),
+  //         () {
+  //           Navigator.push(
+  //             context,
+  //             MaterialPageRoute(
+  //               builder: (context) => LoginPage(),
+  //             ),
+  //           );
+  //         },
+  //       );
+  //     } else {
+  //       loading = false;
+  //       setState(() {
+  //         _errorMsg = "An error occured while processing your request";
+  //       });
+  //       return;
+  //     }
+  //   });
+  // }
 
   Widget _textField(
       IconData icon, TextEditingController contolller, String label) {
@@ -133,8 +290,8 @@ class _PasswordCreationState extends State<PasswordCreation> {
           decoration: InputDecoration(
             prefixIcon: Icon(
               icon,
-              color: userTypeValue == 'nany'
-                  ? Color.fromRGBO(216, 90, 102, 1)
+              color: widget.userTypeValue == 'employee'
+                  ? Color.fromRGBO(233, 166, 184, 1)
                   : Color.fromRGBO(255, 200, 124, 1),
               size: 20,
             ),
@@ -162,8 +319,8 @@ class _PasswordCreationState extends State<PasswordCreation> {
           decoration: InputDecoration(
             prefixIcon: Icon(
               icon,
-              color: userTypeValue == 'nany'
-                  ? Color.fromRGBO(216, 90, 102, 1)
+              color: widget.userTypeValue == 'employee'
+                  ? Color.fromRGBO(233, 166, 184, 1)
                   : Color.fromRGBO(255, 200, 124, 1),
               size: 20,
             ),
@@ -183,7 +340,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
       child: ActionChip(
         padding: EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
         label: Text(
-          'Proceed',
+          'Register',
           style: TextStyle(color: Colors.white, fontSize: 17),
         ),
         onPressed: () {
@@ -204,8 +361,8 @@ class _PasswordCreationState extends State<PasswordCreation> {
             });
           }
         },
-        backgroundColor: userTypeValue == 'nany'
-            ? Color.fromRGBO(216, 90, 102, 1)
+        backgroundColor: widget.userTypeValue == 'employee'
+            ? Color.fromRGBO(233, 166, 184, 1)
             : Color.fromRGBO(255, 200, 124, 1),
         elevation: 1,
       ),
@@ -249,7 +406,16 @@ class _PasswordCreationState extends State<PasswordCreation> {
                 Icons.lock, _passwordController, 'Desired Password *'),
             _passwordField(Icons.lock_outline, _confirmPassowordController,
                 'Verify Password *'),
-            _proceedButton(),
+            !loading
+                ? _proceedButton()
+                : Column(
+                    children: [
+                      SizedBox(height: 20),
+                      spinkit,
+                      SizedBox(height: 15),
+                      Text(statusResponse)
+                    ],
+                  ),
             SizedBox(height: 60)
           ],
         ),

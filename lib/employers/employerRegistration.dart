@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:nannyacademy/PasswordCreation.dart';
+import 'package:nannyacademy/uploadKyc.dart';
 import 'package:nannyacademy/widgets/genericTextField.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
 
-class ClientRegistration extends StatefulWidget {
+class EmployerRegistration extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _ClientRegistrationState();
+  State<StatefulWidget> createState() => _EmployerRegistrationState();
 }
 
-class _ClientRegistrationState extends State<ClientRegistration> {
+class _EmployerRegistrationState extends State<EmployerRegistration> {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   final _nameController = TextEditingController();
   final _surnameController = TextEditingController();
@@ -51,18 +51,18 @@ class _ClientRegistrationState extends State<ClientRegistration> {
       );
       pref.setString(
         'phoneNumber',
-        _addressController.text,
+        _phoneNumberController.text,
       );
       pref.setString(
         'userType',
-        'nany',
+        'employer',
       );
     });
 
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PasswordCreation(),
+        builder: (context) => UploadKyc(),
       ),
     );
   }
@@ -146,7 +146,7 @@ class _ClientRegistrationState extends State<ClientRegistration> {
         child: ListView(
           padding: EdgeInsets.only(top: 60),
           children: <Widget>[
-            SizedBox(height: 60),
+            SizedBox(height: 20),
             Center(
               child: Text(
                 'Let us know who you are 😊',
@@ -156,7 +156,7 @@ class _ClientRegistrationState extends State<ClientRegistration> {
                     fontFamily: 'Quicksand'),
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
             SizedBox(
               width: 10,
               height: 35,
@@ -184,8 +184,9 @@ class _ClientRegistrationState extends State<ClientRegistration> {
               Icons.confirmation_number,
               _idController,
               'ID Number *',
-              TextInputType.text,
+              TextInputType.number,
               Color.fromRGBO(255, 200, 124, 1),
+              11
             ),
             _radio(),
             GenericTextField(
@@ -201,7 +202,9 @@ class _ClientRegistrationState extends State<ClientRegistration> {
               'Phone Number *',
               TextInputType.number,
               Color.fromRGBO(255, 200, 124, 1),
+              11
             ),
+            SizedBox(height: 10,),
             _proceedButton()
           ],
         ),

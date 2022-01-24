@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 
@@ -11,35 +9,19 @@ class ServiceRequests extends StatefulWidget {
 class _ServiceRequestsState extends State<ServiceRequests> {
   List serviceRequests = [
     {
-      "requestType": "Gardener",
       "requestNum": "REQ67889997",
-      "nanyId": "58-293952-Q-86",
+      "requestType": "Nanny",
+      "serviceRequested": "Silver - level 1 Stay In",
+      "nannyId": "58-293952-Q-86",
       "requestorId": "789008H78",
-      "periodOfRequest": '6',
-      "requestDate": "2021-09-27T22:00:00.000Z",
-      "serviceRequested": "watering the garden ",
-      "requestStatus": "apprved",
-      "serviceRating": "",
-      "comments": "",
+      "requestorName": "Kelvin Chelenje",
+      "phoneNumber": '+263785302628',
+      "requestDate": "2021-09-27",
+      "meetingDate": "2021-09-27",
       "location": "123 Main way",
-      "active": "1",
-      "salary": "1000"
-    },
-    {
-      "requestType": "Nanny Services",
-      "requestNum": "REQ67889997",
-      "nanyId": "58-293952-Q-86",
-      "requestorId": "789008H78",
-      "periodOfRequest": '6',
-      "requestDate": "2021-09-27T22:00:00.000Z",
-      "serviceRequested":
-          "Monitoring and cooking for 2 children while parent is at work",
-      "requestStatus": "approved",
-      "serviceRating": "",
-      "comments": "",
-      "location": "123 Main way",
-      "active": "1",
-      "salary": "1000"
+      "requestStatus": "PENDING",
+      "photoUrl":
+          'https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo'
     }
   ];
 
@@ -58,6 +40,26 @@ class _ServiceRequestsState extends State<ServiceRequests> {
         ),
         SizedBox(
           height: 20,
+        ),
+      ],
+    );
+  }
+
+  Widget statusButton(Color buttonColor, var serviceStatus) {
+    return ButtonBar(
+      alignment: MainAxisAlignment.spaceAround,
+      buttonHeight: 52.0,
+      buttonMinWidth: 90.0,
+      children: <Widget>[
+        ActionChip(
+          padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+          label: Text(
+            serviceStatus,
+            style: TextStyle(color: Colors.white, fontSize: 13),
+          ),
+          onPressed: () {},
+          backgroundColor: buttonColor,
+          elevation: 1,
         ),
       ],
     );
@@ -91,11 +93,9 @@ class _ServiceRequestsState extends State<ServiceRequests> {
               borderRadius: const BorderRadius.all(Radius.circular(7.0)),
               initialElevation: 3,
               baseColor: Colors.white,
-              expandedColor: serviceRequest['requestStatus'] == "approved"
-                  ? Colors.green[50]
-                  : Colors.red[50],
+              expandedColor: Colors.green[50],
               leading: CircleAvatar(
-                backgroundColor: serviceRequest['requestStatus'] == "approved"
+                backgroundColor: serviceRequest['requestStatus'] == "APPROVED"
                     ? Colors.green
                     : Color.fromRGBO(233, 166, 184, 1),
                 child: Text(
@@ -117,13 +117,27 @@ class _ServiceRequestsState extends State<ServiceRequests> {
                   ),
                   child: Column(
                     children: [
+                      SizedBox(
+                        height: 10,
+                      ),
+                      CircleAvatar(
+                        maxRadius: 35,
+                        backgroundImage:
+                            NetworkImage(serviceRequest['photoUrl']),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       serviceDisplay(
                           "Description", serviceRequest['serviceRequested']),
-                      serviceDisplay(
-                          "Work Duration", serviceRequest['periodOfRequest']),
                       serviceDisplay("Service Requested By",
-                          serviceRequest['requestorId']),
-                      serviceDisplay("Salary", serviceRequest['salary']),
+                          serviceRequest['requestorName']),
+                      serviceRequest['requestStatus'] != "DECLINED"
+                          ? serviceDisplay("Employer phone number",
+                              serviceRequest['phoneNumber'])
+                          : Text(""),
+                      serviceDisplay(
+                          "Meeting Date", serviceRequest['meetingDate'])
                     ],
                   ),
                 ),
@@ -131,57 +145,14 @@ class _ServiceRequestsState extends State<ServiceRequests> {
                   thickness: 1.0,
                   height: 1.0,
                 ),
-                serviceRequest['requestStatus'] != "approved"
-                    ? ButtonBar(
-                        alignment: MainAxisAlignment.spaceAround,
-                        buttonHeight: 52.0,
-                        buttonMinWidth: 90.0,
-                        children: <Widget>[
-                          ActionChip(
-                            padding: EdgeInsets.only(
-                                left: 10, right: 10, top: 10, bottom: 10),
-                            label: Text(
-                              'Accept Offer',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 13),
-                            ),
-                            onPressed: () {},
-                            backgroundColor: Colors.green,
-                            elevation: 1,
-                          ),
-                          ActionChip(
-                            padding: EdgeInsets.only(
-                                left: 10, right: 10, top: 10, bottom: 10),
-                            label: Text(
-                              'Decline Offer',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 13),
-                            ),
-                            onPressed: () {},
-                            backgroundColor: Colors.red[900],
-                            elevation: 1,
-                          ),
-                        ],
-                      )
-                    : ButtonBar(
-                        alignment: MainAxisAlignment.spaceAround,
-                        buttonHeight: 52.0,
-                        buttonMinWidth: 90.0,
-                        children: <Widget>[
-                          ActionChip(
-                            padding: EdgeInsets.only(
-                                left: 10, right: 10, top: 10, bottom: 10),
-                            label: Text(
-                              'Terminate Contract',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 17),
-                            ),
-                            onPressed: () {},
-                            backgroundColor: Color.fromRGBO(233, 166, 184, 1),
-                            elevation: 1,
-                          )
-                        ],
-                      )
+                serviceRequest['requestStatus'] == "APPROVED"
+                    ? statusButton(
+                        Colors.green, serviceRequest['requestStatus'])
+                    : serviceRequest['requestStatus'] == "PENDING"
+                        ? statusButton(Color.fromRGBO(255, 200, 124, 1),
+                            serviceRequest['requestStatus'])
+                        : statusButton(
+                            Colors.red[900], serviceRequest['requestStatus'])
               ],
             ),
           );
