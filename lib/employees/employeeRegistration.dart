@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nannyacademy/PasswordCreation.dart';
+import 'package:nannyacademy/uploadKyc.dart';
 import 'package:nannyacademy/widgets/genericTextField.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
 
-class NanyRegistration extends StatefulWidget {
+class EmployeeRegistration extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _NanyRegistrationState();
+  State<StatefulWidget> createState() => _EmployeeRegistrationState();
 }
 
-class _NanyRegistrationState extends State<NanyRegistration> {
+class _EmployeeRegistrationState extends State<EmployeeRegistration> {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   final _nameController = TextEditingController();
   final _surnameController = TextEditingController();
@@ -55,18 +55,18 @@ class _NanyRegistrationState extends State<NanyRegistration> {
       );
       pref.setString(
         'phoneNumber',
-        _addressController.text,
+        _phoneNumberController.text,
       );
       pref.setString(
         'userType',
-        'nany',
+        'employee',
       );
     });
 
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PasswordCreation(),
+        builder: (context) => UploadKyc(),
       ),
     );
   }
@@ -174,17 +174,17 @@ class _NanyRegistrationState extends State<NanyRegistration> {
         child: ListView(
           padding: EdgeInsets.only(top: 60),
           children: <Widget>[
-            SizedBox(height: 10),
+            SizedBox(height: 20),
             Center(
               child: Text(
-                'Register as Nany',
+                'Apply to Nanny Academy Training',
                 style: TextStyle(
-                    fontSize: 17,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                     fontFamily: 'Quicksand'),
               ),
             ),
-            SizedBox(height: 20),
+            // SizedBox(height: 15),
             SizedBox(
               width: 10,
               height: 35,
@@ -197,14 +197,14 @@ class _NanyRegistrationState extends State<NanyRegistration> {
             GenericTextField(Icons.person, _nameController, 'First Name *'),
             GenericTextField(
                 Icons.perm_identity, _surnameController, 'Surname *'),
-            GenericTextField(
-                Icons.confirmation_number, _idController, 'ID Number *'),
+            GenericTextField(Icons.confirmation_number, _idController,
+                'ID Number *', TextInputType.number, Color.fromRGBO(233, 166, 184, 1),11),
             _selectDate(context),
             _radio(),
             GenericTextField(
                 Icons.location_on, _addressController, 'Physical Address *'),
             GenericTextField(Icons.phone, _phoneNumberController,
-                'Phone Number *', TextInputType.number),
+                'Phone Number *', TextInputType.number,Color.fromRGBO(233, 166, 184, 1), 12),
             _proceedButton()
           ],
         ),

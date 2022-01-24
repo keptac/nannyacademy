@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:nannyacademy/employees/dashboard.dart';
-import 'package:nannyacademy/employees/updateDetails.dart';
-import 'package:nannyacademy/employers/clientPayments.dart';
+import 'package:nannyacademy/employers/employerDashboard.dart';
+import 'package:nannyacademy/employers/myRequests.dart';
 
-class ClientSettings extends StatefulWidget {
+class EmployerSettings extends StatefulWidget {
   @override
-  _ClientSettingsState createState() => _ClientSettingsState();
+  _EmployerSettingsState createState() => _EmployerSettingsState();
 }
 
-class _ClientSettingsState extends State<ClientSettings> {
+class _EmployerSettingsState extends State<EmployerSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +26,7 @@ class _ClientSettingsState extends State<ClientSettings> {
         ],
         elevation: 0.0,
         title: Text(
-          'Client Settings',
+          'Employer Profile',
           style: TextStyle(
             fontSize: 20,
             fontFamily: 'Quicksand',
@@ -51,47 +50,18 @@ class _ClientSettingsState extends State<ClientSettings> {
               leading: CircleAvatar(
                 backgroundColor: Color.fromRGBO(255, 200, 124, 1),
                 child: Icon(
-                  Icons.local_laundry_service_sharp,
+                  Icons.people,
                   color: Colors.white,
                 ),
               ),
               title: const Text(
-                'Payment Methods',
-                style: TextStyle(color: Colors.black, fontSize: 18.0),
+                'Active Employments',
+                style: TextStyle(color: Colors.black, fontSize: 17.0),
               ),
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ClientPayments(),
-                ),
-              ),
-            ),
-          ),
-          Card(
-            elevation: 5,
-            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(7.0),
-            ),
-            color: Colors.white,
-            child: ListTile(
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              leading: CircleAvatar(
-                backgroundColor: Color.fromRGBO(255, 200, 124, 1),
-                child: Icon(
-                  Icons.person,
-                  color: Colors.white,
-                ),
-              ),
-              title: const Text(
-                'Personal Details',
-                style: TextStyle(color: Colors.black, fontSize: 18.0),
-              ),
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Updatenannyacademy(),
+                  builder: (context) => MyRequests(jobStatus:'Granted'),
                 ),
               ),
             ),
@@ -105,7 +75,7 @@ class _ClientSettingsState extends State<ClientSettings> {
         backgroundColor: Color.fromRGBO(255, 200, 124, 1),
         child: const Icon(Icons.home),
         onPressed: () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Dashboard())),
+            context, MaterialPageRoute(builder: (context) => EmployerDashboard())),
       ),
       bottomNavigationBar: BottomAppBar(
           color: Colors.white,

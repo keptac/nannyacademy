@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:nannyacademy/admin/ADMINDASHBOARD.dart';
 import 'package:nannyacademy/employees/dashboard.dart';
-import 'package:nannyacademy/employers/dashboardClient.dart';
+import 'package:nannyacademy/employers/employerDashboard.dart';
 import 'package:nannyacademy/registrationOption.dart';
-import 'package:nannyacademy/services/rest_api.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -16,8 +19,17 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordController = TextEditingController();
   bool _falsePassword = false;
   String _errorMessage;
+  final _auth = FirebaseAuth.instance;
 
-  void _login() {
+  void _login() async {
+    //TODO: Remove this forced route
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) => EmployerDashboard(),
+    //   ),
+    // );
+
     setState(() {
       _falsePassword = false;
     });
@@ -26,45 +38,108 @@ class _LoginPageState extends State<LoginPage> {
         _passwordController.text != '' &&
         _emailController.text != null &&
         _passwordController.text != null) {
-      final body = {
-        "emailAddress": _emailController.text,
-        "password": _passwordController.text,
-      };
+      try {
+        await _auth.signInWithEmailAndPassword(
+            email: _emailController.text, password: _passwordController.text);
 
-      ApiService.login(body).then((success) {
-        if (success) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Dashboard(),
+        final User user = _auth.currentUser;
+        final uid = user.uid;
+
+        final QuerySnapshot result = await FirebaseFirestore.instance
+            .collection('Account Type')
+            .where('profileid', isEqualTo: uid)
+            .get();
+
+        final List<DocumentSnapshot> documents = result.docs;
+
+        final userTypeObject = documents[0].data();
+
+        if (documents.length > 0) {
+          //exists
+          if (userTypeObject.toString().contains('true')) {
+            if (userTypeObject.toString().contains('employee')) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Dashboard(),
+                ),
+              );
+            } else if (userTypeObject.toString().contains('employer')) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EmployerDashboard(),
+                ),
+              );
+            } else if (userTypeObject.toString().contains('admin')) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AdminDashboard(),
+                ),
+              );
+            }
+          } else {
+            showDialog(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                title: Text("Pending Activation"),
+                content: Text(
+                    'Thank you for registering. Your profile is being verified. We will send you an email once your account is activated.'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(ctx).pop();
+                    },
+                    child: Text('Ok'),
+                  )
+                ],
+              ),
+            );
+          }
+        } else {
+          showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+              title: Text("Oops"),
+              content: Text(
+                  'Account details not found. Please contact Nanny Academy team.'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                  },
+                  child: Text('Dismiss'),
+                )
+              ],
             ),
           );
-          return;
-        } else {
-          setState(() {
-            _errorMessage = "Incorrect Username/Password combination";
-            _falsePassword = true;
-          });
-          return;
         }
-      });
-
-      // MUST BE REMOVED
-      if (_emailController.text.contains('employer')) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ClientDashboard(),
+      } on FirebaseAuthException catch (e) {
+        showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text("Ops! Login Failed"),
+            content: Text('${e.message}'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+                child: Text('Close'),
+              )
+            ],
           ),
         );
-      } else {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Dashboard(),
-          ),
-        );
+        print(e);
+        setState(() {
+          _errorMessage = e.message;
+          _falsePassword = true;
+        });
       }
+
+      // TEST ROUTE MUST BE REMOVED
+
       // End of test route
 
     } else {

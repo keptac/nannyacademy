@@ -5,10 +5,17 @@ class GenericTextField extends StatelessWidget {
   final TextEditingController contolller;
   final String label;
   final TextInputType keyboard;
+  final int length;
   final Color color;
 
-  GenericTextField(this.icon, this.contolller, this.label,
-      [this.keyboard, this.color = const Color.fromRGBO(233, 166, 184, 1)]);
+  GenericTextField(
+    this.icon,
+    this.contolller,
+    this.label, [
+    this.keyboard,
+    this.color = const Color.fromRGBO(233, 166, 184, 1),
+    this.length,
+  ]);
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +24,7 @@ class GenericTextField extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.only(left: 40, right: 40, bottom: 15),
         child: TextField(
+          maxLength: length,
           controller: contolller,
           keyboardType: keyboard,
           decoration: InputDecoration(
