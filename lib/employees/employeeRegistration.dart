@@ -7,7 +7,6 @@ import 'dart:async';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
 
-
 class EmployeeRegistration extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _EmployeeRegistrationState();
@@ -70,7 +69,6 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
         builder: (context) => UploadKyc(),
       ),
     );
-
   }
 
   Widget _radio() {
@@ -199,14 +197,14 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
             GenericTextField(Icons.person, _nameController, 'First Name *'),
             GenericTextField(
                 Icons.perm_identity, _surnameController, 'Surname *'),
-            GenericTextField(
-                Icons.confirmation_number, _idController, 'ID Number *'),
+            GenericTextField(Icons.confirmation_number, _idController,
+                'ID Number *', TextInputType.number, Color.fromRGBO(233, 166, 184, 1),11),
             _selectDate(context),
             _radio(),
             GenericTextField(
                 Icons.location_on, _addressController, 'Physical Address *'),
             GenericTextField(Icons.phone, _phoneNumberController,
-                'Phone Number *', TextInputType.number),
+                'Phone Number *', TextInputType.number,Color.fromRGBO(233, 166, 184, 1), 12),
             _proceedButton()
           ],
         ),

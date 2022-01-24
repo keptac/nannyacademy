@@ -184,8 +184,9 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
               Icons.confirmation_number,
               _idController,
               'ID Number *',
-              TextInputType.text,
+              TextInputType.number,
               Color.fromRGBO(255, 200, 124, 1),
+              11
             ),
             _radio(),
             GenericTextField(
@@ -201,6 +202,7 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
               'Phone Number *',
               TextInputType.number,
               Color.fromRGBO(255, 200, 124, 1),
+              11
             ),
             SizedBox(height: 10,),
             _proceedButton()

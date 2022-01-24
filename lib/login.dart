@@ -22,7 +22,6 @@ class _LoginPageState extends State<LoginPage> {
   final _auth = FirebaseAuth.instance;
 
   void _login() async {
-
     //TODO: Remove this forced route
     // Navigator.push(
     //   context,
@@ -50,7 +49,6 @@ class _LoginPageState extends State<LoginPage> {
             .collection('Account Type')
             .where('profileid', isEqualTo: uid)
             .get();
-
 
         final List<DocumentSnapshot> documents = result.docs;
 
