@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:nannyacademy/employers/employerRegistration.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
@@ -103,11 +105,21 @@ class _ServicesOfferedState extends State<EmploymentRequirements> {
                   style: TextStyle(color: Colors.white, fontSize: 17),
                 ),
                 onPressed: () async {
+                  final random = new Random();
+                  int randomNumber = random.nextInt(10000000);
+                  String requestNumber = "REQ" + randomNumber.toString();
                   final SharedPreferences pref = await _prefs;
+
                   pref.setString(
-                    'Employment Requirement',
+                    'employeeClass',
                     _employmentRequirement,
                   );
+
+                  pref.setString(
+                    'requestNumber',
+                    requestNumber,
+                  );
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(
