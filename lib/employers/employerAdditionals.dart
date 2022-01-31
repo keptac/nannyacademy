@@ -1,101 +1,74 @@
 import 'package:flutter/material.dart';
-import 'package:nannyacademy/employers/employerAdditionals.dart';
+import 'package:nannyacademy/uploadKyc.dart';
 import 'package:nannyacademy/widgets/genericTextField.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
 
-class EmployerRegistration extends StatefulWidget {
+class EmployerAdditionalInfo extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _EmployerRegistrationState();
+  State<StatefulWidget> createState() => _EmployerAdditionalInfoState();
 }
 
-class _EmployerRegistrationState extends State<EmployerRegistration> {
+class _EmployerAdditionalInfoState extends State<EmployerAdditionalInfo> {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  final _nameController = TextEditingController();
-  final _surnameController = TextEditingController();
-  final _idController = TextEditingController();
-  final _addressController = TextEditingController();
-  final _phoneNumberController = TextEditingController();
-  String _genderVal = 'Male';
+  String _activeEmployments = 'Yes';
+  String _pets = 'Yes';
+  String _pastEngagements = 'Yes';
+  String _personalDevelopment = 'Yes';
   String _status = '';
   int group = 1;
+  int petsGroup = 1;
+  int engagementsGroup = 1;
+  int developmentGroup = 1;
+  final _languageCotnroller = TextEditingController();
 
   void _storePersonalDetails() async {
     final SharedPreferences pref = await _prefs;
     setState(() {
       pref.setString(
-        'firstName',
-        _nameController.text,
-      );
-      pref.setString(
-        'idNumber',
-        _idController.text,
-      );
-      pref.setString(
-        'surname',
-        _surnameController.text,
-      );
-      pref.setString(
         'gender',
-        _genderVal,
-      );
-      pref.setString(
-        'dob',
-        '',
-      );
-      pref.setString(
-        'address',
-        _addressController.text,
-      );
-      pref.setString(
-        'phoneNumber',
-        _phoneNumberController.text,
-      );
-      pref.setString(
-        'userType',
-        'employer',
+        _activeEmployments,
       );
     });
 
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => EmployerAdditionalInfo(),
+        builder: (context) => UploadKyc(),
       ),
     );
   }
 
-  Widget _radio() {
+  Widget _radio(var variablerGroup, var storage) {
     return Padding(
       padding: EdgeInsets.only(left: 40, right: 40, bottom: 15, top: 15),
       child: Row(
         children: <Widget>[
-          Text('Select Gender: * '),
           Radio(
             value: 1,
-            groupValue: group,
+            groupValue: variablerGroup,
             onChanged: (T) {
               setState(() {
-                group = T;
-                _genderVal = 'Male';
+                variablerGroup = T;
+                storage = 'Yes';
               });
             },
           ),
-          Text('Male'),
+          Text('Yes'),
           SizedBox(width: 15.0),
           Radio(
-            groupValue: group,
+            groupValue: variablerGroup,
             value: 2,
             onChanged: (T) {
               setState(() {
-                group = T;
-                _genderVal = 'Female';
+                variablerGroup = T;
+                storage = 'No';
               });
             },
           ),
-          Text('Female'),
+          Text('No'),
         ],
       ),
     );
@@ -110,11 +83,7 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
           style: TextStyle(color: Colors.white, fontSize: 17),
         ),
         onPressed: () {
-          if (_nameController.text != '' &&
-              _surnameController.text != '' &&
-              _addressController.text != '' &&
-              _idController.text != '' &&
-              _genderVal != '') {
+          if (_activeEmployments != '') {
             _storePersonalDetails();
           } else {
             setState(() {
@@ -149,14 +118,13 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
             SizedBox(height: 20),
             Center(
               child: Text(
-                'Let us know who you are 😊',
+                'Employment Details',
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     fontFamily: 'Quicksand'),
               ),
             ),
-            SizedBox(height: 10),
             SizedBox(
               width: 10,
               height: 35,
@@ -166,45 +134,37 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
                 textAlign: TextAlign.center,
               ),
             ),
+            Padding(
+              padding: EdgeInsets.only(left: 40, right: 40, top: 15),
+              child: Text('Do you employ any other domestic staff? * '),
+            ),
+            _radio(group, _activeEmployments),
+            Padding(
+              padding: EdgeInsets.only(left: 40, right: 40, top: 15),
+              child: Text('Do you have any pets? * '),
+            ),
+            _radio(petsGroup, _pets),
+            Padding(
+              padding: EdgeInsets.only(left: 40, right: 40, top: 15),
+              child: Text('Have you engaged a Nanny before? * '),
+            ),
+            _radio(engagementsGroup, _pastEngagements),
+            Padding(
+              padding: EdgeInsets.only(left: 40, right: 40, top: 15),
+              child: Text(
+                  'Will you be willing to allow your Nanny do part time studies or acquire any other skill in her sparetime? * '),
+            ),
+            _radio(developmentGroup, _personalDevelopment),
             GenericTextField(
               Icons.person,
-              _nameController,
-              'First Name *',
+              _languageCotnroller,
+              'Language Preference *',
               TextInputType.text,
               Color.fromRGBO(255, 200, 124, 1),
             ),
-            GenericTextField(
-              Icons.perm_identity,
-              _surnameController,
-              'Surname *',
-              TextInputType.text,
-              Color.fromRGBO(255, 200, 124, 1),
+            SizedBox(
+              height: 10,
             ),
-            GenericTextField(
-              Icons.confirmation_number,
-              _idController,
-              'ID Number *',
-              TextInputType.number,
-              Color.fromRGBO(255, 200, 124, 1),
-              11
-            ),
-            _radio(),
-            GenericTextField(
-              Icons.location_on,
-              _addressController,
-              'Physical Address *',
-              TextInputType.text,
-              Color.fromRGBO(255, 200, 124, 1),
-            ),
-            GenericTextField(
-              Icons.phone,
-              _phoneNumberController,
-              'Phone Number *',
-              TextInputType.number,
-              Color.fromRGBO(255, 200, 124, 1),
-              11
-            ),
-            SizedBox(height: 10,),
             _proceedButton()
           ],
         ),
