@@ -172,9 +172,8 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
       bottomSheet: KyBottomSheet(),
       body: Center(
         child: ListView(
-          padding: EdgeInsets.only(top: 60),
+          padding: EdgeInsets.only(top: 40),
           children: <Widget>[
-            SizedBox(height: 20),
             Center(
               child: Text(
                 'Apply to Nanny Academy Training',
@@ -197,14 +196,24 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
             GenericTextField(Icons.person, _nameController, 'First Name *'),
             GenericTextField(
                 Icons.perm_identity, _surnameController, 'Surname *'),
-            GenericTextField(Icons.confirmation_number, _idController,
-                'ID Number *', TextInputType.number, Color.fromRGBO(233, 166, 184, 1),11),
+            GenericTextField(
+                Icons.confirmation_number,
+                _idController,
+                'ID Number *',
+                TextInputType.number,
+                Color.fromRGBO(233, 166, 184, 1),
+                11),
             _selectDate(context),
             _radio(),
             GenericTextField(
                 Icons.location_on, _addressController, 'Physical Address *'),
-            GenericTextField(Icons.phone, _phoneNumberController,
-                'Phone Number *', TextInputType.number,Color.fromRGBO(233, 166, 184, 1), 12),
+            GenericTextField(
+                Icons.phone,
+                _phoneNumberController,
+                'Phone Number *',
+                TextInputType.number,
+                Color.fromRGBO(233, 166, 184, 1),
+                12),
             _proceedButton()
           ],
         ),
