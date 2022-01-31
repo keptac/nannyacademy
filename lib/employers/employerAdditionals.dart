@@ -13,23 +13,45 @@ class EmployerAdditionalInfo extends StatefulWidget {
 
 class _EmployerAdditionalInfoState extends State<EmployerAdditionalInfo> {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  String _activeEmployments = 'Yes';
-  String _pets = 'Yes';
-  String _pastEngagements = 'Yes';
-  String _personalDevelopment = 'Yes';
+  String _activeEmployments = 'No';
+  String _pets = 'No';
+  String _pastEngagements = 'No';
+  String _personalDevelopment = 'No';
+  String _firstAid = 'No';
   String _status = '';
-  int group = 1;
-  int petsGroup = 1;
-  int engagementsGroup = 1;
-  int developmentGroup = 1;
-  final _languageCotnroller = TextEditingController();
+  int group = 2;
+  int petsGroup = 2;
+  int engagementsGroup = 2;
+  int developmentGroup = 2;
+  int firstAidGroup = 2;
+  final _languageController = TextEditingController();
 
   void _storePersonalDetails() async {
     final SharedPreferences pref = await _prefs;
     setState(() {
       pref.setString(
-        'gender',
+        'activeEmployments',
         _activeEmployments,
+      );
+      pref.setString(
+        'pets',
+        _pets,
+      );
+      pref.setString(
+        'engagements',
+        _pastEngagements,
+      );
+      pref.setString(
+        'personalDevelopment',
+        _personalDevelopment,
+      );
+      pref.setString(
+        'firstAid',
+        _firstAid,
+      );
+      pref.setString(
+        'language',
+        _languageController.text,
       );
     });
 
@@ -41,30 +63,162 @@ class _EmployerAdditionalInfoState extends State<EmployerAdditionalInfo> {
     );
   }
 
-  Widget _radio(var variablerGroup, var storage) {
+  Widget _radioActiveEmp() {
     return Padding(
       padding: EdgeInsets.only(left: 40, right: 40, bottom: 15, top: 15),
       child: Row(
         children: <Widget>[
           Radio(
             value: 1,
-            groupValue: variablerGroup,
+            groupValue: group,
             onChanged: (T) {
               setState(() {
-                variablerGroup = T;
-                storage = 'Yes';
+                group = T;
+                _activeEmployments = 'Yes';
               });
             },
           ),
           Text('Yes'),
           SizedBox(width: 15.0),
           Radio(
-            groupValue: variablerGroup,
+            groupValue: group,
             value: 2,
             onChanged: (T) {
               setState(() {
-                variablerGroup = T;
-                storage = 'No';
+                group = T;
+                _activeEmployments = 'No';
+              });
+            },
+          ),
+          Text('No'),
+        ],
+      ),
+    );
+  }
+
+  Widget _radioPets() {
+    return Padding(
+      padding: EdgeInsets.only(left: 40, right: 40, bottom: 15, top: 15),
+      child: Row(
+        children: <Widget>[
+          Radio(
+            value: 1,
+            groupValue: petsGroup,
+            onChanged: (T) {
+              setState(() {
+                petsGroup = T;
+                _pets = 'Yes';
+              });
+            },
+          ),
+          Text('Yes'),
+          SizedBox(width: 15.0),
+          Radio(
+            groupValue: petsGroup,
+            value: 2,
+            onChanged: (T) {
+              setState(() {
+                petsGroup = T;
+                _pets = 'No';
+              });
+            },
+          ),
+          Text('No'),
+        ],
+      ),
+    );
+  }
+
+  Widget _radioEngagements() {
+    return Padding(
+      padding: EdgeInsets.only(left: 40, right: 40, bottom: 15, top: 15),
+      child: Row(
+        children: <Widget>[
+          Radio(
+            value: 1,
+            groupValue: engagementsGroup,
+            onChanged: (T) {
+              setState(() {
+                engagementsGroup = T;
+                _pastEngagements = 'Yes';
+              });
+            },
+          ),
+          Text('Yes'),
+          SizedBox(width: 15.0),
+          Radio(
+            groupValue: engagementsGroup,
+            value: 2,
+            onChanged: (T) {
+              setState(() {
+                engagementsGroup = T;
+                _pastEngagements = 'No';
+              });
+            },
+          ),
+          Text('No'),
+        ],
+      ),
+    );
+  }
+
+  Widget _radioPersonalDevelopment() {
+    return Padding(
+      padding: EdgeInsets.only(left: 40, right: 40, bottom: 15, top: 15),
+      child: Row(
+        children: <Widget>[
+          Radio(
+            value: 1,
+            groupValue: developmentGroup,
+            onChanged: (T) {
+              setState(() {
+                developmentGroup = T;
+                _personalDevelopment = 'Yes';
+              });
+            },
+          ),
+          Text('Yes'),
+          SizedBox(width: 15.0),
+          Radio(
+            groupValue: developmentGroup,
+            value: 2,
+            onChanged: (T) {
+              setState(() {
+                developmentGroup = T;
+                _personalDevelopment = 'No';
+              });
+            },
+          ),
+          Text('No'),
+        ],
+      ),
+    );
+  }
+
+  Widget _radioFirstAid() {
+    return Padding(
+      padding: EdgeInsets.only(left: 40, right: 40, bottom: 15, top: 15),
+      child: Row(
+        children: <Widget>[
+          Radio(
+            value: 1,
+            groupValue: firstAidGroup,
+            onChanged: (T) {
+              setState(() {
+                firstAidGroup = T;
+                _firstAid = 'Yes';
+              });
+            },
+          ),
+          Text('Yes'),
+          SizedBox(width: 15.0),
+          Radio(
+            groupValue: firstAidGroup,
+            value: 2,
+            onChanged: (T) {
+              setState(() {
+                firstAidGroup = T;
+                _firstAid = 'No';
               });
             },
           ),
@@ -115,7 +269,6 @@ class _EmployerAdditionalInfoState extends State<EmployerAdditionalInfo> {
         child: ListView(
           padding: EdgeInsets.only(top: 60),
           children: <Widget>[
-            SizedBox(height: 20),
             Center(
               child: Text(
                 'Employment Details',
@@ -135,29 +288,35 @@ class _EmployerAdditionalInfoState extends State<EmployerAdditionalInfo> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(left: 40, right: 40, top: 15),
+              padding: EdgeInsets.only(left: 40, right: 40, top: 5),
               child: Text('Do you employ any other domestic staff? * '),
             ),
-            _radio(group, _activeEmployments),
+            _radioActiveEmp(),
             Padding(
-              padding: EdgeInsets.only(left: 40, right: 40, top: 15),
+              padding: EdgeInsets.only(left: 40, right: 40, top: 5),
               child: Text('Do you have any pets? * '),
             ),
-            _radio(petsGroup, _pets),
+            _radioPets(),
             Padding(
-              padding: EdgeInsets.only(left: 40, right: 40, top: 15),
+              padding: EdgeInsets.only(left: 40, right: 40, top: 5),
               child: Text('Have you engaged a Nanny before? * '),
             ),
-            _radio(engagementsGroup, _pastEngagements),
+            _radioEngagements(),
             Padding(
-              padding: EdgeInsets.only(left: 40, right: 40, top: 15),
+              padding: EdgeInsets.only(left: 40, right: 40, top: 5),
               child: Text(
                   'Will you be willing to allow your Nanny do part time studies or acquire any other skill in her sparetime? * '),
             ),
-            _radio(developmentGroup, _personalDevelopment),
+            _radioPersonalDevelopment(),
+            Padding(
+              padding: EdgeInsets.only(left: 40, right: 40, top: 5),
+              child: Text(
+                  'Do you want your Nanny to have an up to date First Aid qualification? * '),
+            ),
+            _radioFirstAid(),
             GenericTextField(
-              Icons.person,
-              _languageCotnroller,
+              Icons.settings_voice_rounded,
+              _languageController,
               'Language Preference *',
               TextInputType.text,
               Color.fromRGBO(255, 200, 124, 1),
@@ -165,7 +324,10 @@ class _EmployerAdditionalInfoState extends State<EmployerAdditionalInfo> {
             SizedBox(
               height: 10,
             ),
-            _proceedButton()
+            _proceedButton(),
+            SizedBox(
+              height: 60,
+            ),
           ],
         ),
       ),
