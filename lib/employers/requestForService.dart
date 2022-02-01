@@ -18,18 +18,16 @@ class _RequestForServiceState extends State<RequestForService> {
   int group = 1;
   final _auth = FirebaseAuth.instance;
   final LocalStorage storage = new LocalStorage('employeePreference');
-  String employeeClassSelected = 'Silver (xp 0 - 6 Months)';
+  String employeeClassSelected = 'Any';
   String serviceDurationSelected = 'Live-in (2 off days)';
-  var employeeClasses = [
-    'Silver (xp 0 - 6 Months)',
-    'Gold (xp 1 - 2 Years)',
-    'Platinum (xp 3+ Years)'
-  ];
+  var employeeClasses = ['Qualified', 'Experienced', 'Accredited', 'Any'];
 
   var serviceDurations = [
     'Live-in (2 off days)',
     'Live-out (Mon to Sat)',
-    'Hourly (< 6 hours)'
+    'Nanny',
+    'House Keeper',
+    'Mother Helper'
   ];
 
   Widget _radio() {
@@ -37,7 +35,10 @@ class _RequestForServiceState extends State<RequestForService> {
       padding: EdgeInsets.only(left: 40, right: 10, bottom: 15, top: 15),
       child: Row(
         children: <Widget>[
-          Text('Gender: * ', style: TextStyle(fontFamily: 'Quicksand'),),
+          Text(
+            'Gender: * ',
+            style: TextStyle(fontFamily: 'Quicksand'),
+          ),
           Radio(
             value: 1,
             groupValue: group,
@@ -48,7 +49,10 @@ class _RequestForServiceState extends State<RequestForService> {
               });
             },
           ),
-          Text('Male',  style: TextStyle(fontFamily: 'Quicksand'),),
+          Text(
+            'Male',
+            style: TextStyle(fontFamily: 'Quicksand'),
+          ),
           // SizedBox(width: 15.0),
           Radio(
             groupValue: group,
@@ -60,7 +64,10 @@ class _RequestForServiceState extends State<RequestForService> {
               });
             },
           ),
-          Text('Female',  style: TextStyle(fontFamily: 'Quicksand'),),
+          Text(
+            'Female',
+            style: TextStyle(fontFamily: 'Quicksand'),
+          ),
         ],
       ),
     );
@@ -82,7 +89,7 @@ class _RequestForServiceState extends State<RequestForService> {
       "userId": uid,
       "requestNumber": requestNumber,
       "paymentStatus": "Pending",
-      "requestStatus":"Pending"
+      "requestStatus": "Pending"
     };
 
     final info = json.encode(requestBody);
@@ -103,12 +110,15 @@ class _RequestForServiceState extends State<RequestForService> {
       children: [
         Text(
           title,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17, fontFamily: 'Quicksand'),
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 17,
+              fontFamily: 'Quicksand'),
           textAlign: TextAlign.center,
         ),
         Text(
           value == null ? '' : value,
-          style: TextStyle(fontSize: 16,fontFamily: 'Quicksand'),
+          style: TextStyle(fontSize: 16, fontFamily: 'Quicksand'),
           textAlign: TextAlign.center,
         ),
         SizedBox(
@@ -135,8 +145,8 @@ class _RequestForServiceState extends State<RequestForService> {
         backgroundColor: Color.fromRGBO(255, 200, 124, 1),
       ),
       body: Container(
-          margin: EdgeInsets.only(left: 10, right: 10, top: 20),
-          height: MediaQuery.of(context).size.height *0.85,
+          margin: EdgeInsets.only(left: 10, right: 10),
+          height: MediaQuery.of(context).size.height * 0.85,
           child: Stack(
             children: [
               Container(
@@ -148,7 +158,11 @@ class _RequestForServiceState extends State<RequestForService> {
                       Container(
                         margin:
                             EdgeInsets.only(left: 37, right: 37, bottom: 10),
-                        child: Text("Nanny Class", style: TextStyle(fontFamily: 'Quicksand',fontSize: 15),),
+                        child: Text(
+                          "Nanny Class",
+                          style:
+                              TextStyle(fontFamily: 'Quicksand', fontSize: 15),
+                        ),
                       ),
                       Container(
                         height: 58,
@@ -161,7 +175,10 @@ class _RequestForServiceState extends State<RequestForService> {
                         margin:
                             EdgeInsets.only(left: 37, right: 37, bottom: 15),
                         child: DropdownButton(
-                          underline: Text("",  style: TextStyle(fontFamily: 'Quicksand'),),
+                          underline: Text(
+                            "",
+                            style: TextStyle(fontFamily: 'Quicksand'),
+                          ),
                           value: employeeClassSelected,
                           icon: Icon(Icons.keyboard_arrow_down),
                           items: employeeClasses.map((String employeeClasses) {
@@ -169,7 +186,11 @@ class _RequestForServiceState extends State<RequestForService> {
                               value: employeeClasses,
                               child: Padding(
                                 padding: EdgeInsets.only(left: 10, top: 5),
-                                child: Text(employeeClasses,   style: TextStyle(fontFamily: 'Quicksand',fontSize: 15),),
+                                child: Text(
+                                  employeeClasses,
+                                  style: TextStyle(
+                                      fontFamily: 'Quicksand', fontSize: 15),
+                                ),
                               ),
                             );
                           }).toList(),
@@ -184,7 +205,11 @@ class _RequestForServiceState extends State<RequestForService> {
                       Container(
                         margin:
                             EdgeInsets.only(left: 37, right: 37, bottom: 10),
-                        child: Text("Service Type",style: TextStyle(fontFamily: 'Quicksand',fontSize: 15),),
+                        child: Text(
+                          "Service Type",
+                          style:
+                              TextStyle(fontFamily: 'Quicksand', fontSize: 15),
+                        ),
                       ),
 
                       Container(
@@ -207,7 +232,11 @@ class _RequestForServiceState extends State<RequestForService> {
                               value: serviceDurations,
                               child: Padding(
                                 padding: EdgeInsets.only(left: 10, top: 5),
-                                child: Text(serviceDurations,  style: TextStyle(fontFamily: 'Quicksand', fontSize: 15),),
+                                child: Text(
+                                  serviceDurations,
+                                  style: TextStyle(
+                                      fontFamily: 'Quicksand', fontSize: 15),
+                                ),
                               ),
                             );
                           }).toList(),
@@ -235,7 +264,6 @@ class _RequestForServiceState extends State<RequestForService> {
                                 size: 20,
                               ),
                               labelText: 'City/Location *',
-
                               fillColor: Colors.white,
                               border: OutlineInputBorder(
                                 borderRadius:
@@ -303,7 +331,10 @@ class _RequestForServiceState extends State<RequestForService> {
                             left: 10, right: 10, top: 10, bottom: 10),
                         label: Text(
                           'Search Service',
-                          style: TextStyle(color: Colors.white, fontSize: 18, fontFamily: 'Quicksand'),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontFamily: 'Quicksand'),
                         ),
                         onPressed: () {
                           _openAgreeDialog(context, employeeClassSelected,
