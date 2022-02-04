@@ -24,28 +24,27 @@ class SearchResults extends StatefulWidget {
 class _SearchResultsState extends State<SearchResults> {
   //TODO: request from server the requests. all requestsResults with widget.requestNumber
   List serviceRequestResults = [
-    // {
-    //   "verified": true,
-    //   "firstName": "Batsirai",
-    //   "surname": "Gwembere",
-    //   "gender": "MALE",
-    //   "age": "25",
-    //   "services": "Gardener",
-    //   "location": "Lagos",
-    //   "phoneNumber": "263785********",
-    //   "photoUrl":
-    //       "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
-    //   "employeeId": "58-293952-Q-86",
-    //   "jobStatus": "Pending",
-    //   "requestStatus": "Approved",
-    //   "serviceRequested": "Silver 1 - Stay In ",
-    //   "active": "1",
-    //   "salary": "1000",
-    //   "requestNumber": "REQ678897",
-    //
-    //   "employerId": "763",
-    //   "employerName": "Name",
-    // },
+    {
+      "verified": true,
+      "firstName": "Batsirai",
+      "surname": "Gwembere",
+      "gender": "MALE",
+      "age": "25",
+      "services": "Gardener",
+      "location": "Lagos",
+      "phoneNumber": "263785********",
+      "photoUrl":
+          "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
+      "employeeId": "58-293952-Q-86",
+      "jobStatus": "Pending",
+      "requestStatus": "Approved",
+      "serviceRequested": "Silver 1 - Stay In ",
+      "active": "1",
+      "salary": "1000",
+      "requestNumber": "REQ678897",
+      "employerId": "763",
+      "employerName": "Name",
+    },
   ];
 
   File popFile;
