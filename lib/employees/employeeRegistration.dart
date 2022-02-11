@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nannyacademy/uploadKyc.dart';
+import 'package:nannyacademy/passwordCreation.dart';
 import 'package:nannyacademy/widgets/genericTextField.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
@@ -66,7 +66,7 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => UploadKyc(),
+        builder: (context) => PasswordCreation(userTypeValue: 'employee'),
       ),
     );
   }

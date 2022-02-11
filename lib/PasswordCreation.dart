@@ -355,11 +355,12 @@ class _PasswordCreationState extends State<PasswordCreation> {
               ),
             ),
             SizedBox(height: 30),
+            widget.userTypeValue == 'employer'?
             Center(
                 child: Text(
               "Request Number for payment: " + requestNo,
               style: TextStyle(color: Colors.black, fontSize: 18),
-            )),
+            )):SizedBox(height: 1,),
             Center(
                 child: Text(
               _errorMsg,
