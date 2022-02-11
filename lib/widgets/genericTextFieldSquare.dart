@@ -8,7 +8,7 @@ class GenericTextFieldSquare extends StatelessWidget {
   final Color color;
 
   GenericTextFieldSquare(this.icon, this.contolller, this.label,
-      [this.keyboard, this.color = const Color.fromRGBO(233, 166, 184, 1)]);
+      [this.keyboard, this.color = const Color.fromRGBO(34, 167, 240, 1)]);
 
   @override
   Widget build(BuildContext context) {

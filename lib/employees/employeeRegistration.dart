@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nannyacademy/uploadKyc.dart';
+import 'package:nannyacademy/passwordCreation.dart';
 import 'package:nannyacademy/widgets/genericTextField.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
@@ -66,7 +66,7 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => UploadKyc(),
+        builder: (context) => PasswordCreation(userTypeValue: 'employee'),
       ),
     );
   }
@@ -127,7 +127,7 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
             });
           }
         },
-        backgroundColor: Color.fromRGBO(233, 166, 184, 1),
+        backgroundColor: Color.fromRGBO(34, 167, 240, 1),
         elevation: 1,
       ),
     );
@@ -159,7 +159,7 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
           style: TextStyle(color: Colors.white, fontSize: 17),
         ),
         onPressed: callDatePicker,
-        backgroundColor: Color.fromRGBO(233, 166, 184, 1),
+        backgroundColor: Color.fromRGBO(34, 167, 240, 1),
         elevation: 0,
       ),
     );
@@ -172,9 +172,8 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
       bottomSheet: KyBottomSheet(),
       body: Center(
         child: ListView(
-          padding: EdgeInsets.only(top: 60),
+          padding: EdgeInsets.only(top: 40),
           children: <Widget>[
-            SizedBox(height: 20),
             Center(
               child: Text(
                 'Apply to Nanny Academy Training',
@@ -197,14 +196,24 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
             GenericTextField(Icons.person, _nameController, 'First Name *'),
             GenericTextField(
                 Icons.perm_identity, _surnameController, 'Surname *'),
-            GenericTextField(Icons.confirmation_number, _idController,
-                'ID Number *', TextInputType.number, Color.fromRGBO(233, 166, 184, 1),11),
+            GenericTextField(
+                Icons.confirmation_number,
+                _idController,
+                'ID Number *',
+                TextInputType.number,
+                Color.fromRGBO(34, 167, 240, 1),
+                11),
             _selectDate(context),
             _radio(),
             GenericTextField(
                 Icons.location_on, _addressController, 'Physical Address *'),
-            GenericTextField(Icons.phone, _phoneNumberController,
-                'Phone Number *', TextInputType.number,Color.fromRGBO(233, 166, 184, 1), 12),
+            GenericTextField(
+                Icons.phone,
+                _phoneNumberController,
+                'Phone Number *',
+                TextInputType.number,
+                Color.fromRGBO(34, 167, 240, 1),
+                12),
             _proceedButton()
           ],
         ),

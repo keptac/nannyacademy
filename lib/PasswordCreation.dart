@@ -30,9 +30,17 @@ class _PasswordCreationState extends State<PasswordCreation> {
   final _confirmPassowordController = TextEditingController();
   final _auth = FirebaseAuth.instance;
   String _errorMsg = '';
+  String requestNo = '';
 
   String statusResponse = "Profile Created. KYC verification in progress.";
   bool loading = false;
+
+  void _getRequest() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      requestNo = prefs.getString('requestNumber');
+    });
+  }
 
   void _register() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -48,10 +56,12 @@ class _PasswordCreationState extends State<PasswordCreation> {
     final String address = prefs.getString('address');
     final String phoneNumber = prefs.getString('phoneNumber');
     final String userType = prefs.getString('userType');
+    final String requestNumber = prefs.getString('requestNumber');
+    final String employeeClass = prefs.getString('employeeClass');
+    final String serviceType = prefs.getString('serviceType');
 
     if (idNumber != null) {
       try {
-        
         final result = await _auth.createUserWithEmailAndPassword(
             email: _emailController.text, password: _passwordController.text);
 
@@ -88,8 +98,8 @@ class _PasswordCreationState extends State<PasswordCreation> {
             "applicationNumber": applicationNumber,
             "photoUrl":
                 "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
-            "employmentStatus":"Pending",
-            "employer":""
+            "employmentStatus": "Pending",
+            "employer": ""
           };
 
           await FirebaseFirestore.instance
@@ -139,17 +149,34 @@ class _PasswordCreationState extends State<PasswordCreation> {
             "emailAddress": _emailController.text,
             "channel": "MOBILE",
             "verificationStatus": "Pending",
-            "photoUrl":"https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
+            "photoUrl":
+                "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
             "services": "",
-            "employeeCount":0,
-            "activeEmployment":false,
+            "employeeCount": 0,
+            "activeEmployment": false,
             "employeeId": "",
             "employeeName": ""
+          };
+
+          var requestBody = {
+            "serviceName": employeeClass,
+            "serviceType": serviceType,
+            "startAge": '',
+            "endAge": '',
+            "gender": '',
+            "userId": userid.user.uid,
+            "requestNumber": requestNumber,
+            "paymentStatus": "Pending",
+            "requestStatus": "Pending"
           };
 
           await FirebaseFirestore.instance
               .collection('Employer Accounts')
               .add(body);
+
+          await FirebaseFirestore.instance
+              .collection('Service Requests')
+              .add(requestBody);
 
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -205,78 +232,10 @@ class _PasswordCreationState extends State<PasswordCreation> {
     } else {
       setState(() {
         loading = false;
-        _errorMsg = "Failed to retrieve your details. Contact NANNY ACADEMY";
+        _errorMsg = "Failed to retrieve your details. Contact NANY ACADEMY";
       });
     }
   }
-
-  // void _authReg(var body, String userType) async {
-  //   if (userType == 'nanny') {
-  //     final applicationBody = {
-  //       "idNumber": body.idNumber,
-  //       "registrationStatus": "pending",
-  //       "channel": "MOBILE"
-  //     };
-  //
-  //     // Invoking Application Registration function if user is a nanny
-  //     _applicationReg(applicationBody);
-  //   } else {
-  //     // Making an API Call for auth Service
-  //     ApiService.authReg(body).then((success) {
-  //       if (success) {
-  //         setState(() {
-  //           statusResponse = "Profile Created.";
-  //         });
-  //         //delay then route
-  //         Future.delayed(
-  //           const Duration(milliseconds: 3000),
-  //           () {
-  //             Navigator.push(
-  //               context,
-  //               MaterialPageRoute(
-  //                 builder: (context) => LoginPage(),
-  //               ),
-  //             );
-  //           },
-  //         );
-  //       } else {
-  //         loading = false;
-  //         setState(() {
-  //           _errorMsg = "An error occured while processing your request";
-  //         });
-  //         return;
-  //       }
-  //     });
-  //   }
-  // }
-
-  // void _applicationReg(var body) async {
-  //   ApiService.applicationReg(body).then((success) {
-  //     if (success) {
-  //       setState(() {
-  //         statusResponse = "Application submitted successfully.";
-  //       });
-  //
-  //       Future.delayed(
-  //         const Duration(milliseconds: 3000),
-  //         () {
-  //           Navigator.push(
-  //             context,
-  //             MaterialPageRoute(
-  //               builder: (context) => LoginPage(),
-  //             ),
-  //           );
-  //         },
-  //       );
-  //     } else {
-  //       loading = false;
-  //       setState(() {
-  //         _errorMsg = "An error occured while processing your request";
-  //       });
-  //       return;
-  //     }
-  //   });
-  // }
 
   Widget _textField(
       IconData icon, TextEditingController contolller, String label) {
@@ -291,7 +250,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
             prefixIcon: Icon(
               icon,
               color: widget.userTypeValue == 'employee'
-                  ? Color.fromRGBO(233, 166, 184, 1)
+                  ? Color.fromRGBO(34, 167, 240, 1)
                   : Color.fromRGBO(255, 200, 124, 1),
               size: 20,
             ),
@@ -320,7 +279,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
             prefixIcon: Icon(
               icon,
               color: widget.userTypeValue == 'employee'
-                  ? Color.fromRGBO(233, 166, 184, 1)
+                  ? Color.fromRGBO(34, 167, 240, 1)
                   : Color.fromRGBO(255, 200, 124, 1),
               size: 20,
             ),
@@ -362,7 +321,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
           }
         },
         backgroundColor: widget.userTypeValue == 'employee'
-            ? Color.fromRGBO(233, 166, 184, 1)
+            ? Color.fromRGBO(34, 167, 240, 1)
             : Color.fromRGBO(255, 200, 124, 1),
         elevation: 1,
       ),
@@ -381,6 +340,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
 
   @override
   Widget build(BuildContext context) {
+    _getRequest();
     return Scaffold(
       backgroundColor: Colors.grey[100],
       bottomSheet: KyBottomSheet(),
@@ -395,6 +355,15 @@ class _PasswordCreationState extends State<PasswordCreation> {
               ),
             ),
             SizedBox(height: 30),
+            widget.userTypeValue == 'employer'
+                ? Center(
+                    child: Text(
+                    "Request Number for payment: " + requestNo,
+                    style: TextStyle(color: Colors.black, fontSize: 18),
+                  ))
+                : SizedBox(
+                    height: 1,
+                  ),
             Center(
                 child: Text(
               _errorMsg,

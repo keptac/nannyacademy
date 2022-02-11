@@ -4,7 +4,7 @@ class BottomSheetAdmin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top:5),
+      margin: EdgeInsets.only(top: 5),
       height: 65,
       decoration: BoxDecoration(
         image: new DecorationImage(
@@ -20,7 +20,7 @@ class BottomSheetAdmin extends StatelessWidget {
           colors: [
             Color.fromRGBO(166, 233, 215, 1),
             Color.fromRGBO(255, 200, 124, 1),
-            Color.fromRGBO(233, 166, 184, 1)
+            Color.fromRGBO(34, 167, 240, 1)
           ],
         ),
       ),

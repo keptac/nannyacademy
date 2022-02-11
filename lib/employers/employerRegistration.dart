@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:nannyacademy/uploadKyc.dart';
 import 'package:nannyacademy/widgets/genericTextField.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
+import 'package:nannyacademy/passwordCreation.dart';
 
 class EmployerRegistration extends StatefulWidget {
   @override
@@ -62,14 +62,14 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => UploadKyc(),
+        builder: (context) => PasswordCreation(userTypeValue: 'employer'),
       ),
     );
   }
 
   Widget _radio() {
     return Padding(
-      padding: EdgeInsets.only(left: 40, right: 40, bottom: 15, top: 15),
+      padding: EdgeInsets.only(left: 40, right: 40, bottom: 15),
       child: Row(
         children: <Widget>[
           Text('Select Gender: * '),
@@ -144,9 +144,8 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
       bottomSheet: KyBottomSheet(),
       body: Center(
         child: ListView(
-          padding: EdgeInsets.only(top: 60),
+          padding: EdgeInsets.only(top: 40),
           children: <Widget>[
-            SizedBox(height: 20),
             Center(
               child: Text(
                 'Let us know who you are 😊',
@@ -181,13 +180,12 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
               Color.fromRGBO(255, 200, 124, 1),
             ),
             GenericTextField(
-              Icons.confirmation_number,
-              _idController,
-              'ID Number *',
-              TextInputType.number,
-              Color.fromRGBO(255, 200, 124, 1),
-              11
-            ),
+                Icons.confirmation_number,
+                _idController,
+                'ID Number *',
+                TextInputType.number,
+                Color.fromRGBO(255, 200, 124, 1),
+                11),
             _radio(),
             GenericTextField(
               Icons.location_on,
@@ -197,14 +195,15 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
               Color.fromRGBO(255, 200, 124, 1),
             ),
             GenericTextField(
-              Icons.phone,
-              _phoneNumberController,
-              'Phone Number *',
-              TextInputType.number,
-              Color.fromRGBO(255, 200, 124, 1),
-              11
+                Icons.phone,
+                _phoneNumberController,
+                'Phone Number *',
+                TextInputType.number,
+                Color.fromRGBO(255, 200, 124, 1),
+                11),
+            SizedBox(
+              height: 10,
             ),
-            SizedBox(height: 10,),
             _proceedButton()
           ],
         ),

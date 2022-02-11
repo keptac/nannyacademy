@@ -47,7 +47,7 @@ class _MyServicesState extends State<MyServices> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: Color.fromRGBO(233, 166, 184, 1),
+        backgroundColor: Color.fromRGBO(34, 167, 240, 1),
       ),
       body: Container(
         margin: EdgeInsets.all(10),
@@ -95,7 +95,7 @@ class _MyServicesState extends State<MyServices> {
                       onPressed: () {
                         _addPaymentOption(serviceSelected);
                       },
-                      backgroundColor: Color.fromRGBO(233, 166, 184, 1),
+                      backgroundColor: Color.fromRGBO(34, 167, 240, 1),
                       elevation: 1,
                     ),
                   ],
@@ -116,7 +116,7 @@ class _MyServicesState extends State<MyServices> {
                       child: ListTile(
                         leading: Icon(
                           Icons.payments_rounded,
-                          color: Color.fromRGBO(233, 166, 184, 1),
+                          color: Color.fromRGBO(34, 167, 240, 1),
                         ),
                         title: Text(
                           serviceRequest['serviceName'],
