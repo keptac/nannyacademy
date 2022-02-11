@@ -65,7 +65,7 @@ class _MyPaymentsState extends State<MyPayments> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: Color.fromRGBO(233, 166, 184, 1),
+        backgroundColor: Color.fromRGBO(34, 167, 240, 1),
       ),
       body: Container(
         margin: EdgeInsets.all(10),
@@ -109,7 +109,7 @@ class _MyPaymentsState extends State<MyPayments> {
                       _accountNumberController,
                       'Account Number *',
                       TextInputType.number,
-                      Color.fromRGBO(233, 166, 184, 1),
+                      Color.fromRGBO(34, 167, 240, 1),
                     ),
                     ActionChip(
                       padding: EdgeInsets.only(left: 5, right: 5),
@@ -120,7 +120,7 @@ class _MyPaymentsState extends State<MyPayments> {
                       onPressed: () {
                         _addPaymentOption(dropdownvalue);
                       },
-                      backgroundColor: Color.fromRGBO(233, 166, 184, 1),
+                      backgroundColor: Color.fromRGBO(34, 167, 240, 1),
                       elevation: 1,
                     ),
                   ],

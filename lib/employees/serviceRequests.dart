@@ -79,7 +79,7 @@ class _ServiceRequestsState extends State<ServiceRequests> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: Color.fromRGBO(233, 166, 184, 1),
+        backgroundColor: Color.fromRGBO(34, 167, 240, 1),
       ),
       body: ListView.builder(
         // padding: const EdgeInsets.all(8),
@@ -97,7 +97,7 @@ class _ServiceRequestsState extends State<ServiceRequests> {
               leading: CircleAvatar(
                 backgroundColor: serviceRequest['requestStatus'] == "APPROVED"
                     ? Colors.green
-                    : Color.fromRGBO(233, 166, 184, 1),
+                    : Color.fromRGBO(34, 167, 240, 1),
                 child: Text(
                   (index + 1).toString(),
                   style: TextStyle(color: Colors.white),

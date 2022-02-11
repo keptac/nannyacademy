@@ -33,7 +33,7 @@ class _SettingsState extends State<Settings> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: Color.fromRGBO(233, 166, 184, 1),
+        backgroundColor: Color.fromRGBO(34, 167, 240, 1),
       ),
       body: ListView(
         children: <Widget>[
@@ -72,7 +72,7 @@ class _SettingsState extends State<Settings> {
               contentPadding:
                   EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               leading: CircleAvatar(
-                backgroundColor: Color.fromRGBO(233, 166, 184, 1),
+                backgroundColor: Color.fromRGBO(34, 167, 240, 1),
                 child: Icon(
                   Icons.person,
                   color: Colors.white,
@@ -96,7 +96,7 @@ class _SettingsState extends State<Settings> {
       floatingActionButton: FloatingActionButton(
         tooltip: 'Home',
         elevation: 0.8,
-        backgroundColor: Color.fromRGBO(233, 166, 184, 1),
+        backgroundColor: Color.fromRGBO(34, 167, 240, 1),
         child: const Icon(Icons.home),
         onPressed: () => Navigator.push(
             context, MaterialPageRoute(builder: (context) => Dashboard())),

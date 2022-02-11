@@ -88,7 +88,7 @@ class _DashboardState extends State<Dashboard> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: Color.fromRGBO(233, 166, 184, 1),
+        backgroundColor: Color.fromRGBO(34, 167, 240, 1),
       ),
       body: ListView(
         children: <Widget>[
@@ -130,7 +130,7 @@ class _DashboardState extends State<Dashboard> {
       floatingActionButton: FloatingActionButton(
         tooltip: 'Update Details',
         elevation: 0.8,
-        backgroundColor: Color.fromRGBO(233, 166, 184, 1),
+        backgroundColor: Color.fromRGBO(34, 167, 240, 1),
         child: const Icon(Icons.settings),
         onPressed: () => Navigator.push(
             context, MaterialPageRoute(builder: (context) => Settings())),

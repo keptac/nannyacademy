@@ -9,7 +9,7 @@ class CustomBoxDecoration {
       colors: [
         Color.fromRGBO(166, 233, 215, 1),
         Color.fromRGBO(255, 200, 124, 1),
-        Color.fromRGBO(233, 166, 184, 1)
+        Color.fromRGBO(34, 167, 240, 1)
       ],
     ),
   );

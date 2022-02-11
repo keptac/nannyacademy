@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:nannyacademy/employers/employerAdditionals.dart';
-
 import 'package:nannyacademy/widgets/genericTextField.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
+import 'package:nannyacademy/passwordCreation.dart';
 
 class EmployerRegistration extends StatefulWidget {
   @override
@@ -63,7 +62,7 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => EmployerAdditionalInfo(),
+        builder: (context) => PasswordCreation(userTypeValue: 'employer'),
       ),
     );
   }

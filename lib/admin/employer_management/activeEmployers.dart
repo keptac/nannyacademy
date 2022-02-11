@@ -68,7 +68,7 @@ class _ActivatedEmployersState extends State<ActivatedEmployers> {
           'Verified Profiles',
         ),
         centerTitle: true,
-        backgroundColor: Color.fromRGBO(255, 200, 124, 1),
+        backgroundColor: Color.fromRGBO(34, 167, 240,1),
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance

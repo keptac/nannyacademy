@@ -15,17 +15,17 @@ class KyBottomSheet extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
-          stops: [0.2, 0.7, 1.0],
+          stops: [0.1, 0.2, 1.0],
           colors: [
+            Color.fromRGBO(34, 167, 240, 0.8),
             Color.fromRGBO(166, 233, 215, 1),
-            Color.fromRGBO(255, 200, 124, 1),
-            Color.fromRGBO(233, 166, 184, 1)
+            Color.fromRGBO(255, 200, 124, 1)
           ],
         ),
       ),
       child: Center(
         child: Text(
-          'NANNY ACADEMY',
+          'NANY ACADEMY',
           style: TextStyle(
             color: Colors.white,
             fontSize: 30,

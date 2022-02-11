@@ -33,7 +33,7 @@ class _CheckInOutState extends State<CheckInOut> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: Color.fromRGBO(233, 166, 184, 1),
+        backgroundColor: Color.fromRGBO(34, 167, 240, 1),
       ),
       body: ListView(
         children: <Widget>[
@@ -93,7 +93,7 @@ class _CheckInOutState extends State<CheckInOut> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(60.0),
                       ),
-                      color: Color.fromRGBO(233, 166, 184, 1),
+                      color: Color.fromRGBO(34, 167, 240, 1),
                       child: Center(
                         child: Padding(
                           padding: EdgeInsets.all(5),

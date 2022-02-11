@@ -69,7 +69,7 @@ class RegistrationOptions extends StatelessWidget {
               child: Row(
                 children: [
                   _optionButton(context, 'Care giver', EmployeeRegistration(),
-                      Color.fromRGBO(233, 166, 184, 1)),
+                      Color.fromRGBO(34, 167, 240, 1)),
                   // SizedBox(width: 10),
                   _optionButton(context, 'Client', ServicesOffered(),
                       Color.fromRGBO(255, 200, 124, 1)),
@@ -88,23 +88,18 @@ class RegistrationOptions extends StatelessWidget {
             ),
             SizedBox(height: 30),
             Container(
-              margin: EdgeInsets.only(left:30, right:30),
+              margin: EdgeInsets.only(left: 30, right: 30),
               child: Text(
                 'Register as a Care giver if you would like to be trained by Nanny Academy to offer care giver services',
-                style: TextStyle(
-                    fontSize: 14,
-                    fontFamily: 'Quicksand'),
+                style: TextStyle(fontSize: 14, fontFamily: 'Quicksand'),
               ),
             ),
             SizedBox(height: 40),
             Container(
-              margin: EdgeInsets.only(left:30, right:30),
+              margin: EdgeInsets.only(left: 30, right: 30),
               child: Text(
                 'Register as client if you would like to request Nanny Academy services. e.g. You would like to find a nanny to take care of your baby',
-                style: TextStyle(
-
-                    fontSize: 14,
-                    fontFamily: 'Quicksand'),
+                style: TextStyle(fontSize: 14, fontFamily: 'Quicksand'),
               ),
             ),
             // SizedBox(height: 60)

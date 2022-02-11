@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:nannyacademy/uploadKyc.dart';
+import 'package:nannyacademy/passwordCreation.dart';
 import 'package:nannyacademy/widgets/genericTextField.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
@@ -66,7 +66,7 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => UploadKyc(),
+        builder: (context) => PasswordCreation(userTypeValue: 'employee'),
       ),
     );
   }
@@ -127,7 +127,7 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
             });
           }
         },
-        backgroundColor: Color.fromRGBO(233, 166, 184, 1),
+        backgroundColor: Color.fromRGBO(34, 167, 240, 1),
         elevation: 1,
       ),
     );
@@ -159,7 +159,7 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
           style: TextStyle(color: Colors.white, fontSize: 17),
         ),
         onPressed: callDatePicker,
-        backgroundColor: Color.fromRGBO(233, 166, 184, 1),
+        backgroundColor: Color.fromRGBO(34, 167, 240, 1),
         elevation: 0,
       ),
     );
@@ -201,7 +201,7 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
                 _idController,
                 'ID Number *',
                 TextInputType.number,
-                Color.fromRGBO(233, 166, 184, 1),
+                Color.fromRGBO(34, 167, 240, 1),
                 11),
             _selectDate(context),
             _radio(),
@@ -212,7 +212,7 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
                 _phoneNumberController,
                 'Phone Number *',
                 TextInputType.number,
-                Color.fromRGBO(233, 166, 184, 1),
+                Color.fromRGBO(34, 167, 240, 1),
                 12),
             _proceedButton()
           ],
