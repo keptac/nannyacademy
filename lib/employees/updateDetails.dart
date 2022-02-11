@@ -73,7 +73,7 @@ class _UpdatenannyacademyState extends State<Updatenannyacademy> {
         child: Card(
           color: Colors.grey[200],
           shape: OutlineInputBorder(
-            borderSide: BorderSide(color: Color.fromRGBO(233, 166, 184, 1)),
+            borderSide: BorderSide(color: Color.fromRGBO(34, 167, 240, 1)),
             borderRadius: BorderRadius.all(Radius.circular(35)),
           ),
           elevation: 0,
@@ -117,7 +117,7 @@ class _UpdatenannyacademyState extends State<Updatenannyacademy> {
           style: TextStyle(color: Colors.white, fontSize: 17),
         ),
         onPressed: () => _upload(),
-        backgroundColor: Color.fromRGBO(233, 166, 184, 1),
+        backgroundColor: Color.fromRGBO(34, 167, 240, 1),
         elevation: 1,
       ),
     );
@@ -155,7 +155,7 @@ class _UpdatenannyacademyState extends State<Updatenannyacademy> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: Color.fromRGBO(233, 166, 184, 1),
+        backgroundColor: Color.fromRGBO(34, 167, 240, 1),
       ),
       body: Center(
         child: ListView(
@@ -195,7 +195,7 @@ class _UpdatenannyacademyState extends State<Updatenannyacademy> {
                   decoration: InputDecoration(
                     prefixIcon: Icon(
                       Icons.location_on,
-                      color: Color.fromRGBO(233, 166, 184, 1),
+                      color: Color.fromRGBO(34, 167, 240, 1),
                       size: 20,
                     ),
                     labelText: 'New Address *',
@@ -220,7 +220,7 @@ class _UpdatenannyacademyState extends State<Updatenannyacademy> {
       floatingActionButton: FloatingActionButton(
         tooltip: 'Go Back to Home',
         elevation: 0.8,
-        backgroundColor: Color.fromRGBO(233, 166, 184, 1),
+        backgroundColor: Color.fromRGBO(34, 167, 240, 1),
         child: const Icon(Icons.home),
         onPressed: () => Navigator.push(
             context, MaterialPageRoute(builder: (context) => Dashboard())),

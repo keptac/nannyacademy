@@ -232,7 +232,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
     } else {
       setState(() {
         loading = false;
-        _errorMsg = "Failed to retrieve your details. Contact NANNY ACADEMY";
+        _errorMsg = "Failed to retrieve your details. Contact NANY ACADEMY";
       });
     }
   }
@@ -250,7 +250,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
             prefixIcon: Icon(
               icon,
               color: widget.userTypeValue == 'employee'
-                  ? Color.fromRGBO(233, 166, 184, 1)
+                  ? Color.fromRGBO(34, 167, 240, 1)
                   : Color.fromRGBO(255, 200, 124, 1),
               size: 20,
             ),
@@ -279,7 +279,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
             prefixIcon: Icon(
               icon,
               color: widget.userTypeValue == 'employee'
-                  ? Color.fromRGBO(233, 166, 184, 1)
+                  ? Color.fromRGBO(34, 167, 240, 1)
                   : Color.fromRGBO(255, 200, 124, 1),
               size: 20,
             ),
@@ -321,7 +321,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
           }
         },
         backgroundColor: widget.userTypeValue == 'employee'
-            ? Color.fromRGBO(233, 166, 184, 1)
+            ? Color.fromRGBO(34, 167, 240, 1)
             : Color.fromRGBO(255, 200, 124, 1),
         elevation: 1,
       ),
@@ -355,12 +355,15 @@ class _PasswordCreationState extends State<PasswordCreation> {
               ),
             ),
             SizedBox(height: 30),
-            widget.userTypeValue == 'employer'?
-            Center(
-                child: Text(
-              "Request Number for payment: " + requestNo,
-              style: TextStyle(color: Colors.black, fontSize: 18),
-            )):SizedBox(height: 1,),
+            widget.userTypeValue == 'employer'
+                ? Center(
+                    child: Text(
+                    "Request Number for payment: " + requestNo,
+                    style: TextStyle(color: Colors.black, fontSize: 18),
+                  ))
+                : SizedBox(
+                    height: 1,
+                  ),
             Center(
                 child: Text(
               _errorMsg,

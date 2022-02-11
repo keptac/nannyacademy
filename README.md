@@ -1,6 +1,6 @@
 # nannyacademy
 
-NANNY ACADEMY - Get your a proffesional nanny
+NANY ACADEMY - Get your a proffesional nanny
 
 ## GETTING STARTED
 1. flutter packages get

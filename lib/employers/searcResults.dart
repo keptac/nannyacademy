@@ -13,10 +13,9 @@ import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:nannyacademy/employers/myRequests.dart';
 
 class SearchResults extends StatefulWidget {
-
   final String requestNumber;
 
-  SearchResults({Key key, @required this.requestNumber}):super(key:key);
+  SearchResults({Key key, @required this.requestNumber}) : super(key: key);
   @override
   _SearchResultsState createState() => _SearchResultsState();
 }
@@ -61,9 +60,7 @@ class _SearchResultsState extends State<SearchResults> {
     body['jobStatus'] = "Hold";
 
     try {
-      await FirebaseFirestore.instance
-          .collection('Employments')
-          .add(body);
+      await FirebaseFirestore.instance.collection('Employments').add(body);
       //TODO: send email to all parties
 
       showDialog(
@@ -78,7 +75,7 @@ class _SearchResultsState extends State<SearchResults> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MyRequests(jobStatus:'Hold'),
+                    builder: (context) => MyRequests(jobStatus: 'Hold'),
                   ),
                 );
               },
@@ -114,7 +111,7 @@ class _SearchResultsState extends State<SearchResults> {
   }
 
   //Uploads the files
-  void _upload() async{
+  void _upload() async {
     if (popFile == null) {
       setState(() {
         _errorMsg = 'Please Proof of payment';
@@ -135,9 +132,7 @@ class _SearchResultsState extends State<SearchResults> {
       };
 
       try {
-        await FirebaseFirestore.instance
-            .collection('Payments')
-            .add(data);
+        await FirebaseFirestore.instance.collection('Payments').add(data);
 
         showDialog(
           context: context,
@@ -222,7 +217,7 @@ class _SearchResultsState extends State<SearchResults> {
           style: TextStyle(color: Colors.white, fontSize: 15),
         ),
         onPressed: callDatePicker,
-        backgroundColor: Color.fromRGBO(233, 166, 184, 1),
+        backgroundColor: Color.fromRGBO(34, 167, 240, 1),
         elevation: 0,
       ),
     );
@@ -257,16 +252,18 @@ class _SearchResultsState extends State<SearchResults> {
 
   Widget _uploadPop(BuildContext context) {
     return new AlertDialog(
-      title: Center(child:Text(
-        widget.requestNumber,
-        style: TextStyle(color: Colors.black, fontSize: 16),
-      ),),
+      title: Center(
+        child: Text(
+          widget.requestNumber,
+          style: TextStyle(color: Colors.black, fontSize: 16),
+        ),
+      ),
       content: new Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(_errorMsg),
-          SizedBox(height:10),
+          SizedBox(height: 10),
           TextField(
             controller: _amount,
             keyboardType: TextInputType.number,
@@ -278,17 +275,15 @@ class _SearchResultsState extends State<SearchResults> {
                 size: 20,
               ),
               labelText: 'Amount Paid *',
-
               fillColor: Colors.white,
               border: OutlineInputBorder(
-                borderRadius:
-                BorderRadius.all(Radius.circular(10)),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
             ),
           ),
-
-          SizedBox(height: 10,),
-
+          SizedBox(
+            height: 10,
+          ),
           TextField(
             controller: _receiptNumber,
             keyboardType: TextInputType.text,
@@ -300,17 +295,16 @@ class _SearchResultsState extends State<SearchResults> {
                 size: 20,
               ),
               labelText: 'Transaction Reference*',
-
               fillColor: Colors.white,
               border: OutlineInputBorder(
-                borderRadius:
-                BorderRadius.all(Radius.circular(10)),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
             ),
           ),
-          SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
           _uploadButton(popText),
-
         ],
       ),
       actions: <Widget>[
@@ -327,41 +321,40 @@ class _SearchResultsState extends State<SearchResults> {
 
   Widget _uploadButton(String label) {
     return InkWell(
-        child: Card(
-          shape: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black38),
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-          ),
-          elevation: 0,
-          child: SizedBox(
-            height: 50,
-            child: Row(
-              children: <Widget>[
-                Stack(
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(left: 20),
-                      child: Text(
-                        label,
-                        style: TextStyle(fontSize: 16),
-                      ),
+      child: Card(
+        shape: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.black38),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+        elevation: 0,
+        child: SizedBox(
+          height: 50,
+          child: Row(
+            children: <Widget>[
+              Stack(
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(left: 20),
+                    child: Text(
+                      label,
+                      style: TextStyle(fontSize: 16),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 170),
-                      child: Icon(
-                        Icons.file_present,
-                        color: Color.fromRGBO(255, 200, 124, 1),
-                      ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 170),
+                    child: Icon(
+                      Icons.file_present,
+                      color: Color.fromRGBO(255, 200, 124, 1),
                     ),
-                  ],
-                )
-              ],
-            ),
+                  ),
+                ],
+              )
+            ],
           ),
         ),
-        onTap: () => _choose(),
-      );
-
+      ),
+      onTap: () => _choose(),
+    );
   }
 
   @override
@@ -490,9 +483,11 @@ class _SearchResultsState extends State<SearchResults> {
                                             onPressed: () {
                                               showDialog(
                                                 context: context,
-                                                builder: (BuildContext
-                                                        context) =>
-                                                    _buildPopupDialog(context, serviceRequest),
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        _buildPopupDialog(
+                                                            context,
+                                                            serviceRequest),
                                               );
                                             },
                                             backgroundColor: Color.fromRGBO(
@@ -528,37 +523,42 @@ class _SearchResultsState extends State<SearchResults> {
                 );
               },
             )
-          : Column(children: [
-            SizedBox(height: 200,),
-            Center(
-              child: Text(
-                "No results returned. \nPending payment confirmation.",
-                style: TextStyle(fontSize: 17),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            SizedBox(height: 30,),
-            Center(
-              child: ActionChip(
-                padding: EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
-                label: Text(
-                  'Upload Proof of Payment',
-                  style: TextStyle(color: Colors.white, fontSize: 17),
+          : Column(
+              children: [
+                SizedBox(
+                  height: 200,
                 ),
-                onPressed: (){
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext
-                    context) =>
-                        _uploadPop(context),
-                  );
-                },
-                backgroundColor: Colors.black, //Color.fromRGBO(255, 200, 124, 1), //Color.fromRGBO(233, 166, 184, 1),
-                elevation: 1,
-              ),
-            )
-      ],
-      ),
+                Center(
+                  child: Text(
+                    "No results returned. \nPending payment confirmation.",
+                    style: TextStyle(fontSize: 17),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Center(
+                  child: ActionChip(
+                    padding: EdgeInsets.only(
+                        left: 30, right: 30, top: 10, bottom: 10),
+                    label: Text(
+                      'Upload Proof of Payment',
+                      style: TextStyle(color: Colors.white, fontSize: 17),
+                    ),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) => _uploadPop(context),
+                      );
+                    },
+                    backgroundColor: Colors
+                        .black, //Color.fromRGBO(255, 200, 124, 1), //Color.fromRGBO(34, 167, 240, 1),
+                    elevation: 1,
+                  ),
+                )
+              ],
+            ),
     );
   }
 }

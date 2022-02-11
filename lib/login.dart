@@ -22,14 +22,6 @@ class _LoginPageState extends State<LoginPage> {
   final _auth = FirebaseAuth.instance;
 
   void _login() async {
-    //TODO: Remove this forced route
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => EmployerDashboard(),
-    //   ),
-    // );
-
     setState(() {
       _falsePassword = false;
     });
@@ -267,7 +259,7 @@ class _LoginPageState extends State<LoginPage> {
           style: TextStyle(color: Colors.white, fontSize: 17),
         ),
         onPressed: _login,
-        backgroundColor: Color.fromRGBO(233, 166, 184, 1),
+        backgroundColor: Color.fromRGBO(34, 167, 240, 1),
         elevation: 1,
       ),
     );
@@ -288,11 +280,11 @@ class _LoginPageState extends State<LoginPage> {
             gradient: LinearGradient(
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
-              stops: [0.1, 0.8, 1.0],
+              stops: [0.1, 0.4, 1.0],
               colors: [
+                Color.fromRGBO(34, 167, 240, 0.7),
                 Color.fromRGBO(166, 233, 215, 1),
                 Color.fromRGBO(255, 200, 124, 1),
-                Color.fromRGBO(233, 166, 184, 1)
               ],
             ),
           ),
@@ -300,22 +292,32 @@ class _LoginPageState extends State<LoginPage> {
             child: ListView(
               padding: EdgeInsets.only(left: 40.0, right: 40.0),
               children: <Widget>[
+
                 SizedBox(
-                  height: 130.0,
+                  height: 110.0,
+                ),
+              Center(
+                child: Image.asset(
+                  'assets/images/logo.png',
+                  width: MediaQuery.of(context).size.width * 0.25,
+                ),
+              ),
+                SizedBox(
+                  height: 20.0,
                 ),
                 Center(
                   child: Text(
-                    'NANNY ACADEMY',
+                    'NANY ACADEMY',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontFamily: 'Quicksand',
                         color: Colors.white,
-                        fontSize: 40.0,
+                        fontSize: 25.0,
                         letterSpacing: 5.0),
                   ),
                 ),
                 SizedBox(
-                  height: 90.0,
+                  height: 20.0,
                 ),
                 _falsePassword
                     ? Center(

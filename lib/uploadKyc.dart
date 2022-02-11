@@ -22,13 +22,12 @@ class _UploadKycState extends State<UploadKyc> {
   String idNumber;
 
   @override
-  void initState(){
-
+  void initState() {
     super.initState();
     setPrefs();
   }
 
-  void setPrefs() async{
+  void setPrefs() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     setState(() {
@@ -38,12 +37,12 @@ class _UploadKycState extends State<UploadKyc> {
   }
 
   void _choose(fileDes) async {
-    if(fileDes == 'pof'){
+    if (fileDes == 'pof') {
       pofFile = await ImagePicker.pickImage(source: ImageSource.gallery);
       setState(() {
         pofText = pofFile.path.split("/").last;
       });
-    }else{
+    } else {
       idFile = await ImagePicker.pickImage(source: ImageSource.gallery);
       setState(() {
         idText = idFile.path.split("/").last;
@@ -52,9 +51,8 @@ class _UploadKycState extends State<UploadKyc> {
   }
 
   //TODO: Upload the documents to a server
-  void _upload() async{
-    if ((idNumber == '' &&
-        idNumber == null) ||
+  void _upload() async {
+    if ((idNumber == '' && idNumber == null) ||
         pofFile == null ||
         idFile == null) {
       setState(() {
@@ -91,13 +89,14 @@ class _UploadKycState extends State<UploadKyc> {
           });
         } else {
           setState(() {
-            _errorMsg ='Failed to upload KYC data please contact Nanny Academy';
+            _errorMsg =
+                'Failed to upload KYC data please contact Nanny Academy';
           });
-
         }
       }).catchError((err) {
         setState(() {
-          _errorMsg ='Failed to update Nanny Academy please contact Nanny Academy';
+          _errorMsg =
+              'Failed to update Nanny Academy please contact Nanny Academy';
         });
         print(err);
       });
@@ -118,7 +117,10 @@ class _UploadKycState extends State<UploadKyc> {
         child: Card(
           color: Colors.grey[200],
           shape: OutlineInputBorder(
-            borderSide: BorderSide(color: userTypeValue=='employee'?Color.fromRGBO(233, 166, 184, 1):Color.fromRGBO(255, 200, 124, 1)),
+            borderSide: BorderSide(
+                color: userTypeValue == 'employee'
+                    ? Color.fromRGBO(34, 167, 240, 1)
+                    : Color.fromRGBO(255, 200, 124, 1)),
             borderRadius: BorderRadius.all(Radius.circular(35)),
           ),
           elevation: 0,
@@ -162,7 +164,9 @@ class _UploadKycState extends State<UploadKyc> {
           style: TextStyle(color: Colors.white, fontSize: 17),
         ),
         onPressed: () => _upload(),
-        backgroundColor: userTypeValue=='employee'?Color.fromRGBO(233, 166, 184, 1):Color.fromRGBO(255, 200, 124, 1),
+        backgroundColor: userTypeValue == 'employee'
+            ? Color.fromRGBO(34, 167, 240, 1)
+            : Color.fromRGBO(255, 200, 124, 1),
         elevation: 1,
       ),
     );
@@ -170,7 +174,6 @@ class _UploadKycState extends State<UploadKyc> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
@@ -201,7 +204,9 @@ class _UploadKycState extends State<UploadKyc> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: userTypeValue=='employee'?Color.fromRGBO(233, 166, 184, 1):Color.fromRGBO(255, 200, 124, 1),
+        backgroundColor: userTypeValue == 'employee'
+            ? Color.fromRGBO(34, 167, 240, 1)
+            : Color.fromRGBO(255, 200, 124, 1),
       ),
       body: Center(
         child: ListView(
@@ -224,8 +229,8 @@ class _UploadKycState extends State<UploadKyc> {
             Center(
               child: Text(
                 _errorMsg,
-                style: TextStyle(
-                    color: Colors.red, fontStyle: FontStyle.italic),
+                style:
+                    TextStyle(color: Colors.red, fontStyle: FontStyle.italic),
               ),
             ),
             SizedBox(
