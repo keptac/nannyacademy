@@ -24,7 +24,7 @@ class _ManagerEmployersState extends State<ManagerEmployers> {
             ),
           ),
           centerTitle: true,
-          backgroundColor: Color.fromRGBO(255, 200, 124, 1),
+          backgroundColor: Color.fromRGBO(34, 167, 240,1),
         ),
         body: ListView(
           children: <Widget>[

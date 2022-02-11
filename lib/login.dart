@@ -280,7 +280,7 @@ class _LoginPageState extends State<LoginPage> {
             gradient: LinearGradient(
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
-              stops: [0.1, 0.4, 1.0],
+              stops: [0.1, 0.3, 1.0],
               colors: [
                 Color.fromRGBO(34, 167, 240, 0.7),
                 Color.fromRGBO(166, 233, 215, 1),

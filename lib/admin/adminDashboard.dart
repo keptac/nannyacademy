@@ -68,7 +68,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         appBar: AppBar(
           leading: Icon(
             Icons.info_outline,
-            color: Colors.black,
+            color: Colors.white,
           ),
           actions: <Widget>[
           ],
@@ -76,10 +76,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
           title: Text(
             'Nanny Academy',
             style: TextStyle(
-                fontSize: 20, fontFamily: 'Quicksand', color: Colors.black),
+                fontSize: 20, fontFamily: 'Quicksand', color: Colors.white),
           ),
           centerTitle: true,
-          backgroundColor: Color.fromRGBO(255, 200, 124, 1),
+          backgroundColor: Color.fromRGBO(34, 167, 240,1),
         ),
         body: ListView(
           children: <Widget>[
