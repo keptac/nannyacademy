@@ -15,7 +15,6 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   final _nameController = TextEditingController();
   final _surnameController = TextEditingController();
-  final _idController = TextEditingController();
   final _addressController = TextEditingController();
   final _phoneNumberController = TextEditingController();
   String _genderVal = 'Male';
@@ -28,10 +27,6 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
       pref.setString(
         'firstName',
         _nameController.text,
-      );
-      pref.setString(
-        'idNumber',
-        _idController.text,
       );
       pref.setString(
         'surname',
@@ -113,7 +108,6 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
           if (_nameController.text != '' &&
               _surnameController.text != '' &&
               _addressController.text != '' &&
-              _idController.text != '' &&
               _genderVal != '') {
             _storePersonalDetails();
           } else {
@@ -179,13 +173,6 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
               TextInputType.text,
               Color.fromRGBO(255, 200, 124, 1),
             ),
-            GenericTextField(
-                Icons.confirmation_number,
-                _idController,
-                'ID Number *',
-                TextInputType.number,
-                Color.fromRGBO(255, 200, 124, 1),
-                11),
             _radio(),
             GenericTextField(
               Icons.location_on,

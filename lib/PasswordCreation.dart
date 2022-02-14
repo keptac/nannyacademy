@@ -50,7 +50,6 @@ class _PasswordCreationState extends State<PasswordCreation> {
 
     final String firstName = prefs.getString('firstName');
     final String surname = prefs.getString('surname');
-    final String idNumber = prefs.getString('idNumber');
     final String gender = prefs.getString('gender');
     final String dob = prefs.getString('dob');
     final String address = prefs.getString('address');
@@ -60,7 +59,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
     final String employeeClass = prefs.getString('employeeClass');
     final String serviceType = prefs.getString('serviceType');
 
-    if (idNumber != null) {
+    if (surname != null) {
       try {
         final result = await _auth.createUserWithEmailAndPassword(
             email: _emailController.text, password: _passwordController.text);
@@ -84,7 +83,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
 
           final applicationBody = {
             "profileid": userid.user.uid,
-            "idNumber": idNumber,
+            "idNumber": '',
             "applicationStatus": "Pending",
             "channel": "MOBILE",
             "firstName": firstName,
@@ -140,7 +139,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
             "profileid": userid.user.uid,
             "firstName": firstName,
             "surname": surname,
-            "idNumber": idNumber,
+            "idNumber": '',
             "gender": gender,
             "dob": dob,
             "phoneNumber": phoneNumber,
@@ -355,15 +354,6 @@ class _PasswordCreationState extends State<PasswordCreation> {
               ),
             ),
             SizedBox(height: 30),
-            widget.userTypeValue == 'employer'
-                ? Center(
-                    child: Text(
-                    "Request Number for payment: " + requestNo,
-                    style: TextStyle(color: Colors.black, fontSize: 18),
-                  ))
-                : SizedBox(
-                    height: 1,
-                  ),
             Center(
                 child: Text(
               _errorMsg,
