@@ -20,9 +20,9 @@ class GenericTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 70,
+      height: 80,
       child: Padding(
-        padding: EdgeInsets.only(left: 40, right: 40, bottom: 15),
+        padding: EdgeInsets.only(left: 40, right: 40, bottom: 20),
         child: TextField(
           maxLength: length,
           controller: contolller,

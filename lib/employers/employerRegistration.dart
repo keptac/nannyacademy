@@ -6,7 +6,7 @@ import 'dart:async';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
 import 'package:nannyacademy/employers/servicesOffered.dart';
-
+import 'package:csc_picker/csc_picker.dart';
 
 class EmployerRegistration extends StatefulWidget {
   @override
@@ -20,6 +20,11 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
   final _addressController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneNumberController = TextEditingController();
+
+  String countryValue = "";
+  String stateValue = "";
+  String cityValue = "";
+  String address = "";
 
   String _genderVal = 'Male';
   String _status = '';
@@ -47,6 +52,18 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
       pref.setString(
         'address',
         _addressController.text,
+      );
+      pref.setString(
+        'country',
+        countryValue,
+      );
+      pref.setString(
+        'state',
+        stateValue,
+      );
+      pref.setString(
+        'city',
+        cityValue,
       );
       pref.setString(
         'emailAddress',
@@ -183,13 +200,6 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
               Color.fromRGBO(255, 200, 124, 1),
             ),
             _radio(),
-            GenericTextField(
-              Icons.location_on,
-              _addressController,
-              'Physical Address *',
-              TextInputType.text,
-              Color.fromRGBO(255, 200, 124, 1),
-            ),
             PhoneNumberField(_phoneNumberController),
             GenericTextField(
               Icons.alternate_email,
@@ -198,11 +208,73 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
               TextInputType.emailAddress,
               Color.fromRGBO(255, 200, 124, 1),
             ),
+            GenericTextField(
+              Icons.location_on,
+              _addressController,
+              'Physical Address *',
+              TextInputType.text,
+              Color.fromRGBO(255, 200, 124, 1),
+            ),
 
+            Container(
+              margin: EdgeInsets.only(left:40, right: 40, bottom:20),
+                  child:
+                  CSCPicker(
+                    searchBarRadius: 10.0,
+                    dropdownDialogRadius: 10.0,
+                    dropdownDecoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(50)
+                        ),
+                        border:
+                        Border.all(color: Colors.grey, width: 1)
+                    ),
+
+                    disabledDropdownDecoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(50)
+                        ),
+                        color: Colors.grey.shade300,
+                        border:
+                        Border.all(color: Colors.grey.shade300, width: 1)
+                    ),
+
+                    countryDropdownLabel: "Country *",
+                    stateDropdownLabel: "State *",
+                    cityDropdownLabel: "*City *",
+
+                    defaultCountry: DefaultCountry.Nigeria,
+                    // disableCountry: true,
+
+                    selectedItemStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                    ),
+
+                    onCountryChanged: (value) {
+                      setState(() {
+                        countryValue = value;
+                      });
+                    },
+                    onStateChanged:(value) {
+                      setState(() {
+                        stateValue = value;
+                      });
+                    },
+                    onCityChanged:(value) {
+                      setState(() {
+                        cityValue = value;
+                      });
+                    },
+                  )
+            ),
             SizedBox(
               height: 10,
             ),
-            _proceedButton()
+            _proceedButton(),
+            SizedBox(
+              height: 100,
+            ),
           ],
         ),
       ),
