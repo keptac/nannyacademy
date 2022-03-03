@@ -13,7 +13,7 @@ class EmploymentRequirements extends StatefulWidget {
 class _ServicesOfferedState extends State<EmploymentRequirements> {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
-  String _employmentRequirement = 'Any';
+  String _employmentRequirement = 'Level 1';
 
   int employmentRequirementGroup = 1;
 
@@ -24,7 +24,7 @@ class _ServicesOfferedState extends State<EmploymentRequirements> {
       bottomSheet: KyBottomSheet(),
       body: Center(
         child: ListView(
-          padding: EdgeInsets.only(top: 60),
+          padding: EdgeInsets.only(top: 80),
           children: <Widget>[
             Center(
               child: Text(
@@ -49,6 +49,49 @@ class _ServicesOfferedState extends State<EmploymentRequirements> {
             SizedBox(height: 30),
             Row(
               children: <Widget>[
+                SizedBox(width: 10.0),
+                Radio(
+                  groupValue: employmentRequirementGroup,
+                  value: 1,
+                  onChanged: (T) {
+                    setState(() {
+                      employmentRequirementGroup = T;
+                      _employmentRequirement = 'Level 1';
+                    });
+                  },
+                ),
+                Text('Nanny Level 1: N30, 000 to N35,000',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
+                ],
+            ),
+            Container(
+              margin: EdgeInsets.only(left:60, right:30),
+              child: Text('Is an oriented personnel with 6 months or less experience. Background checks done', style: TextStyle(fontStyle: FontStyle.italic))
+            ),
+            SizedBox(height: 20),
+            Row(
+              children: <Widget>[
+                SizedBox(width: 10.0),
+                Radio(
+                  groupValue: employmentRequirementGroup,
+                  value: 2,
+                  onChanged: (T) {
+                    setState(() {
+                      employmentRequirementGroup = T;
+                      _employmentRequirement = 'Level 2';
+                    });
+                  },
+                ),
+                Text('Nanny Level 2:  N45, 000 to N65, 000 ', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
+              ],
+            ),
+            Container(
+                margin: EdgeInsets.only(left:60, right:30),
+                child: Text('Is a trained professional with more than 6 months to 2 years of experience. Background checks done.',
+                    style: TextStyle(fontStyle: FontStyle.italic))
+            ),
+            SizedBox(height: 20),
+            Row(
+              children: <Widget>[
                 SizedBox(width: 15.0),
                 Radio(
                   groupValue: employmentRequirementGroup,
@@ -56,43 +99,35 @@ class _ServicesOfferedState extends State<EmploymentRequirements> {
                   onChanged: (T) {
                     setState(() {
                       employmentRequirementGroup = T;
-                      _employmentRequirement = 'Accredited';
+                      _employmentRequirement = 'Level 3';
                     });
                   },
                 ),
-                Text('Accredited (Level 1)'),
+                Text('Nanny Level 3: N75, 000',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
               ],
             ),
+            Container(
+                margin: EdgeInsets.only(left:60,right:20),
+                child: Text('Is a professional with 3 or more years of experience. Full background checks done.',
+
+                style: TextStyle(fontStyle: FontStyle.italic))
+            ),
+
+            SizedBox(height: 20),
             Row(
               children: <Widget>[
                 SizedBox(width: 15.0),
                 Radio(
                   groupValue: employmentRequirementGroup,
-                  value: 1,
+                  value: 4,
                   onChanged: (T) {
                     setState(() {
                       employmentRequirementGroup = T;
-                      _employmentRequirement = 'Qualified';
+                      _employmentRequirement = 'Cook';
                     });
                   },
                 ),
-                Text('Qualified (Level 2)'),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                SizedBox(width: 15.0),
-                Radio(
-                  groupValue: employmentRequirementGroup,
-                  value: 2,
-                  onChanged: (T) {
-                    setState(() {
-                      employmentRequirementGroup = T;
-                      _employmentRequirement = 'Experienced';
-                    });
-                  },
-                ),
-                Text('Experienced (Level 3)'),
+                Text('Cooks: N60,000 monthly salary',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
               ],
             ),
             SizedBox(height: 40),

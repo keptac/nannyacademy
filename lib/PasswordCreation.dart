@@ -25,7 +25,6 @@ class PasswordCreation extends StatefulWidget {
 }
 
 class _PasswordCreationState extends State<PasswordCreation> {
-  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPassowordController = TextEditingController();
   final _auth = FirebaseAuth.instance;
@@ -58,11 +57,12 @@ class _PasswordCreationState extends State<PasswordCreation> {
     final String requestNumber = prefs.getString('requestNumber');
     final String employeeClass = prefs.getString('employeeClass');
     final String serviceType = prefs.getString('serviceType');
+    final String emailAddress = prefs.getString('emailAddress');
 
     if (surname != null) {
       try {
         final result = await _auth.createUserWithEmailAndPassword(
-            email: _emailController.text, password: _passwordController.text);
+            email: emailAddress, password: _passwordController.text);
 
         final userid = result;
 
@@ -93,7 +93,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
             "phoneNumber": phoneNumber,
             "address": address,
             "userType": userType,
-            "emailAddress": _emailController.text,
+            "emailAddress": emailAddress,
             "applicationNumber": applicationNumber,
             "photoUrl":
                 "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
@@ -145,7 +145,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
             "phoneNumber": phoneNumber,
             "address": address,
             "userType": userType,
-            "emailAddress": _emailController.text,
+            "emailAddress": emailAddress,
             "channel": "MOBILE",
             "verificationStatus": "Pending",
             "photoUrl":
@@ -302,9 +302,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
           style: TextStyle(color: Colors.white, fontSize: 17),
         ),
         onPressed: () {
-          if (_emailController.text != '' &&
-              _passwordController.text != '' &&
-              _emailController.text != null &&
+          if (_passwordController.text != '' &&
               _passwordController.text != null) {
             if (_passwordController.text == _confirmPassowordController.text) {
               _register();
@@ -356,11 +354,11 @@ class _PasswordCreationState extends State<PasswordCreation> {
             SizedBox(height: 30),
             Center(
                 child: Text(
-              _errorMsg,
-              style: TextStyle(color: Colors.red),
-            )),
+                _errorMsg,
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
             SizedBox(height: 20),
-            _textField(Icons.email, _emailController, 'Email Address *'),
             _passwordField(
                 Icons.lock, _passwordController, 'Desired Password *'),
             _passwordField(Icons.lock_outline, _confirmPassowordController,

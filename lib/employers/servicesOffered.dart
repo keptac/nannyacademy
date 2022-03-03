@@ -116,11 +116,11 @@ class _ServicesOfferedState extends State<ServicesOffered> {
                   onChanged: (T) {
                     setState(() {
                       group = T;
-                      _serviceOption = 'Mother Help';
+                      _serviceOption = 'Cook';
                     });
                   },
                 ),
-                Text('Mother Helper'),
+                Text('Cook'),
               ],
             ),
             SizedBox(height: 40),
@@ -150,10 +150,12 @@ class _ServicesOfferedState extends State<ServicesOffered> {
                     'serviceType',
                     _serviceOption,
                   );
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => EmploymentRequirements()),
+                        builder: (context) => EmploymentRequirements(),
+                    ),
                   );
                 },
                 backgroundColor: Color.fromRGBO(255, 200, 124, 1),
