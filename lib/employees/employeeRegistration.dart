@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
+import 'package:csc_picker/csc_picker.dart';
 
 class EmployeeRegistration extends StatefulWidget {
   @override
@@ -24,7 +25,10 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
   String _dobText = 'Date of Birth *';
   String _status = '';
   int group = 1;
-
+  String countryValue = "";
+  String stateValue = "";
+  String cityValue = "";
+  String address = "";
   var _finaldate;
 
   void _storePersonalDetails() async {
@@ -49,6 +53,18 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
       pref.setString(
         'address',
         _addressController.text,
+      );
+      pref.setString(
+        'country',
+        countryValue,
+      );
+      pref.setString(
+        'state',
+        stateValue,
+      );
+      pref.setString(
+        'city',
+        cityValue,
       );
       pref.setString(
         'emailAddress',
@@ -199,8 +215,7 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
                 Icons.perm_identity, _surnameController, 'Surname *'),
             _selectDate(context),
             _radio(),
-            GenericTextField(
-                Icons.location_on, _addressController, 'Physical Address *'),
+
             PhoneNumberField(_phoneNumberController),
             GenericTextField(
               Icons.alternate_email,
@@ -208,6 +223,61 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
               'Email Address *',
               TextInputType.emailAddress,
               Color.fromRGBO(34, 167, 240, 1),
+            ),
+
+            GenericTextField(
+                Icons.location_on, _addressController, 'Physical Address *'),
+            Container(
+                margin: EdgeInsets.only(left:40, right: 40, bottom:20),
+                child:
+                CSCPicker(
+                  searchBarRadius: 10.0,
+                  dropdownDialogRadius: 10.0,
+                  dropdownDecoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(50)
+                      ),
+                      border:
+                      Border.all(color: Colors.grey, width: 1)
+                  ),
+
+                  disabledDropdownDecoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(50)
+                      ),
+                      color: Colors.grey.shade300,
+                      border:
+                      Border.all(color: Colors.grey.shade300, width: 1)
+                  ),
+
+                  countryDropdownLabel: "Country *",
+                  stateDropdownLabel: "State *",
+                  cityDropdownLabel: "*City *",
+
+                  defaultCountry: DefaultCountry.Nigeria,
+                  // disableCountry: true,
+
+                  selectedItemStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15,
+                  ),
+
+                  onCountryChanged: (value) {
+                    setState(() {
+                      countryValue = value;
+                    });
+                  },
+                  onStateChanged:(value) {
+                    setState(() {
+                      stateValue = value;
+                    });
+                  },
+                  onCityChanged:(value) {
+                    setState(() {
+                      cityValue = value;
+                    });
+                  },
+                )
             ),
             _proceedButton()
           ],
