@@ -173,12 +173,15 @@ class _MyRequestsState extends State<MyRequests> {
   }
 
   Future<DateTime> getDate() {
-    return showRoundedDatePicker(
+    return showDatePicker(
         context: context,
-        initialDate: DateTime(DateTime.now().year - 11),
-        firstDate: DateTime(DateTime.now().year - 50),
-        lastDate: DateTime(DateTime.now().year - 9),
-        borderRadius: 16);
+        initialDate: DateTime.now(),
+        firstDate: DateTime.now(),
+        lastDate: DateTime(DateTime.now().month + 3),
+        fieldHintText: "DATE/MONTH/YEAR",
+        errorFormatText: "Enter a Valid Date",
+        errorInvalidText: "Date Out of Range",
+    );
   }
 
   void callDatePicker() async {
