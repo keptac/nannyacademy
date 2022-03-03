@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:nannyacademy/employers/employerRegistration.dart';
+import 'package:nannyacademy/passwordCreation.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -123,7 +123,8 @@ class _ServicesOfferedState extends State<EmploymentRequirements> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => EmployerRegistration()),
+                      builder: (context) => PasswordCreation(userTypeValue: 'employer'),
+                    ),
                   );
                 },
                 backgroundColor: Color.fromRGBO(255, 200, 124, 1),

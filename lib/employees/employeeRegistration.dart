@@ -17,6 +17,7 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
   final _nameController = TextEditingController();
   final _surnameController = TextEditingController();
   final _addressController = TextEditingController();
+  final _emailAddressController = TextEditingController();
   final _phoneNumberController = TextEditingController();
   String _genderVal = 'Male';
   String _dobText = 'Date of Birth *';
@@ -47,6 +48,10 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
       pref.setString(
         'address',
         _addressController.text,
+      );
+      pref.setString(
+        'emailAddress',
+        _emailAddressController.text,
       );
       pref.setString(
         'phoneNumber',
@@ -111,6 +116,7 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
         onPressed: () {
           if (_nameController.text != '' &&
               _surnameController.text != '' &&
+              _emailAddressController.text != '' &&
               (_dobText != 'Date of Birth *' && _dobText != '') &&
               _addressController.text != '' &&
               _genderVal != '') {
@@ -201,6 +207,13 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
                 TextInputType.number,
                 Color.fromRGBO(34, 167, 240, 1),
                 12),
+            GenericTextField(
+              Icons.alternate_email,
+              _emailAddressController,
+              'Email Address *',
+              TextInputType.emailAddress,
+              Color.fromRGBO(34, 167, 240, 1),
+            ),
             _proceedButton()
           ],
         ),

@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
-import 'package:nannyacademy/passwordCreation.dart';
+import 'package:nannyacademy/employers/servicesOffered.dart';
 
 class EmployerRegistration extends StatefulWidget {
   @override
@@ -16,6 +16,7 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
   final _nameController = TextEditingController();
   final _surnameController = TextEditingController();
   final _addressController = TextEditingController();
+  final _emailController = TextEditingController();
   final _phoneNumberController = TextEditingController();
   String _genderVal = 'Male';
   String _status = '';
@@ -45,6 +46,10 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
         _addressController.text,
       );
       pref.setString(
+        'emailAddress',
+        _emailController.text,
+      );
+      pref.setString(
         'phoneNumber',
         _phoneNumberController.text,
       );
@@ -57,7 +62,7 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PasswordCreation(userTypeValue: 'employer'),
+        builder: (context) => ServicesOffered()
       ),
     );
   }
@@ -108,6 +113,7 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
           if (_nameController.text != '' &&
               _surnameController.text != '' &&
               _addressController.text != '' &&
+              _emailController.text != '' &&
               _genderVal != '') {
             _storePersonalDetails();
           } else {
@@ -138,7 +144,7 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
       bottomSheet: KyBottomSheet(),
       body: Center(
         child: ListView(
-          padding: EdgeInsets.only(top: 40),
+          padding: EdgeInsets.only(top: 80),
           children: <Widget>[
             Center(
               child: Text(
@@ -188,6 +194,13 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
                 TextInputType.number,
                 Color.fromRGBO(255, 200, 124, 1),
                 11),
+            GenericTextField(
+              Icons.alternate_email,
+              _emailController,
+              'Email Address *',
+              TextInputType.emailAddress,
+              Color.fromRGBO(255, 200, 124, 1),
+            ),
             SizedBox(
               height: 10,
             ),
