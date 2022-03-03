@@ -151,12 +151,17 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
   }
 
   Future<DateTime> getDate() {
-    return showRoundedDatePicker(
+    return showDatePicker(
         context: context,
-        initialDate: DateTime(DateTime.now().year - 11),
+        initialDate: DateTime(DateTime.now().year - 20),
         firstDate: DateTime(DateTime.now().year - 50),
-        lastDate: DateTime(DateTime.now().year - 9),
-        borderRadius: 16);
+        lastDate: DateTime(DateTime.now().year - 16),
+        fieldHintText: "DATE/MONTH/YEAR",
+        errorFormatText: "Enter a Valid Date",
+        errorInvalidText: "Date Out of Range",
+        initialDatePickerMode: DatePickerMode.year,
+        initialEntryMode: DatePickerEntryMode.input
+       );
   }
 
   void callDatePicker() async {
@@ -279,7 +284,10 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
                   },
                 )
             ),
-            _proceedButton()
+            _proceedButton(),
+            SizedBox(
+              height: 100,
+            ),
           ],
         ),
       ),
