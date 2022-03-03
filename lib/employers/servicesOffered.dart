@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nannyacademy/employers/employmentRequirements.dart';
+import 'package:nannyacademy/passwordCreation.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -52,29 +53,18 @@ class _ServicesOfferedState extends State<ServicesOffered> {
                   onChanged: (T) {
                     setState(() {
                       group = T;
-                      _serviceOption = 'Live-in (2 off days) ';
+                      _serviceOption = 'Care giver';
                     });
                   },
                 ),
-                Text('Live-in Care Giver (2 off days a Month)'),
+                Text('Care Giver: Live-in / Live-out',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
               ],
             ),
-            Row(
-              children: <Widget>[
-                SizedBox(width: 15.0),
-                Radio(
-                  groupValue: group,
-                  value: 2,
-                  onChanged: (T) {
-                    setState(() {
-                      group = T;
-                      _serviceOption = 'Live-out (Mon to Sat)';
-                    });
-                  },
-                ),
-                Text('Live-out Care Giver (Mon to Sat)'),
-              ],
+            Container(
+                margin: EdgeInsets.only(left:60, right:30),
+                child: Text('Live-out (works Mon to Sat only) positions are subject to availability and should be confirmed before commitment is made.', style: TextStyle(fontStyle: FontStyle.italic))
             ),
+            SizedBox(height: 10),
             Row(
               children: <Widget>[
                 SizedBox(width: 15.0),
@@ -88,7 +78,7 @@ class _ServicesOfferedState extends State<ServicesOffered> {
                     });
                   },
                 ),
-                Text('Nanny'),
+                Text('Nanny',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
               ],
             ),
             Row(
@@ -104,7 +94,7 @@ class _ServicesOfferedState extends State<ServicesOffered> {
                     });
                   },
                 ),
-                Text('House Keeper'),
+                Text('House Keeper',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
               ],
             ),
             Row(
@@ -120,14 +110,14 @@ class _ServicesOfferedState extends State<ServicesOffered> {
                     });
                   },
                 ),
-                Text('Cook'),
+                Text('Cook',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
               ],
             ),
             SizedBox(height: 40),
             Container(
               margin: EdgeInsets.only(left: 20, right: 30),
               child: Text(
-                'Please note, before requesting for services Nanny Academy requests a commitment fee to proceed with finding care givers that suit your requirements',
+                'Please note: Nanny Academy requires a commitment fee of N7000 to proceed with finding you professionals that suit your requirements.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontStyle: FontStyle.italic,
@@ -139,9 +129,9 @@ class _ServicesOfferedState extends State<ServicesOffered> {
             Center(
               child: ActionChip(
                 padding:
-                    EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
+                EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
                 label: Text(
-                  'Continue',
+                  'Agree and proceed',
                   style: TextStyle(color: Colors.white, fontSize: 17),
                 ),
                 onPressed: () async {
@@ -154,7 +144,7 @@ class _ServicesOfferedState extends State<ServicesOffered> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => EmploymentRequirements(),
+                      builder: (context) => PasswordCreation(userTypeValue: 'employer'),
                     ),
                   );
                 },

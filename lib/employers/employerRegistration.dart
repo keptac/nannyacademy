@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:nannyacademy/employers/employmentRequirements.dart';
 import 'package:nannyacademy/widgets/genericTextField.dart';
 import 'package:nannyacademy/widgets/phoneNumber.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
-import 'package:nannyacademy/employers/servicesOffered.dart';
 import 'package:csc_picker/csc_picker.dart';
 
 class EmployerRegistration extends StatefulWidget {
@@ -82,7 +82,7 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ServicesOffered()
+        builder: (context) => EmploymentRequirements()
       ),
     );
   }

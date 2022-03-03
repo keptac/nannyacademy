@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:nannyacademy/employers/servicesOffered.dart';
 import 'package:nannyacademy/passwordCreation.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -136,7 +137,7 @@ class _ServicesOfferedState extends State<EmploymentRequirements> {
                 padding:
                     EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
                 label: Text(
-                  'Proceed to register',
+                  'Continue',
                   style: TextStyle(color: Colors.white, fontSize: 17),
                 ),
                 onPressed: () async {
@@ -158,7 +159,7 @@ class _ServicesOfferedState extends State<EmploymentRequirements> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => PasswordCreation(userTypeValue: 'employer'),
+                      builder: (context) => ServicesOffered()
                     ),
                   );
                 },
