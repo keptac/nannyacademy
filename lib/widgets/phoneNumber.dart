@@ -13,12 +13,19 @@ class PhoneNumberField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 70,
-      child: Padding(
-        padding: EdgeInsets.only(left: 40, right: 40, bottom: 15),
-        child:
-        InternationalPhoneNumberInput(
+    return Container(
+
+      margin: EdgeInsets.only(left:40, right: 40, top:5, bottom:20),
+      padding: EdgeInsets.only(right:20),
+      height: 60,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+          border: Border.all(
+            color: Colors.grey,
+            width: 1,
+          ),),
+
+        child: InternationalPhoneNumberInput(
           onInputChanged: (PhoneNumber number) {
             print(number.phoneNumber);
           },
@@ -35,12 +42,11 @@ class PhoneNumberField extends StatelessWidget {
           textFieldController: controlller,
           formatInput: true,
           keyboardType: TextInputType.numberWithOptions(signed: true, decimal: true),
-          inputBorder: OutlineInputBorder(),
+          // inputBorder: OutlineInputBorder(),
           onSaved: (PhoneNumber number) {
             print('On Saved: $number');
           },
         ),
-      ),
     );
   }
 }

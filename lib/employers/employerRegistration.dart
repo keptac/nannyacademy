@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:nannyacademy/widgets/genericTextField.dart';
+import 'package:nannyacademy/widgets/phoneNumber.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
 import 'package:nannyacademy/employers/servicesOffered.dart';
+
 
 class EmployerRegistration extends StatefulWidget {
   @override
@@ -18,6 +20,7 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
   final _addressController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneNumberController = TextEditingController();
+
   String _genderVal = 'Male';
   String _status = '';
   int group = 1;
@@ -187,13 +190,7 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
               TextInputType.text,
               Color.fromRGBO(255, 200, 124, 1),
             ),
-            GenericTextField(
-                Icons.phone,
-                _phoneNumberController,
-                'Phone Number *',
-                TextInputType.number,
-                Color.fromRGBO(255, 200, 124, 1),
-                11),
+            PhoneNumberField(_phoneNumberController),
             GenericTextField(
               Icons.alternate_email,
               _emailController,
@@ -201,6 +198,7 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
               TextInputType.emailAddress,
               Color.fromRGBO(255, 200, 124, 1),
             ),
+
             SizedBox(
               height: 10,
             ),

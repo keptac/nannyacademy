@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nannyacademy/passwordCreation.dart';
 import 'package:nannyacademy/widgets/genericTextField.dart';
+import 'package:nannyacademy/widgets/phoneNumber.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
@@ -200,13 +201,7 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
             _radio(),
             GenericTextField(
                 Icons.location_on, _addressController, 'Physical Address *'),
-            GenericTextField(
-                Icons.phone,
-                _phoneNumberController,
-                'Phone Number *',
-                TextInputType.number,
-                Color.fromRGBO(34, 167, 240, 1),
-                12),
+            PhoneNumberField(_phoneNumberController),
             GenericTextField(
               Icons.alternate_email,
               _emailAddressController,
