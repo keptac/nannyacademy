@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:nannyacademy/employers/employmentRequirements.dart';
 import 'package:nannyacademy/widgets/genericTextField.dart';
+import 'package:nannyacademy/widgets/phoneNumber.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
-import 'package:nannyacademy/passwordCreation.dart';
+import 'package:csc_picker/csc_picker.dart';
 
 class EmployerRegistration extends StatefulWidget {
   @override
@@ -16,7 +18,14 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
   final _nameController = TextEditingController();
   final _surnameController = TextEditingController();
   final _addressController = TextEditingController();
+  final _emailController = TextEditingController();
   final _phoneNumberController = TextEditingController();
+
+  String countryValue = "";
+  String stateValue = "";
+  String cityValue = "";
+  String address = "";
+
   String _genderVal = 'Male';
   String _status = '';
   int group = 1;
@@ -45,6 +54,22 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
         _addressController.text,
       );
       pref.setString(
+        'country',
+        countryValue,
+      );
+      pref.setString(
+        'state',
+        stateValue,
+      );
+      pref.setString(
+        'city',
+        cityValue,
+      );
+      pref.setString(
+        'emailAddress',
+        _emailController.text,
+      );
+      pref.setString(
         'phoneNumber',
         _phoneNumberController.text,
       );
@@ -57,7 +82,7 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PasswordCreation(userTypeValue: 'employer'),
+        builder: (context) => EmploymentRequirements()
       ),
     );
   }
@@ -108,6 +133,7 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
           if (_nameController.text != '' &&
               _surnameController.text != '' &&
               _addressController.text != '' &&
+              _emailController.text != '' &&
               _genderVal != '') {
             _storePersonalDetails();
           } else {
@@ -138,7 +164,7 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
       bottomSheet: KyBottomSheet(),
       body: Center(
         child: ListView(
-          padding: EdgeInsets.only(top: 40),
+          padding: EdgeInsets.only(top: 80),
           children: <Widget>[
             Center(
               child: Text(
@@ -174,6 +200,14 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
               Color.fromRGBO(255, 200, 124, 1),
             ),
             _radio(),
+            PhoneNumberField(_phoneNumberController),
+            GenericTextField(
+              Icons.alternate_email,
+              _emailController,
+              'Email Address *',
+              TextInputType.emailAddress,
+              Color.fromRGBO(255, 200, 124, 1),
+            ),
             GenericTextField(
               Icons.location_on,
               _addressController,
@@ -181,17 +215,66 @@ class _EmployerRegistrationState extends State<EmployerRegistration> {
               TextInputType.text,
               Color.fromRGBO(255, 200, 124, 1),
             ),
-            GenericTextField(
-                Icons.phone,
-                _phoneNumberController,
-                'Phone Number *',
-                TextInputType.number,
-                Color.fromRGBO(255, 200, 124, 1),
-                11),
+
+            Container(
+              margin: EdgeInsets.only(left:40, right: 40, bottom:20),
+                  child:
+                  CSCPicker(
+                    searchBarRadius: 10.0,
+                    dropdownDialogRadius: 10.0,
+                    dropdownDecoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(50)
+                        ),
+                        border:
+                        Border.all(color: Colors.grey, width: 1)
+                    ),
+
+                    disabledDropdownDecoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(50)
+                        ),
+                        color: Colors.grey.shade300,
+                        border:
+                        Border.all(color: Colors.grey.shade300, width: 1)
+                    ),
+
+                    countryDropdownLabel: "Country *",
+                    stateDropdownLabel: "State *",
+                    cityDropdownLabel: "*City *",
+
+                    defaultCountry: DefaultCountry.Nigeria,
+                    // disableCountry: true,
+
+                    selectedItemStyle: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                    ),
+
+                    onCountryChanged: (value) {
+                      setState(() {
+                        countryValue = value;
+                      });
+                    },
+                    onStateChanged:(value) {
+                      setState(() {
+                        stateValue = value;
+                      });
+                    },
+                    onCityChanged:(value) {
+                      setState(() {
+                        cityValue = value;
+                      });
+                    },
+                  )
+            ),
             SizedBox(
               height: 10,
             ),
-            _proceedButton()
+            _proceedButton(),
+            SizedBox(
+              height: 100,
+            ),
           ],
         ),
       ),

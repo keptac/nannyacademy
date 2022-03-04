@@ -36,6 +36,8 @@ Copy and use the above request number to pay a commitment fee into the nanny acc
 
 
 Nannies that match your request profile will appear in the REQUESTS RESULTS Menu.
+
+
 """;
 
     return SafeArea(
@@ -70,8 +72,6 @@ Nannies that match your request profile will appear in the REQUESTS RESULTS Menu
                       SizedBox(height: 20),
                       spinkit,
                       SizedBox(height: 50),
-
-
                       failedToSave ?Text(
                         "Ops, Failed to save your request. Check your internet connection. \n\nIf it persists contact Nanny Academy.",
                         textAlign: TextAlign.center,

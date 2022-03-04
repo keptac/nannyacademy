@@ -25,14 +25,13 @@ class PasswordCreation extends StatefulWidget {
 }
 
 class _PasswordCreationState extends State<PasswordCreation> {
-  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPassowordController = TextEditingController();
   final _auth = FirebaseAuth.instance;
   String _errorMsg = '';
   String requestNo = '';
 
-  String statusResponse = "Profile Created. KYC verification in progress.";
+  String statusResponse = "Profile creation in progress, please wait.";
   bool loading = false;
 
   void _getRequest() async {
@@ -53,23 +52,27 @@ class _PasswordCreationState extends State<PasswordCreation> {
     final String gender = prefs.getString('gender');
     final String dob = prefs.getString('dob');
     final String address = prefs.getString('address');
+    final String city = prefs.getString('city');
+    final String country = prefs.getString('country');
+    final String state = prefs.getString('state');
     final String phoneNumber = prefs.getString('phoneNumber');
     final String userType = prefs.getString('userType');
     final String requestNumber = prefs.getString('requestNumber');
     final String employeeClass = prefs.getString('employeeClass');
     final String serviceType = prefs.getString('serviceType');
+    final String emailAddress = prefs.getString('emailAddress');
 
     if (surname != null) {
       try {
         final result = await _auth.createUserWithEmailAndPassword(
-            email: _emailController.text, password: _passwordController.text);
+            email: emailAddress, password: _passwordController.text);
 
         final userid = result;
 
         final usertypeMapping = {
           "profileid": userid.user.uid,
           "userType": userType,
-          "activated": false
+          "activated": true
         };
 
         await FirebaseFirestore.instance
@@ -92,13 +95,17 @@ class _PasswordCreationState extends State<PasswordCreation> {
             "dob": dob,
             "phoneNumber": phoneNumber,
             "address": address,
+            "country":country,
+            "city":city,
+            "state":state,
             "userType": userType,
-            "emailAddress": _emailController.text,
+            "emailAddress": emailAddress,
             "applicationNumber": applicationNumber,
             "photoUrl":
                 "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
             "employmentStatus": "Pending",
             "employer": ""
+
           };
 
           await FirebaseFirestore.instance
@@ -111,7 +118,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
               content: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child:
-                    Text('Sucessfully Register. Application Pending approval'),
+                    Text('Sucessfully Register.You may login now'),
               ),
               duration: Duration(seconds: 5),
             ),
@@ -144,8 +151,11 @@ class _PasswordCreationState extends State<PasswordCreation> {
             "dob": dob,
             "phoneNumber": phoneNumber,
             "address": address,
+            "country":country,
+            "city":city,
+            "state":state,
             "userType": userType,
-            "emailAddress": _emailController.text,
+            "emailAddress": emailAddress,
             "channel": "MOBILE",
             "verificationStatus": "Pending",
             "photoUrl":
@@ -177,15 +187,30 @@ class _PasswordCreationState extends State<PasswordCreation> {
               .collection('Service Requests')
               .add(requestBody);
 
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: Colors.blueGrey,
-              content: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child:
-                    Text('Sucessfully Register. Account Pending Verification'),
-              ),
-              duration: Duration(seconds: 5),
+          // ScaffoldMessenger.of(context).showSnackBar(
+          //   SnackBar(
+          //     backgroundColor: Colors.blueGrey,
+          //     content: Padding(
+          //       padding: const EdgeInsets.all(8.0),
+          //       child:Text('Congratulations for registering with Nanny academy.  Please log on with details you created now, select the services you require and make the initial deposit to this account and upload the evidence of payment while we get in touch in few hours.')
+          //               ),
+          //     duration: Duration(seconds: 5),
+          //   ),
+          // );
+
+          showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+              title: Text('Registration Success'),
+              content: Text('Congratulations for registering with Nanny academy.  Please log on with details you created now, select the services you require and make the initial deposit of N7000 and upload the evidence of payment while we get in touch in few hours.'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    LoginPage();
+                  },
+                  child: Text('Ok, Login'),
+                )
+              ],
             ),
           );
 
@@ -193,19 +218,19 @@ class _PasswordCreationState extends State<PasswordCreation> {
             statusResponse = "Profile Created.";
           });
 
-          //delay then route
-          Future.delayed(
-            const Duration(milliseconds: 3000),
-            () {
-              prefs.clear();
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => LoginPage(),
-                ),
-              );
-            },
-          );
+          // //delay then route
+          // Future.delayed(
+          //   const Duration(milliseconds: 3000),
+          //   () {
+          //     prefs.clear();
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //         builder: (context) =>
+          //       ),
+          //     );
+          //   },
+          // );
         }
       } on FirebaseAuthException catch (e) {
         setState(() {
@@ -302,9 +327,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
           style: TextStyle(color: Colors.white, fontSize: 17),
         ),
         onPressed: () {
-          if (_emailController.text != '' &&
-              _passwordController.text != '' &&
-              _emailController.text != null &&
+          if (_passwordController.text != '' &&
               _passwordController.text != null) {
             if (_passwordController.text == _confirmPassowordController.text) {
               _register();
@@ -356,11 +379,11 @@ class _PasswordCreationState extends State<PasswordCreation> {
             SizedBox(height: 30),
             Center(
                 child: Text(
-              _errorMsg,
-              style: TextStyle(color: Colors.red),
-            )),
+                _errorMsg,
+                style: TextStyle(color: Colors.red),
+              ),
+            ),
             SizedBox(height: 20),
-            _textField(Icons.email, _emailController, 'Email Address *'),
             _passwordField(
                 Icons.lock, _passwordController, 'Desired Password *'),
             _passwordField(Icons.lock_outline, _confirmPassowordController,
