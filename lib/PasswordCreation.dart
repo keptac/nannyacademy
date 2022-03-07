@@ -71,13 +71,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
     final String relationship = prefs.getString('relationship');
     final String googleFormsEmailAddress =
         prefs.getString('googleFormsEmailAddress');
-    final String guardianAddress = prefs.getString('guardianAddress') +
-        ' ' +
-        prefs.getString('guardianCity') +
-        ' ' +
-        prefs.getString('guardianState') +
-        ' ' +
-        prefs.getString('guardianCountry');
+    final String guardianAddress = prefs.getString('guardianAddress');
 
     final String guardianEmailAddress = prefs.getString('guardianEmailAddress');
     final String guardianPhoneNumber = prefs.getString('guardianPhoneNumber');
@@ -177,7 +171,8 @@ class _PasswordCreationState extends State<PasswordCreation> {
               backgroundColor: Colors.blueGrey,
               content: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('Sucessfully Register.You may login now'),
+                child: Text(
+                    'Sucessfully Register.You will receive an email with terms and conditions please review and agree. The Nanny academy staff will be in touch soon.'),
               ),
               duration: Duration(seconds: 5),
             ),

@@ -7,22 +7,7 @@ class ServiceRequests extends StatefulWidget {
 }
 
 class _ServiceRequestsState extends State<ServiceRequests> {
-  List serviceRequests = [
-    {
-      "requestNum": "REQ67889997",
-      "requestType": "Nanny",
-      "serviceRequested": "Silver - level 1 Stay In",
-      "nannyId": "58-293952-Q-86",
-      "requestorId": "789008H78",
-      "requestorName": "Kelvin Chelenje",
-      "phoneNumber": '+263785302628',
-      "requestDate": "2021-09-27",
-      "meetingDate": "2021-09-27",
-      "location": "123 Main way",
-      "requestStatus": "PENDING",
-      "photoUrl": ''
-    }
-  ];
+  List serviceRequests = [];
 
   Widget serviceDisplay(var title, var value) {
     return Column(
