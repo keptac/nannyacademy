@@ -17,8 +17,32 @@ class GoogleForms extends StatefulWidget {
 class _GoogleFormsState extends State<GoogleForms> {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   final _emailAddressController = TextEditingController();
-
+  var employeeClassSelected = 'Level 1';
+  String serviceDurationSelected = 'Care giver';
   String _status = '';
+
+  var employeeClasses = [
+    {'name': 'Nanny Level 1: N30, 000 to N35,000', 'value': 'Level 1'},
+    {'name': 'Nanny Level 2:  N45, 000 to N65, 000', 'value': 'Level 2'},
+    {'name': 'Nanny Level 3: N75, 000', 'value': 'Level 3'},
+    {'name': 'Cooks: N60,000', 'value': 'Cook'}
+  ];
+
+  var serviceDurations = [
+    {
+      'name': 'Care Giver: Live-in / Live-out',
+      'value': 'Care giver',
+    },
+    {
+      'name': 'Nanny',
+      'value': 'Nanny',
+    },
+    {
+      'name': 'House Keeper',
+      'value': 'House Keeper',
+    },
+    {'name': 'Cook', 'value': 'Cook'}
+  ];
 
   void _storePersonalDetails() async {
     final SharedPreferences pref = await _prefs;
@@ -26,6 +50,10 @@ class _GoogleFormsState extends State<GoogleForms> {
       pref.setString(
         'googleFormsEmailAddress',
         _emailAddressController.text,
+      );
+      pref.setString(
+        'serviceEmployeeOffers',
+        serviceDurationSelected,
       );
     });
 
@@ -114,7 +142,51 @@ class _GoogleFormsState extends State<GoogleForms> {
               TextInputType.emailAddress,
               Color.fromRGBO(34, 167, 240, 1),
             ),
+            SizedBox(
+              height: 30,
+            ),
 
+            Container(
+              margin: EdgeInsets.only(left: 37, right: 37, bottom: 15),
+              child: Text(
+                "Please Select services you are registering to offer  *",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16, fontFamily: 'Quicksand'),
+              ),
+            ),
+
+            Container(
+              height: 58,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(30.0) //
+                    ),
+                border: Border.all(color: Colors.grey),
+              ),
+              margin: EdgeInsets.only(left: 37, right: 37, bottom: 15),
+              padding: EdgeInsets.only(left: 30),
+              child: DropdownButton(
+                underline: Text(""),
+                value: serviceDurationSelected,
+                icon: Icon(Icons.keyboard_arrow_down),
+                items: serviceDurations.map((var serviceDurations) {
+                  return DropdownMenuItem(
+                    value: serviceDurations['value'],
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 10, top: 5),
+                      child: Text(
+                        serviceDurations['name'],
+                        style: TextStyle(fontFamily: 'Quicksand', fontSize: 15),
+                      ),
+                    ),
+                  );
+                }).toList(),
+                onChanged: (String newValue) {
+                  setState(() {
+                    serviceDurationSelected = newValue;
+                  });
+                },
+              ),
+            ),
             _proceedButton(),
             SizedBox(
               height: 150,

@@ -64,9 +64,13 @@ class _PasswordCreationState extends State<PasswordCreation> {
     final String employeeClass = prefs.getString('employeeClass');
     final String serviceType = prefs.getString('serviceType');
     final String emailAddress = prefs.getString('emailAddress');
+    final String serviceEmployeeOffers =
+        prefs.getString('serviceEmployeeOffers');
 
     final String guardianFullName = prefs.getString('guardianFullName');
     final String relationship = prefs.getString('relationship');
+    final String googleFormsEmailAddress =
+        prefs.getString('googleFormsEmailAddress');
     final String guardianAddress = prefs.getString('guardianAddress') +
         ' ' +
         prefs.getString('guardianCity') +
@@ -78,19 +82,22 @@ class _PasswordCreationState extends State<PasswordCreation> {
     final String guardianEmailAddress = prefs.getString('guardianEmailAddress');
     final String guardianPhoneNumber = prefs.getString('guardianPhoneNumber');
 
-        final String secondguardianFullName = prefs.getString('secondguardianFullName');
+    final String secondguardianFullName =
+        prefs.getString('secondguardianFullName');
     final String secondrelationship = prefs.getString('secondrelationship');
-    final String secondguardianAddress = prefs.getString('secondguardianAddress') +
-        ' ' +
-        prefs.getString('secondguardianCity') +
-        ' ' +
-        prefs.getString('secondguardianState') +
-        ' ' +
-        prefs.getString('secondguardianCountry');
+    final String secondguardianAddress =
+        prefs.getString('secondguardianAddress') +
+            ' ' +
+            prefs.getString('secondguardianCity') +
+            ' ' +
+            prefs.getString('secondguardianState') +
+            ' ' +
+            prefs.getString('secondguardianCountry');
 
-    final String secondguardianEmailAddress = prefs.getString('secondguardianEmailAddress');
-    final String secondguardianPhoneNumber = prefs.getString('secondguardianPhoneNumber');
-
+    final String secondguardianEmailAddress =
+        prefs.getString('secondguardianEmailAddress');
+    final String secondguardianPhoneNumber =
+        prefs.getString('secondguardianPhoneNumber');
 
     if (surname != null) {
       try {
@@ -137,7 +144,8 @@ class _PasswordCreationState extends State<PasswordCreation> {
             "employer": "",
             "religion": religion,
             "churchAddress": religionAddress,
-            "service": ""
+            "service": serviceEmployeeOffers,
+            "experience": ''
           };
 
           final nextOfKeenDetails = {
@@ -153,6 +161,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
             "secondguardianAddress": secondguardianAddress,
             "secondguardianEmailAddress": secondguardianEmailAddress,
             "secondguardianPhoneNumber": secondguardianPhoneNumber,
+            "googleFormsEmailAddress": googleFormsEmailAddress
           };
 
           await FirebaseFirestore.instance
