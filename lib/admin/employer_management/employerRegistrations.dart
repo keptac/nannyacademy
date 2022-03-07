@@ -9,27 +9,6 @@ class EmployerRegistrations extends StatefulWidget {
 }
 
 class _EmployerRegistrationsState extends State<EmployerRegistrations> {
-  // List serviceRequests = [
-  //   {
-  //     "firstName": "Kelvin",
-  //     "surname": "Chelenje",
-  //     "gender": "MALE",
-  //     "address": "186 Helvetia Drive Borrowdale",
-  //     "phoneNumber": "263785302628",
-  //     "idNumber": "2021-10-30",
-  //     "photoUrl":
-  //     "",
-  //
-  //     "verificationStatus": "Pending",
-  //     "applicationNumber": "REQ67889997",
-  //     "services": "Gold - Level 2",
-  //     "employeeCount":0,
-  //     "activeEmployment":false,  // widget.activeEmployment
-  //     "employeeId": "",
-  //     "employeeName": ""
-  //   }
-  // ];
-
   int index = 0;
 
   void _approval(var id, var decision, var profileid) async {
@@ -179,13 +158,16 @@ class _EmployerRegistrationsState extends State<EmployerRegistrations> {
                                 height: 10,
                               ),
                               serviceDisplay(
-                                  "ID Number", serviceRequest['idNumber']),
-                              serviceDisplay(
                                   "Gender", serviceRequest['gender']),
                               serviceDisplay("Phone Number",
                                   serviceRequest['phoneNumber']),
                               serviceDisplay(
-                                  "Address", serviceRequest['address'])
+                                  "Address",
+                                  serviceRequest['address'] +
+                                      ' ' +
+                                      serviceRequest['city'] +
+                                      ' ' +
+                                      serviceRequest['state'])
                             ],
                           ),
                         ),
