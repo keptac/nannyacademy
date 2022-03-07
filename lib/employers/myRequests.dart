@@ -15,29 +15,6 @@ class MyRequests extends StatefulWidget {
 }
 
 class _MyRequestsState extends State<MyRequests> {
-  // List serviceRequests = [
-  //   {
-  //     "firstName": "Charlotte",
-  //     "surname": "Chelenje",
-  //     "gender": "FEMALE",
-  //     "age": "23",
-  //     "services": "Nanny",
-  //     "location": "Lagos",
-  //     "phoneNumber": "263785302628",
-  //     "photoUrl":
-  //         "",
-  //     "employeeId": "58-293952-Q-86",
-  //     "jobStatus": "Granted",
-  //     "requestStatus": "Approved",
-  //     "serviceRequested": "watering the garden ",
-  //     "requestType": "Gardener",
-  //     "meetingDate": "2021-10-30",
-  //     "active": "1",
-  //     "salary": "1000",
-  //     "requestNumber": "REQ67889997",
-  //   }
-  // ];
-
   int index = 0;
 
   String _meetingText = 'Meeting Date *';

@@ -127,6 +127,7 @@ class _SearchResultsState extends State<SearchResults> {
         "requestNumber": widget.requestNumber,
         "amount": _amount.text,
         "receiptNumber": _receiptNumber.text,
+        "confirmationStatus": "Pending",
         "pof": {
           "image": popBase64Image,
           "name": popFileName,
