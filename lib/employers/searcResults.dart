@@ -378,11 +378,20 @@ class _SearchResultsState extends State<SearchResults> {
         backgroundColor: Color.fromRGBO(255, 200, 124, 1),
       ),
       body: widget.status == "Approved"
-          ? (serviceRequestResults.length > 0
-              ? ListView.builder(
-                  itemCount: serviceRequestResults.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    var serviceRequest = serviceRequestResults[index];
+          ? StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection('Employee Accounts')
+                  // .where('jobStatus', isEqualTo: widget.jobStatus)
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                return ListView(
+                  children: snapshot.data.docs.map((serviceRequest) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 10),
@@ -533,15 +542,9 @@ class _SearchResultsState extends State<SearchResults> {
                         ],
                       ),
                     );
-                  },
-                )
-              : Center(
-                  child: Text(
-                    "Your results are being processed.",
-                    style: TextStyle(fontSize: 17),
-                    textAlign: TextAlign.center,
-                  ),
-                ))
+                  }).toList(),
+                );
+              })
           : Column(
               children: [
                 SizedBox(

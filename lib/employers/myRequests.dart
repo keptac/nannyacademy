@@ -226,7 +226,10 @@ class _MyRequestsState extends State<MyRequests> {
           centerTitle: true,
           backgroundColor: Color.fromRGBO(255, 200, 124, 1),
         ),
-        body: StreamBuilder(
+        body: 
+        
+        
+        StreamBuilder(
             stream: FirebaseFirestore.instance
                 .collection('Employments')
                 .where('jobStatus', isEqualTo: widget.jobStatus)
@@ -422,6 +425,7 @@ class _MyRequestsState extends State<MyRequests> {
                   );
                 }).toList(),
               );
-            }));
+            }),
+            );
   }
 }
