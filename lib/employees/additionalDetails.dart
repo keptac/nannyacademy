@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:nannyacademy/employees/googleForms.dart';
 import 'package:nannyacademy/passwordCreation.dart';
 import 'package:nannyacademy/widgets/genericTextField.dart';
 import 'package:nannyacademy/widgets/phoneNumber.dart';
@@ -9,115 +10,112 @@ import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
 import 'package:csc_picker/csc_picker.dart';
 
-class EmployeeRegistration extends StatefulWidget {
+class AdditionalDetails extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _EmployeeRegistrationState();
+  State<StatefulWidget> createState() => _AdditionalDetailsState();
 }
 
-class _EmployeeRegistrationState extends State<EmployeeRegistration> {
+class _AdditionalDetailsState extends State<AdditionalDetails> {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   final _nameController = TextEditingController();
-  final _surnameController = TextEditingController();
+  final _occupationController = TextEditingController();
+  final _relationshipController = TextEditingController();
   final _addressController = TextEditingController();
   final _emailAddressController = TextEditingController();
   final _phoneNumberController = TextEditingController();
-  String _genderVal = 'Male';
-  String _dobText = 'Date of Birth *';
+
   String _status = '';
-  int group = 1;
   String countryValue = "";
   String stateValue = "";
   String cityValue = "";
   String address = "";
-  var _finaldate;
+
+  final _secondNameController = TextEditingController();
+  final _secondoccupationController = TextEditingController();
+  final _secondrelationshipController = TextEditingController();
+  final _secondaddressController = TextEditingController();
+  final _secondemailAddressController = TextEditingController();
+  final _secondphoneNumberController = TextEditingController();
+
+  String secondcountryValue = "";
+  String secondstateValue = "";
+  String secondcityValue = "";
+  String secondaddress = "";
 
   void _storePersonalDetails() async {
     final SharedPreferences pref = await _prefs;
     setState(() {
       pref.setString(
-        'firstName',
+        'guardianFullName',
         _nameController.text,
       );
       pref.setString(
-        'surname',
-        _surnameController.text,
+        'relationship',
+        _relationshipController.text,
       );
       pref.setString(
-        'gender',
-        _genderVal,
-      );
-      pref.setString(
-        'dob',
-        _dobText,
-      );
-      pref.setString(
-        'address',
+        'guardianAddress',
         _addressController.text,
       );
       pref.setString(
-        'country',
+        'guardianCountry',
         countryValue,
       );
       pref.setString(
-        'state',
+        'guardianState',
         stateValue,
       );
       pref.setString(
-        'city',
+        'guardianCity',
         cityValue,
       );
       pref.setString(
-        'emailAddress',
+        'guardianEmailAddress',
         _emailAddressController.text,
       );
       pref.setString(
-        'phoneNumber',
+        'guardianPhoneNumber',
         _phoneNumberController.text,
       );
+
       pref.setString(
-        'userType',
-        'employee',
+        'secondguardianFullName',
+        _secondNameController.text,
+      );
+      pref.setString(
+        'secondrelationship',
+        _secondrelationshipController.text,
+      );
+      pref.setString(
+        'secondguardianAddress',
+        _secondaddressController.text,
+      );
+      pref.setString(
+        'secondguardianCountry',
+        secondcountryValue,
+      );
+      pref.setString(
+        'secondguardianState',
+        secondstateValue,
+      );
+      pref.setString(
+        'secondguardianCity',
+        secondcityValue,
+      );
+      pref.setString(
+        'secondguardianEmailAddress',
+        _secondemailAddressController.text,
+      );
+      pref.setString(
+        'secondguardianPhoneNumber',
+        _secondphoneNumberController.text,
       );
     });
 
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PasswordCreation(userTypeValue: 'employee'),
-      ),
-    );
-  }
-
-  Widget _radio() {
-    return Padding(
-      padding: EdgeInsets.only(left: 40, right: 40, bottom: 15, top: 15),
-      child: Row(
-        children: <Widget>[
-          Text('Select Gender: * '),
-          Radio(
-            value: 1,
-            groupValue: group,
-            onChanged: (T) {
-              setState(() {
-                group = T;
-                _genderVal = 'Male';
-              });
-            },
-          ),
-          Text('Male'),
-          SizedBox(width: 15.0),
-          Radio(
-            groupValue: group,
-            value: 2,
-            onChanged: (T) {
-              setState(() {
-                group = T;
-                _genderVal = 'Female';
-              });
-            },
-          ),
-          Text('Female'),
-        ],
+        builder: (context) => GoogleForms(),
       ),
     );
   }
@@ -127,16 +125,15 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
       child: ActionChip(
         padding: EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
         label: Text(
-          'Submit Application',
+          'Proceed',
           style: TextStyle(color: Colors.white, fontSize: 17),
         ),
         onPressed: () {
           if (_nameController.text != '' &&
-              _surnameController.text != '' &&
+              _relationshipController.text != '' &&
               _emailAddressController.text != '' &&
-              (_dobText != 'Date of Birth *' && _dobText != '') &&
-              _addressController.text != '' &&
-              _genderVal != '') {
+              (_occupationController.text != 'Date of Birth *') &&
+              _addressController.text != '') {
             _storePersonalDetails();
           } else {
             setState(() {
@@ -146,43 +143,6 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
         },
         backgroundColor: Color.fromRGBO(34, 167, 240, 1),
         elevation: 1,
-      ),
-    );
-  }
-
-  Future<DateTime> getDate() {
-    return showDatePicker(
-        context: context,
-        initialDate: DateTime(DateTime.now().year - 20),
-        firstDate: DateTime(DateTime.now().year - 50),
-        lastDate: DateTime(DateTime.now().year - 16),
-        fieldHintText: "DATE/MONTH/YEAR",
-        errorFormatText: "Enter a Valid Date",
-        errorInvalidText: "Date Out of Range",
-        initialDatePickerMode: DatePickerMode.year,
-        initialEntryMode: DatePickerEntryMode.input
-       );
-  }
-
-  void callDatePicker() async {
-    var _newDateTime = await getDate();
-    setState(() {
-      _finaldate = DateFormat('dd-MM-yyyy').format(_newDateTime);
-      _dobText = _finaldate.toString();
-    });
-  }
-
-  Widget _selectDate(context) {
-    return Center(
-      child: ActionChip(
-        padding: EdgeInsets.only(left: 100, right: 100, top: 14, bottom: 14),
-        label: Text(
-          _dobText,
-          style: TextStyle(color: Colors.white, fontSize: 17),
-        ),
-        onPressed: callDatePicker,
-        backgroundColor: Color.fromRGBO(34, 167, 240, 1),
-        elevation: 0,
       ),
     );
   }
@@ -198,7 +158,7 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
           children: <Widget>[
             Center(
               child: Text(
-                'Apply to Nanny Academy Training',
+                'Referees and Next of Kin Details (2/4)',
                 style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -215,12 +175,23 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
                 textAlign: TextAlign.center,
               ),
             ),
-            GenericTextField(Icons.person, _nameController, 'First Name *'),
-            GenericTextField(
-                Icons.perm_identity, _surnameController, 'Surname *'),
-            _selectDate(context),
-            _radio(),
 
+            Text(
+              "Emergency Contact Person 1: (FATHER/ HUSBAND/ BROTHER)",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            GenericTextField(Icons.person, _nameController, 'Full Name *'),
+            GenericTextField(
+                Icons.person_add, _relationshipController, 'Relationship *'),
+            GenericTextField(
+                Icons.cases, _occupationController, 'Occupation *'),
             PhoneNumberField(_phoneNumberController),
             GenericTextField(
               Icons.alternate_email,
@@ -233,27 +204,19 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
             GenericTextField(
                 Icons.location_on, _addressController, 'Physical Address *'),
             Container(
-                margin: EdgeInsets.only(left:40, right: 40, bottom:20),
-                child:
-                CSCPicker(
+                margin: EdgeInsets.only(left: 40, right: 40, bottom: 20),
+                child: CSCPicker(
                   searchBarRadius: 10.0,
                   dropdownDialogRadius: 10.0,
                   dropdownDecoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(50)
-                      ),
-                      border:
-                      Border.all(color: Colors.grey, width: 1)
-                  ),
+                      borderRadius: BorderRadius.all(Radius.circular(50)),
+                      border: Border.all(color: Colors.grey, width: 1)),
 
                   disabledDropdownDecoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(50)
-                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(50)),
                       color: Colors.grey.shade300,
                       border:
-                      Border.all(color: Colors.grey.shade300, width: 1)
-                  ),
+                          Border.all(color: Colors.grey.shade300, width: 1)),
 
                   countryDropdownLabel: "Country *",
                   stateDropdownLabel: "State *",
@@ -272,21 +235,96 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
                       countryValue = value;
                     });
                   },
-                  onStateChanged:(value) {
+                  onStateChanged: (value) {
                     setState(() {
                       stateValue = value;
                     });
                   },
-                  onCityChanged:(value) {
+                  onCityChanged: (value) {
                     setState(() {
                       cityValue = value;
                     });
                   },
-                )
+                )),
+            SizedBox(
+              height: 30,
             ),
+            //Second Referal
+            Text(
+              "Emergency Contact Person 2: (FATHER/ HUSBAND/ BROTHER/WIFE)",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            GenericTextField(
+                Icons.person, _secondNameController, 'Full Name *'),
+            GenericTextField(Icons.person_add, _secondrelationshipController,
+                'Relationship *'),
+            GenericTextField(
+                Icons.cases, _secondoccupationController, 'Occupation *'),
+            PhoneNumberField(_secondphoneNumberController),
+            GenericTextField(
+              Icons.alternate_email,
+              _secondemailAddressController,
+              'Email Address *',
+              TextInputType.emailAddress,
+              Color.fromRGBO(34, 167, 240, 1),
+            ),
+
+            GenericTextField(Icons.location_on, _secondaddressController,
+                'Physical Address *'),
+            Container(
+                margin: EdgeInsets.only(left: 40, right: 40, bottom: 20),
+                child: CSCPicker(
+                  searchBarRadius: 10.0,
+                  dropdownDialogRadius: 10.0,
+                  dropdownDecoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(50)),
+                      border: Border.all(color: Colors.grey, width: 1)),
+
+                  disabledDropdownDecoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(50)),
+                      color: Colors.grey.shade300,
+                      border:
+                          Border.all(color: Colors.grey.shade300, width: 1)),
+
+                  countryDropdownLabel: "Country *",
+                  stateDropdownLabel: "State *",
+                  cityDropdownLabel: "*City *",
+
+                  defaultCountry: DefaultCountry.Nigeria,
+                  // disableCountry: true,
+
+                  selectedItemStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15,
+                  ),
+
+                  onCountryChanged: (value) {
+                    setState(() {
+                      secondcountryValue = value;
+                    });
+                  },
+                  onStateChanged: (value) {
+                    setState(() {
+                      secondstateValue = value;
+                    });
+                  },
+                  onCityChanged: (value) {
+                    setState(() {
+                      secondcityValue = value;
+                    });
+                  },
+                )),
+
             _proceedButton(),
             SizedBox(
-              height: 100,
+              height: 150,
             ),
           ],
         ),

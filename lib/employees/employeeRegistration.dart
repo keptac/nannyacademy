@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:nannyacademy/employees/additionalDetails.dart';
 import 'package:nannyacademy/passwordCreation.dart';
 import 'package:nannyacademy/widgets/genericTextField.dart';
 import 'package:nannyacademy/widgets/phoneNumber.dart';
@@ -19,12 +20,16 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
   final _nameController = TextEditingController();
   final _surnameController = TextEditingController();
   final _addressController = TextEditingController();
+  final _religionController = TextEditingController();
+  final _religionAddressController = TextEditingController();
   final _emailAddressController = TextEditingController();
   final _phoneNumberController = TextEditingController();
   String _genderVal = 'Male';
+  String _maritalStatus = 'Single';
   String _dobText = 'Date of Birth *';
   String _status = '';
   int group = 1;
+  int maritalGroup = 1;
   String countryValue = "";
   String stateValue = "";
   String cityValue = "";
@@ -45,6 +50,10 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
       pref.setString(
         'gender',
         _genderVal,
+      );
+      pref.setString(
+        'maritalStatus',
+        _maritalStatus,
       );
       pref.setString(
         'dob',
@@ -83,7 +92,51 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PasswordCreation(userTypeValue: 'employee'),
+        builder: (context) => AdditionalDetails(),
+      ),
+    );
+  }
+
+  Widget _maritalStatusRadio() {
+    return Padding(
+      padding: EdgeInsets.only(left: 40, right: 10, bottom: 15),
+      child: Row(
+        children: <Widget>[
+          Text('Marital Status: * '),
+          Radio(
+            value: 1,
+            groupValue: maritalGroup,
+            onChanged: (T) {
+              setState(() {
+                maritalGroup = T;
+                _maritalStatus = 'Single';
+              });
+            },
+          ),
+          Text('Single'),
+          Radio(
+            groupValue: maritalGroup,
+            value: 2,
+            onChanged: (T) {
+              setState(() {
+                maritalGroup = T;
+                _maritalStatus = 'Married';
+              });
+            },
+          ),
+          Text('Married'),
+          // Radio(
+          //   groupValue: group,
+          //   value: 3,
+          //   onChanged: (T) {
+          //     setState(() {
+          //       group = T;
+          //       _maritalStatus = 'Divorced';
+          //     });
+          //   },
+          // ),
+          // Text('Divorced'),
+        ],
       ),
     );
   }
@@ -127,7 +180,7 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
       child: ActionChip(
         padding: EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
         label: Text(
-          'Submit Application',
+          'Proceed',
           style: TextStyle(color: Colors.white, fontSize: 17),
         ),
         onPressed: () {
@@ -160,8 +213,7 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
         errorFormatText: "Enter a Valid Date",
         errorInvalidText: "Date Out of Range",
         initialDatePickerMode: DatePickerMode.year,
-        initialEntryMode: DatePickerEntryMode.input
-       );
+        initialEntryMode: DatePickerEntryMode.input);
   }
 
   void callDatePicker() async {
@@ -198,7 +250,7 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
           children: <Widget>[
             Center(
               child: Text(
-                'Apply to Nanny Academy Training',
+                'Apply to Nanny Academy Training (1/4)',
                 style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -220,7 +272,12 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
                 Icons.perm_identity, _surnameController, 'Surname *'),
             _selectDate(context),
             _radio(),
+            _maritalStatusRadio(),
 
+            GenericTextField(
+                Icons.person_add, _religionController, 'Religion *'),
+            GenericTextField(Icons.person_add, _religionAddressController,
+                'Address of Worhip place *'),
             PhoneNumberField(_phoneNumberController),
             GenericTextField(
               Icons.alternate_email,
@@ -232,28 +289,21 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
 
             GenericTextField(
                 Icons.location_on, _addressController, 'Physical Address *'),
+
             Container(
-                margin: EdgeInsets.only(left:40, right: 40, bottom:20),
-                child:
-                CSCPicker(
+                margin: EdgeInsets.only(left: 40, right: 40, bottom: 20),
+                child: CSCPicker(
                   searchBarRadius: 10.0,
                   dropdownDialogRadius: 10.0,
                   dropdownDecoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(50)
-                      ),
-                      border:
-                      Border.all(color: Colors.grey, width: 1)
-                  ),
+                      borderRadius: BorderRadius.all(Radius.circular(50)),
+                      border: Border.all(color: Colors.grey, width: 1)),
 
                   disabledDropdownDecoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(50)
-                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(50)),
                       color: Colors.grey.shade300,
                       border:
-                      Border.all(color: Colors.grey.shade300, width: 1)
-                  ),
+                          Border.all(color: Colors.grey.shade300, width: 1)),
 
                   countryDropdownLabel: "Country *",
                   stateDropdownLabel: "State *",
@@ -272,18 +322,17 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
                       countryValue = value;
                     });
                   },
-                  onStateChanged:(value) {
+                  onStateChanged: (value) {
                     setState(() {
                       stateValue = value;
                     });
                   },
-                  onCityChanged:(value) {
+                  onCityChanged: (value) {
                     setState(() {
                       cityValue = value;
                     });
                   },
-                )
-            ),
+                )),
             _proceedButton(),
             SizedBox(
               height: 100,
