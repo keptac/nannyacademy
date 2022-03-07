@@ -12,6 +12,7 @@ import 'dart:async';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:nannyacademy/employers/myRequests.dart';
 
+//TODO: Search algorithm for clients
 class SearchResults extends StatefulWidget {
   final String requestNumber;
   final String status;

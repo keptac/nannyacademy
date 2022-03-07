@@ -58,9 +58,39 @@ class _PasswordCreationState extends State<PasswordCreation> {
     final String phoneNumber = prefs.getString('phoneNumber');
     final String userType = prefs.getString('userType');
     final String requestNumber = prefs.getString('requestNumber');
+    final String maritalStatus = prefs.getString('maritalStatus');
+    final String religion = prefs.getString('religion');
+    final String religionAddress = prefs.getString('religionAddress');
     final String employeeClass = prefs.getString('employeeClass');
     final String serviceType = prefs.getString('serviceType');
     final String emailAddress = prefs.getString('emailAddress');
+
+    final String guardianFullName = prefs.getString('guardianFullName');
+    final String relationship = prefs.getString('relationship');
+    final String guardianAddress = prefs.getString('guardianAddress') +
+        ' ' +
+        prefs.getString('guardianCity') +
+        ' ' +
+        prefs.getString('guardianState') +
+        ' ' +
+        prefs.getString('guardianCountry');
+
+    final String guardianEmailAddress = prefs.getString('guardianEmailAddress');
+    final String guardianPhoneNumber = prefs.getString('guardianPhoneNumber');
+
+        final String secondguardianFullName = prefs.getString('secondguardianFullName');
+    final String secondrelationship = prefs.getString('secondrelationship');
+    final String secondguardianAddress = prefs.getString('secondguardianAddress') +
+        ' ' +
+        prefs.getString('secondguardianCity') +
+        ' ' +
+        prefs.getString('secondguardianState') +
+        ' ' +
+        prefs.getString('secondguardianCountry');
+
+    final String secondguardianEmailAddress = prefs.getString('secondguardianEmailAddress');
+    final String secondguardianPhoneNumber = prefs.getString('secondguardianPhoneNumber');
+
 
     if (surname != null) {
       try {
@@ -94,6 +124,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
             "gender": gender,
             "dob": dob,
             "phoneNumber": phoneNumber,
+            "maritalStatus": maritalStatus,
             "address": address,
             "country": country,
             "city": city,
@@ -103,12 +134,34 @@ class _PasswordCreationState extends State<PasswordCreation> {
             "applicationNumber": applicationNumber,
             "photoUrl": "",
             "employmentStatus": "Pending",
-            "employer": ""
+            "employer": "",
+            "religion": religion,
+            "churchAddress": religionAddress,
+            "service": ""
+          };
+
+          final nextOfKeenDetails = {
+            "profileid": userid.user.uid,
+            "idNumber": '',
+            "guardianFullName": guardianFullName,
+            "relationship": relationship,
+            "guardianAddress": guardianAddress,
+            "guardianEmailAddress": guardianEmailAddress,
+            "guardianPhoneNumber": guardianPhoneNumber,
+            "secondguardianFullName": secondguardianFullName,
+            "secondrelationship": secondrelationship,
+            "secondguardianAddress": secondguardianAddress,
+            "secondguardianEmailAddress": secondguardianEmailAddress,
+            "secondguardianPhoneNumber": secondguardianPhoneNumber,
           };
 
           await FirebaseFirestore.instance
               .collection('Employee Accounts')
               .add(applicationBody);
+
+          await FirebaseFirestore.instance
+              .collection('Additional Employee Info')
+              .add(nextOfKeenDetails);
 
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -156,7 +209,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
             "channel": "MOBILE",
             "verificationStatus": "Pending",
             "photoUrl": "",
-            "services": employeeClass+' '+serviceType,
+            "services": employeeClass + ' ' + serviceType,
             "employeeCount": 0,
             "activeEmployment": false,
             "employeeId": "",

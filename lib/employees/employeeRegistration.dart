@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nannyacademy/employees/additionalDetails.dart';
-import 'package:nannyacademy/passwordCreation.dart';
 import 'package:nannyacademy/widgets/genericTextField.dart';
 import 'package:nannyacademy/widgets/phoneNumber.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
-import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:nannyacademy/widgets/bottomSheet.dart';
 import 'package:csc_picker/csc_picker.dart';
 
@@ -83,6 +81,15 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
         'phoneNumber',
         _phoneNumberController.text,
       );
+      pref.setString(
+        'religion',
+        _religionController.text,
+      );
+      pref.setString(
+        'religionAddress',
+        _religionAddressController.text,
+      );
+
       pref.setString(
         'userType',
         'employee',
