@@ -25,7 +25,7 @@ class _MyRequestsState extends State<MyRequests> {
   //     "location": "Lagos",
   //     "phoneNumber": "263785302628",
   //     "photoUrl":
-  //         "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
+  //         "",
   //     "employeeId": "58-293952-Q-86",
   //     "jobStatus": "Granted",
   //     "requestStatus": "Approved",
@@ -174,13 +174,13 @@ class _MyRequestsState extends State<MyRequests> {
 
   Future<DateTime> getDate() {
     return showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime.now(),
-        lastDate: DateTime(DateTime.now().month + 3),
-        fieldHintText: "DATE/MONTH/YEAR",
-        errorFormatText: "Enter a Valid Date",
-        errorInvalidText: "Date Out of Range",
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(DateTime.now().month + 3),
+      fieldHintText: "DATE/MONTH/YEAR",
+      errorFormatText: "Enter a Valid Date",
+      errorInvalidText: "Date Out of Range",
     );
   }
 

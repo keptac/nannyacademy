@@ -95,17 +95,15 @@ class _PasswordCreationState extends State<PasswordCreation> {
             "dob": dob,
             "phoneNumber": phoneNumber,
             "address": address,
-            "country":country,
-            "city":city,
-            "state":state,
+            "country": country,
+            "city": city,
+            "state": state,
             "userType": userType,
             "emailAddress": emailAddress,
             "applicationNumber": applicationNumber,
-            "photoUrl":
-                "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
+            "photoUrl": "",
             "employmentStatus": "Pending",
             "employer": ""
-
           };
 
           await FirebaseFirestore.instance
@@ -117,8 +115,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
               backgroundColor: Colors.blueGrey,
               content: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child:
-                    Text('Sucessfully Register.You may login now'),
+                child: Text('Sucessfully Register.You may login now'),
               ),
               duration: Duration(seconds: 5),
             ),
@@ -151,16 +148,15 @@ class _PasswordCreationState extends State<PasswordCreation> {
             "dob": dob,
             "phoneNumber": phoneNumber,
             "address": address,
-            "country":country,
-            "city":city,
-            "state":state,
+            "country": country,
+            "city": city,
+            "state": state,
             "userType": userType,
             "emailAddress": emailAddress,
             "channel": "MOBILE",
             "verificationStatus": "Pending",
-            "photoUrl":
-                "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
-            "services": "",
+            "photoUrl": "",
+            "services": employeeClass+' '+serviceType,
             "employeeCount": 0,
             "activeEmployment": false,
             "employeeId": "",
@@ -202,11 +198,13 @@ class _PasswordCreationState extends State<PasswordCreation> {
             context: context,
             builder: (ctx) => AlertDialog(
               title: Text('Registration Success'),
-              content: Text('Congratulations for registering with Nanny academy.  Please log on with details you created now, select the services you require and make the initial deposit of N7000 and upload the evidence of payment while we get in touch in few hours.'),
+              content: Text(
+                  'Congratulations for registering with Nanny academy. Please log on with details you created now, select the services you require and make the initial deposit of N7000 and upload the evidence of payment while we get in touch in few hours.'),
               actions: [
                 TextButton(
                   onPressed: () {
-                    LoginPage();
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => LoginPage()));
                   },
                   child: Text('Ok, Login'),
                 )
@@ -378,7 +376,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
             ),
             SizedBox(height: 30),
             Center(
-                child: Text(
+              child: Text(
                 _errorMsg,
                 style: TextStyle(color: Colors.red),
               ),

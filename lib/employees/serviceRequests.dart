@@ -20,8 +20,7 @@ class _ServiceRequestsState extends State<ServiceRequests> {
       "meetingDate": "2021-09-27",
       "location": "123 Main way",
       "requestStatus": "PENDING",
-      "photoUrl":
-          'https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo'
+      "photoUrl": ''
     }
   ];
 

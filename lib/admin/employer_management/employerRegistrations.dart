@@ -18,7 +18,7 @@ class _EmployerRegistrationsState extends State<EmployerRegistrations> {
   //     "phoneNumber": "263785302628",
   //     "idNumber": "2021-10-30",
   //     "photoUrl":
-  //     "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
+  //     "",
   //
   //     "verificationStatus": "Pending",
   //     "applicationNumber": "REQ67889997",
@@ -30,21 +30,20 @@ class _EmployerRegistrationsState extends State<EmployerRegistrations> {
   //   }
   // ];
 
-
   int index = 0;
 
   void _approval(var id, var decision, var profileid) async {
     try {
-      var results =  await FirebaseFirestore.instance
+      var results = await FirebaseFirestore.instance
           .collection('Account Type')
           .where('profileid', isEqualTo: profileid)
           .get();
 
-      if(decision=='Approved'){
+      if (decision == 'Approved') {
         await FirebaseFirestore.instance
             .collection('Account Type')
             .doc(results.docs[0].id)
-            .update({'activated':true});
+            .update({'activated': true});
       }
 
       await FirebaseFirestore.instance
@@ -69,7 +68,6 @@ class _EmployerRegistrationsState extends State<EmployerRegistrations> {
           ],
         ),
       );
-
     } on FirebaseException catch (e) {
       showDialog(
         context: context,
@@ -88,7 +86,6 @@ class _EmployerRegistrationsState extends State<EmployerRegistrations> {
       );
     }
   }
-
 
   Widget serviceDisplay(var title, var value) {
     return Column(
@@ -124,117 +121,127 @@ class _EmployerRegistrationsState extends State<EmployerRegistrations> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: Color.fromRGBO(34, 167, 240,1),
+        backgroundColor: Color.fromRGBO(34, 167, 240, 1),
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('Employer Accounts')
-        .where('verificationStatus', isEqualTo: "Pending")
-        .snapshots(),
-    builder:
-    (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-    if (!snapshot.hasData) {
-    return Center(
-    child: CircularProgressIndicator(),
-    );
-    }
+          stream: FirebaseFirestore.instance
+              .collection('Employer Accounts')
+              .where('verificationStatus', isEqualTo: "Pending")
+              .snapshots(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-    return ListView(
-    children: snapshot.data.docs.map((serviceRequest) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-            child: ExpansionTileCard(
-              borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-              initialElevation: 1,
-              baseColor: Colors.white,
-              leading: CircleAvatar(
-                backgroundColor: Colors.grey,
-                child: Text(
-                  (index + 1).toString(),
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-              title: Text(serviceRequest['firstName'] +
-                  ' ' +
-                  serviceRequest['surname']),
-              subtitle: Text(serviceRequest['verificationStatus']),
-              children: <Widget>[
-                Divider(
-                  thickness: 1.0,
-                  height: 1.0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10.0,
-                    vertical: 8.0,
-                  ),
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        maxRadius: 25,
-                        backgroundImage:
-                            NetworkImage(serviceRequest['photoUrl']),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      serviceDisplay("ID Number", serviceRequest['idNumber']),
-                      serviceDisplay("Gender", serviceRequest['gender']),
-                      serviceDisplay(
-                          "Phone Number", serviceRequest['phoneNumber']),
-                      serviceDisplay("Address", serviceRequest['address'])
-                    ],
-                  ),
-                ),
-                Divider(
-                  thickness: 1.0,
-                  height: 1.0,
-                ),
-                ButtonBar(
-                  alignment: MainAxisAlignment.spaceAround,
-                  buttonHeight: 52.0,
-                  buttonMinWidth: 90.0,
-                  children: <Widget>[
-                    Row(
-                      children: [
-                        ActionChip(
-                          padding: EdgeInsets.only(
-                              left: 10, right: 10, top: 10, bottom: 10),
-                          label: Text(
-                            'Decline Application',
-                            style: TextStyle(color: Colors.white, fontSize: 13),
-                          ),
-                          onPressed: () {
-                            _approval(serviceRequest.id, "Declined", serviceRequest['profileid']);
-                          },
-                          backgroundColor: Colors.red.shade900,
-                          elevation: 1,
+            return ListView(
+              children: snapshot.data.docs.map(
+                (serviceRequest) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 10),
+                    child: ExpansionTileCard(
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(5.0)),
+                      initialElevation: 1,
+                      baseColor: Colors.white,
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.grey,
+                        child: Text(
+                          (index + 1).toString(),
+                          style: TextStyle(color: Colors.white),
                         ),
-                        SizedBox(width: 50),
-                        ActionChip(
-                          padding: EdgeInsets.only(
-                              left: 10, right: 10, top: 10, bottom: 10),
-                          label: Text(
-                            'Approve ',
-                            style: TextStyle(color: Colors.white, fontSize: 13),
-                          ),
-                          onPressed: () {
-                            _approval(serviceRequest.id, "Approved", serviceRequest['profileid']);
-                          },
-                          backgroundColor: Colors.green,
-                          elevation: 1,
+                      ),
+                      title: Text(serviceRequest['firstName'] +
+                          ' ' +
+                          serviceRequest['surname']),
+                      subtitle: Text(serviceRequest['verificationStatus']),
+                      children: <Widget>[
+                        Divider(
+                          thickness: 1.0,
+                          height: 1.0,
                         ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10.0,
+                            vertical: 8.0,
+                          ),
+                          child: Column(
+                            children: [
+                              CircleAvatar(
+                                maxRadius: 25,
+                                backgroundImage:
+                                    NetworkImage(serviceRequest['photoUrl']),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              serviceDisplay(
+                                  "ID Number", serviceRequest['idNumber']),
+                              serviceDisplay(
+                                  "Gender", serviceRequest['gender']),
+                              serviceDisplay("Phone Number",
+                                  serviceRequest['phoneNumber']),
+                              serviceDisplay(
+                                  "Address", serviceRequest['address'])
+                            ],
+                          ),
+                        ),
+                        Divider(
+                          thickness: 1.0,
+                          height: 1.0,
+                        ),
+                        ButtonBar(
+                          alignment: MainAxisAlignment.spaceAround,
+                          buttonHeight: 52.0,
+                          buttonMinWidth: 90.0,
+                          children: <Widget>[
+                            Row(
+                              children: [
+                                ActionChip(
+                                  padding: EdgeInsets.only(
+                                      left: 10, right: 10, top: 10, bottom: 10),
+                                  label: Text(
+                                    'Decline Application',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 13),
+                                  ),
+                                  onPressed: () {
+                                    _approval(serviceRequest.id, "Declined",
+                                        serviceRequest['profileid']);
+                                  },
+                                  backgroundColor: Colors.red.shade900,
+                                  elevation: 1,
+                                ),
+                                SizedBox(width: 50),
+                                ActionChip(
+                                  padding: EdgeInsets.only(
+                                      left: 10, right: 10, top: 10, bottom: 10),
+                                  label: Text(
+                                    'Approve ',
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 13),
+                                  ),
+                                  onPressed: () {
+                                    _approval(serviceRequest.id, "Approved",
+                                        serviceRequest['profileid']);
+                                  },
+                                  backgroundColor: Colors.green,
+                                  elevation: 1,
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
                       ],
                     ),
-                  ],
-                )
-              ],
-            ),
-          );
-        },
-      ).toList(),
-    );
-    }),
+                  );
+                },
+              ).toList(),
+            );
+          }),
       bottomNavigationBar: BottomSheetAdmin(),
     );
   }
