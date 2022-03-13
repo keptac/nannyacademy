@@ -69,8 +69,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
 
     final String guardianFullName = prefs.getString('guardianFullName');
     final String relationship = prefs.getString('relationship');
-    final String googleFormsEmailAddress =
-        prefs.getString('googleFormsEmailAddress');
+    final String numberOfChildren = prefs.getString('numberOfChildren');
     final String guardianAddress = prefs.getString('guardianAddress');
 
     final String guardianEmailAddress = prefs.getString('guardianEmailAddress');
@@ -79,6 +78,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
     final String secondguardianFullName =
         prefs.getString('secondguardianFullName');
     final String secondrelationship = prefs.getString('secondrelationship');
+    final String experience = prefs.getString('experience');
     final String secondguardianAddress =
         prefs.getString('secondguardianAddress') +
             ' ' +
@@ -139,7 +139,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
             "religion": religion,
             "churchAddress": religionAddress,
             "service": serviceEmployeeOffers,
-            "experience": ''
+            "experience": experience
           };
 
           final nextOfKeenDetails = {
@@ -155,7 +155,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
             "secondguardianAddress": secondguardianAddress,
             "secondguardianEmailAddress": secondguardianEmailAddress,
             "secondguardianPhoneNumber": secondguardianPhoneNumber,
-            "googleFormsEmailAddress": googleFormsEmailAddress
+            "numberOfChildren": numberOfChildren
           };
 
           await FirebaseFirestore.instance

@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:nannyacademy/passwordCreation.dart';
 import 'package:nannyacademy/widgets/genericTextField.dart';
-import 'package:nannyacademy/widgets/phoneNumber.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
-
 import 'package:nannyacademy/widgets/bottomSheet.dart';
-import 'package:csc_picker/csc_picker.dart';
 
 class GoogleForms extends StatefulWidget {
   @override
@@ -16,16 +13,16 @@ class GoogleForms extends StatefulWidget {
 
 class _GoogleFormsState extends State<GoogleForms> {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  final _emailAddressController = TextEditingController();
-  var employeeClassSelected = 'Level 1';
+  final _numberOfChildrenController = TextEditingController();
+  var experienceLevelSelected = 'Level 1';
   String serviceDurationSelected = 'Care giver';
+
   String _status = '';
 
-  var employeeClasses = [
-    {'name': 'Nanny Level 1: N30, 000 to N35,000', 'value': 'Level 1'},
-    {'name': 'Nanny Level 2:  N45, 000 to N65, 000', 'value': 'Level 2'},
-    {'name': 'Nanny Level 3: N75, 000', 'value': 'Level 3'},
-    {'name': 'Cooks: N60,000', 'value': 'Cook'}
+  var experienceLevels = [
+    {'name': '6 months or less', 'value': 'Level 1'},
+    {'name': '6 months to 2 years', 'value': 'Level 2'},
+    {'name': '3 or more years', 'value': 'Level 3'},
   ];
 
   var serviceDurations = [
@@ -48,12 +45,16 @@ class _GoogleFormsState extends State<GoogleForms> {
     final SharedPreferences pref = await _prefs;
     setState(() {
       pref.setString(
-        'googleFormsEmailAddress',
-        _emailAddressController.text,
+        'numberOfChildren',
+        _numberOfChildrenController.text,
       );
       pref.setString(
         'serviceEmployeeOffers',
         serviceDurationSelected,
+      );
+      pref.setString(
+        'experience',
+        experienceLevelSelected,
       );
     });
 
@@ -74,7 +75,7 @@ class _GoogleFormsState extends State<GoogleForms> {
           style: TextStyle(color: Colors.white, fontSize: 17),
         ),
         onPressed: () {
-          if (_emailAddressController.text != '') {
+          if (_numberOfChildrenController.text != '') {
             _storePersonalDetails();
           } else {
             setState(() {
@@ -118,29 +119,54 @@ class _GoogleFormsState extends State<GoogleForms> {
             ),
 
             Text(
-              "Please click on the link below and fill out additional information required *",
+              "EXPERIENCE",
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, fontFamily: 'Quicksand'),
+              style: TextStyle(
+                  fontSize: 16, fontFamily: 'Quicksand', color: Colors.blue),
             ),
-
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              height: 58,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(30.0) //
+                    ),
+                border: Border.all(color: Colors.grey),
+              ),
+              margin: EdgeInsets.only(left: 37, right: 37, bottom: 15),
+              padding: EdgeInsets.only(left: 30),
+              child: DropdownButton(
+                underline: Text(""),
+                value: experienceLevelSelected,
+                icon: Icon(Icons.keyboard_arrow_down),
+                items: experienceLevels.map((var experienceLevel) {
+                  return DropdownMenuItem(
+                    value: experienceLevel['value'],
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 10, top: 5),
+                      child: Text(
+                        experienceLevel['name'],
+                        style: TextStyle(fontFamily: 'Quicksand', fontSize: 15),
+                      ),
+                    ),
+                  );
+                }).toList(),
+                onChanged: (String newValue) {
+                  setState(() {
+                    experienceLevelSelected = newValue;
+                  });
+                },
+              ),
+            ),
             SizedBox(
               height: 30,
             ),
-
             Text(
-              "https://google.com/forms/as66377gsfw252fa",
+              "PREFERENCES",
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.blue),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            GenericTextField(
-              Icons.alternate_email,
-              _emailAddressController,
-              'Email Address used to fill form*',
-              TextInputType.emailAddress,
-              Color.fromRGBO(34, 167, 240, 1),
+              style: TextStyle(
+                  fontSize: 16, fontFamily: 'Quicksand', color: Colors.blue),
             ),
             SizedBox(
               height: 30,
@@ -187,6 +213,14 @@ class _GoogleFormsState extends State<GoogleForms> {
                 },
               ),
             ),
+            GenericTextField(
+              Icons.people,
+              _numberOfChildrenController,
+              'Number of Children*',
+              TextInputType.number,
+              Color.fromRGBO(34, 167, 240, 1),
+            ),
+
             _proceedButton(),
             SizedBox(
               height: 150,
