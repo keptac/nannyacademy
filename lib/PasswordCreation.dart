@@ -93,6 +93,8 @@ class _PasswordCreationState extends State<PasswordCreation> {
     final String secondguardianPhoneNumber =
         prefs.getString('secondguardianPhoneNumber');
 
+    final String workDuration = prefs.getString('workDuration');
+
     if (surname != null) {
       try {
         final result = await _auth.createUserWithEmailAndPassword(
@@ -139,7 +141,8 @@ class _PasswordCreationState extends State<PasswordCreation> {
             "religion": religion,
             "churchAddress": religionAddress,
             "service": serviceEmployeeOffers,
-            "experience": experience
+            "experience": experience,
+            "numberOfChildren": numberOfChildren
           };
 
           final nextOfKeenDetails = {
@@ -154,8 +157,12 @@ class _PasswordCreationState extends State<PasswordCreation> {
             "secondrelationship": secondrelationship,
             "secondguardianAddress": secondguardianAddress,
             "secondguardianEmailAddress": secondguardianEmailAddress,
-            "secondguardianPhoneNumber": secondguardianPhoneNumber,
-            "numberOfChildren": numberOfChildren
+            "secondguardianPhoneNumber": secondguardianPhoneNumber
+          };
+
+          final additionalPreferences = {
+            "profileid": userid.user.uid,
+            "workDuration": workDuration,
           };
 
           await FirebaseFirestore.instance

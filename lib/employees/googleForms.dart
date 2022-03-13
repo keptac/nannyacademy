@@ -14,6 +14,7 @@ class GoogleForms extends StatefulWidget {
 class _GoogleFormsState extends State<GoogleForms> {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   final _numberOfChildrenController = TextEditingController();
+  final _workDurationController = TextEditingController();
   var experienceLevelSelected = 'Level 1';
   String serviceDurationSelected = 'Care giver';
 
@@ -49,6 +50,10 @@ class _GoogleFormsState extends State<GoogleForms> {
         _numberOfChildrenController.text,
       );
       pref.setString(
+        'workDuration',
+        _workDurationController.text,
+      );
+      pref.setString(
         'serviceEmployeeOffers',
         serviceDurationSelected,
       );
@@ -75,7 +80,8 @@ class _GoogleFormsState extends State<GoogleForms> {
           style: TextStyle(color: Colors.white, fontSize: 17),
         ),
         onPressed: () {
-          if (_numberOfChildrenController.text != '') {
+          if (_numberOfChildrenController.text != '' &&
+              _workDurationController.text != '') {
             _storePersonalDetails();
           } else {
             setState(() {
@@ -216,7 +222,15 @@ class _GoogleFormsState extends State<GoogleForms> {
             GenericTextField(
               Icons.people,
               _numberOfChildrenController,
-              'Number of Children*',
+              'Number of children prefered *',
+              TextInputType.number,
+              Color.fromRGBO(34, 167, 240, 1),
+            ),
+
+            GenericTextField(
+              Icons.timelapse,
+              _workDurationController,
+              'Duration of employment in months *',
               TextInputType.number,
               Color.fromRGBO(34, 167, 240, 1),
             ),
