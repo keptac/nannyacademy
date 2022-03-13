@@ -94,6 +94,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
         prefs.getString('secondguardianPhoneNumber');
 
     final String workDuration = prefs.getString('workDuration');
+    final String experiencePlace = prefs.getString('experiencePlace');
 
     if (surname != null) {
       try {
@@ -142,6 +143,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
             "churchAddress": religionAddress,
             "service": serviceEmployeeOffers,
             "experience": experience,
+            "experiencePlace": experiencePlace,
             "numberOfChildren": numberOfChildren
           };
 

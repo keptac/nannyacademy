@@ -15,8 +15,13 @@ class _GoogleFormsState extends State<GoogleForms> {
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   final _numberOfChildrenController = TextEditingController();
   final _workDurationController = TextEditingController();
+  final _petController = TextEditingController();
   var experienceLevelSelected = 'Level 1';
   String serviceDurationSelected = 'Care giver';
+  String _petVal = 'No';
+  String _expPlaceVal = 'Both';
+  int group = 1;
+  int groupExp = 1;
 
   String _status = '';
 
@@ -61,6 +66,15 @@ class _GoogleFormsState extends State<GoogleForms> {
         'experience',
         experienceLevelSelected,
       );
+      pref.setString(
+          'pets',
+          _petVal == "No"
+              ? _petVal
+              : _petVal + ' (' + _petController.text + ')');
+      pref.setString(
+        'experiencePlace',
+        _expPlaceVal,
+      );
     });
 
     Navigator.push(
@@ -91,6 +105,92 @@ class _GoogleFormsState extends State<GoogleForms> {
         },
         backgroundColor: Color.fromRGBO(34, 167, 240, 1),
         elevation: 1,
+      ),
+    );
+  }
+
+  Widget _radio() {
+    return Padding(
+      padding: EdgeInsets.only(
+        left: 40,
+        right: 40,
+        bottom: 15,
+      ),
+      child: Row(
+        children: <Widget>[
+          Radio(
+            value: 1,
+            groupValue: group,
+            onChanged: (T) {
+              setState(() {
+                group = T;
+                _petVal = 'No';
+              });
+            },
+          ),
+          Text('No'),
+          SizedBox(width: 15.0),
+          Radio(
+            groupValue: group,
+            value: 2,
+            onChanged: (T) {
+              setState(() {
+                group = T;
+                _petVal = 'Yes';
+              });
+            },
+          ),
+          Text('Yes'),
+        ],
+      ),
+    );
+  }
+
+  Widget _experiencePlaces() {
+    return Padding(
+      padding: EdgeInsets.only(
+        left: 40,
+        right: 40,
+        bottom: 15,
+      ),
+      child: Row(
+        children: <Widget>[
+          Radio(
+            value: 1,
+            groupValue: groupExp,
+            onChanged: (T) {
+              setState(() {
+                groupExp = T;
+                _expPlaceVal = 'Home Care';
+              });
+            },
+          ),
+          Text('Home Care'),
+          SizedBox(width: 15.0),
+          Radio(
+            groupValue: groupExp,
+            value: 2,
+            onChanged: (T) {
+              setState(() {
+                groupExp = T;
+                _expPlaceVal = 'Day Care';
+              });
+            },
+          ),
+          Text('Day Care'),
+          SizedBox(width: 15.0),
+          Radio(
+            groupValue: groupExp,
+            value: 3,
+            onChanged: (T) {
+              setState(() {
+                groupExp = T;
+                _expPlaceVal = 'Both';
+              });
+            },
+          ),
+          Text('Both'),
+        ],
       ),
     );
   }
@@ -165,6 +265,11 @@ class _GoogleFormsState extends State<GoogleForms> {
                 },
               ),
             ),
+            Padding(
+              padding: EdgeInsets.only(left: 40, right: 40, top: 10),
+              child: Text('Experience Place  : * '),
+            ),
+            _experiencePlaces(),
             SizedBox(
               height: 30,
             ),
@@ -234,6 +339,21 @@ class _GoogleFormsState extends State<GoogleForms> {
               TextInputType.number,
               Color.fromRGBO(34, 167, 240, 1),
             ),
+            Padding(
+              padding: EdgeInsets.only(left: 40, right: 40, top: 10),
+              child:
+                  Text('Are you comfortable to work in a home with Pets: * '),
+            ),
+            _radio(),
+            _petVal == "Yes"
+                ? GenericTextField(
+                    Icons.pets,
+                    _petController,
+                    'Specify the Pet (Dog/Cat) *',
+                    TextInputType.text,
+                    Color.fromRGBO(34, 167, 240, 1),
+                  )
+                : SizedBox(),
 
             _proceedButton(),
             SizedBox(
