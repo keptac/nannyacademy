@@ -288,7 +288,7 @@ class _GoogleFormsState extends State<GoogleForms> {
               child: Text(
                 "Please Select services you are registering to offer  *",
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16, fontFamily: 'Quicksand'),
+                style: TextStyle(fontSize: 16),
               ),
             ),
 
@@ -354,6 +354,16 @@ class _GoogleFormsState extends State<GoogleForms> {
                     Color.fromRGBO(34, 167, 240, 1),
                   )
                 : SizedBox(),
+
+            Text(
+              "ADDITIONAL DUTIES",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 16, fontFamily: 'Quicksand', color: Colors.blue),
+            ),
+            SizedBox(
+              height: 30,
+            ),
 
             _proceedButton(),
             SizedBox(

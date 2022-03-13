@@ -94,7 +94,9 @@ class _PasswordCreationState extends State<PasswordCreation> {
         prefs.getString('secondguardianPhoneNumber');
 
     final String workDuration = prefs.getString('workDuration');
+    final String criminalRecord = prefs.getString('criminalRecord');
     final String experiencePlace = prefs.getString('experiencePlace');
+    final String pets = prefs.getString('pets');
 
     if (surname != null) {
       try {
@@ -144,7 +146,8 @@ class _PasswordCreationState extends State<PasswordCreation> {
             "service": serviceEmployeeOffers,
             "experience": experience,
             "experiencePlace": experiencePlace,
-            "numberOfChildren": numberOfChildren
+            "numberOfChildren": numberOfChildren,
+            "criminalRecord": criminalRecord
           };
 
           final nextOfKeenDetails = {
@@ -165,6 +168,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
           final additionalPreferences = {
             "profileid": userid.user.uid,
             "workDuration": workDuration,
+            "pets": pets,
           };
 
           await FirebaseFirestore.instance
@@ -172,8 +176,12 @@ class _PasswordCreationState extends State<PasswordCreation> {
               .add(applicationBody);
 
           await FirebaseFirestore.instance
-              .collection('Additional Employee Info')
+              .collection('Next of keen Info')
               .add(nextOfKeenDetails);
+
+          await FirebaseFirestore.instance
+              .collection('Employee Additional Info')
+              .add(additionalPreferences);
 
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

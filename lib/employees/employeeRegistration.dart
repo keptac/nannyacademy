@@ -23,10 +23,12 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
   final _emailAddressController = TextEditingController();
   final _phoneNumberController = TextEditingController();
   String _genderVal = 'Male';
+  String _criminalRecord = "No";
   String _maritalStatus = 'Single';
   String _dobText = 'Date of Birth *';
   String _status = '';
   int group = 1;
+  int groupCriminal = 1;
   int maritalGroup = 1;
   String countryValue = "";
   String stateValue = "";
@@ -88,6 +90,10 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
       pref.setString(
         'religionAddress',
         _religionAddressController.text,
+      );
+      pref.setString(
+        'criminalRecord',
+        _criminalRecord,
       );
 
       pref.setString(
@@ -280,6 +286,42 @@ class _EmployeeRegistrationState extends State<EmployeeRegistration> {
             _selectDate(context),
             _radio(),
             _maritalStatusRadio(),
+            Padding(
+              padding: EdgeInsets.only(left: 40, right: 40, top: 10),
+              child: Text(
+                  'Have you been arrested, detained or jailed in a police station in Nigeria or abroad? '),
+            ),
+
+            Padding(
+              padding: EdgeInsets.only(left: 40, right: 40, bottom: 15),
+              child: Row(
+                children: <Widget>[
+                  Radio(
+                    value: 1,
+                    groupValue: groupCriminal,
+                    onChanged: (T) {
+                      setState(() {
+                        groupCriminal = T;
+                        _criminalRecord = 'No';
+                      });
+                    },
+                  ),
+                  Text('No'),
+                  SizedBox(width: 15.0),
+                  Radio(
+                    groupValue: groupCriminal,
+                    value: 2,
+                    onChanged: (T) {
+                      setState(() {
+                        groupCriminal = T;
+                        _criminalRecord = 'Yes';
+                      });
+                    },
+                  ),
+                  Text('Yes'),
+                ],
+              ),
+            ),
 
             GenericTextField(
                 Icons.person_add, _religionController, 'Religion *'),
