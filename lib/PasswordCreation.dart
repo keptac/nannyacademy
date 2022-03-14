@@ -58,9 +58,45 @@ class _PasswordCreationState extends State<PasswordCreation> {
     final String phoneNumber = prefs.getString('phoneNumber');
     final String userType = prefs.getString('userType');
     final String requestNumber = prefs.getString('requestNumber');
+    final String maritalStatus = prefs.getString('maritalStatus');
+    final String religion = prefs.getString('religion');
+    final String religionAddress = prefs.getString('religionAddress');
     final String employeeClass = prefs.getString('employeeClass');
     final String serviceType = prefs.getString('serviceType');
     final String emailAddress = prefs.getString('emailAddress');
+    final String serviceEmployeeOffers =
+        prefs.getString('serviceEmployeeOffers');
+
+    final String guardianFullName = prefs.getString('guardianFullName');
+    final String relationship = prefs.getString('relationship');
+    final String numberOfChildren = prefs.getString('numberOfChildren');
+    final String guardianAddress = prefs.getString('guardianAddress');
+
+    final String guardianEmailAddress = prefs.getString('guardianEmailAddress');
+    final String guardianPhoneNumber = prefs.getString('guardianPhoneNumber');
+
+    final String secondguardianFullName =
+        prefs.getString('secondguardianFullName');
+    final String secondrelationship = prefs.getString('secondrelationship');
+    final String experience = prefs.getString('experience');
+    final String secondguardianAddress =
+        prefs.getString('secondguardianAddress') +
+            ' ' +
+            prefs.getString('secondguardianCity') +
+            ' ' +
+            prefs.getString('secondguardianState') +
+            ' ' +
+            prefs.getString('secondguardianCountry');
+
+    final String secondguardianEmailAddress =
+        prefs.getString('secondguardianEmailAddress');
+    final String secondguardianPhoneNumber =
+        prefs.getString('secondguardianPhoneNumber');
+
+    final String workDuration = prefs.getString('workDuration');
+    final String criminalRecord = prefs.getString('criminalRecord');
+    final String experiencePlace = prefs.getString('experiencePlace');
+    final String pets = prefs.getString('pets');
 
     if (surname != null) {
       try {
@@ -94,31 +130,66 @@ class _PasswordCreationState extends State<PasswordCreation> {
             "gender": gender,
             "dob": dob,
             "phoneNumber": phoneNumber,
+            "maritalStatus": maritalStatus,
             "address": address,
-            "country":country,
-            "city":city,
-            "state":state,
+            "country": country,
+            "city": city,
+            "state": state,
             "userType": userType,
             "emailAddress": emailAddress,
             "applicationNumber": applicationNumber,
-            "photoUrl":
-                "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
+            "photoUrl": "",
             "employmentStatus": "Pending",
-            "employer": ""
+            "employer": "",
+            "religion": religion,
+            "churchAddress": religionAddress,
+            "service": serviceEmployeeOffers,
+            "experience": experience,
+            "experiencePlace": experiencePlace,
+            "numberOfChildren": numberOfChildren,
+            "criminalRecord": criminalRecord
+          };
 
+          final nextOfKeenDetails = {
+            "profileid": userid.user.uid,
+            "idNumber": '',
+            "guardianFullName": guardianFullName,
+            "relationship": relationship,
+            "guardianAddress": guardianAddress,
+            "guardianEmailAddress": guardianEmailAddress,
+            "guardianPhoneNumber": guardianPhoneNumber,
+            "secondguardianFullName": secondguardianFullName,
+            "secondrelationship": secondrelationship,
+            "secondguardianAddress": secondguardianAddress,
+            "secondguardianEmailAddress": secondguardianEmailAddress,
+            "secondguardianPhoneNumber": secondguardianPhoneNumber
+          };
+
+          final additionalPreferences = {
+            "profileid": userid.user.uid,
+            "workDuration": workDuration,
+            "pets": pets,
           };
 
           await FirebaseFirestore.instance
               .collection('Employee Accounts')
               .add(applicationBody);
 
+          await FirebaseFirestore.instance
+              .collection('Next of keen Info')
+              .add(nextOfKeenDetails);
+
+          await FirebaseFirestore.instance
+              .collection('Employee Additional Info')
+              .add(additionalPreferences);
+
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               backgroundColor: Colors.blueGrey,
               content: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child:
-                    Text('Sucessfully Register.You may login now'),
+                child: Text(
+                    'Sucessfully Register.You will receive an email with terms and conditions please review and agree. The Nanny academy staff will be in touch soon.'),
               ),
               duration: Duration(seconds: 5),
             ),
@@ -151,16 +222,15 @@ class _PasswordCreationState extends State<PasswordCreation> {
             "dob": dob,
             "phoneNumber": phoneNumber,
             "address": address,
-            "country":country,
-            "city":city,
-            "state":state,
+            "country": country,
+            "city": city,
+            "state": state,
             "userType": userType,
             "emailAddress": emailAddress,
             "channel": "MOBILE",
             "verificationStatus": "Pending",
-            "photoUrl":
-                "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
-            "services": "",
+            "photoUrl": "",
+            "services": employeeClass + ' ' + serviceType,
             "employeeCount": 0,
             "activeEmployment": false,
             "employeeId": "",
@@ -202,11 +272,13 @@ class _PasswordCreationState extends State<PasswordCreation> {
             context: context,
             builder: (ctx) => AlertDialog(
               title: Text('Registration Success'),
-              content: Text('Congratulations for registering with Nanny academy.  Please log on with details you created now, select the services you require and make the initial deposit of N7000 and upload the evidence of payment while we get in touch in few hours.'),
+              content: Text(
+                  'Congratulations for registering with Nanny academy. Please log on with details you created now, select the services you require and make the initial deposit of N7000 and upload the evidence of payment while we get in touch in few hours.'),
               actions: [
                 TextButton(
                   onPressed: () {
-                    LoginPage();
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => LoginPage()));
                   },
                   child: Text('Ok, Login'),
                 )
@@ -378,7 +450,7 @@ class _PasswordCreationState extends State<PasswordCreation> {
             ),
             SizedBox(height: 30),
             Center(
-                child: Text(
+              child: Text(
                 _errorMsg,
                 style: TextStyle(color: Colors.red),
               ),

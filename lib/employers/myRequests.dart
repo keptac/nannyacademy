@@ -15,29 +15,6 @@ class MyRequests extends StatefulWidget {
 }
 
 class _MyRequestsState extends State<MyRequests> {
-  // List serviceRequests = [
-  //   {
-  //     "firstName": "Charlotte",
-  //     "surname": "Chelenje",
-  //     "gender": "FEMALE",
-  //     "age": "23",
-  //     "services": "Nanny",
-  //     "location": "Lagos",
-  //     "phoneNumber": "263785302628",
-  //     "photoUrl":
-  //         "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
-  //     "employeeId": "58-293952-Q-86",
-  //     "jobStatus": "Granted",
-  //     "requestStatus": "Approved",
-  //     "serviceRequested": "watering the garden ",
-  //     "requestType": "Gardener",
-  //     "meetingDate": "2021-10-30",
-  //     "active": "1",
-  //     "salary": "1000",
-  //     "requestNumber": "REQ67889997",
-  //   }
-  // ];
-
   int index = 0;
 
   String _meetingText = 'Meeting Date *';
@@ -174,13 +151,13 @@ class _MyRequestsState extends State<MyRequests> {
 
   Future<DateTime> getDate() {
     return showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime.now(),
-        lastDate: DateTime(DateTime.now().month + 3),
-        fieldHintText: "DATE/MONTH/YEAR",
-        errorFormatText: "Enter a Valid Date",
-        errorInvalidText: "Date Out of Range",
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(DateTime.now().month + 3),
+      fieldHintText: "DATE/MONTH/YEAR",
+      errorFormatText: "Enter a Valid Date",
+      errorInvalidText: "Date Out of Range",
     );
   }
 
@@ -249,7 +226,10 @@ class _MyRequestsState extends State<MyRequests> {
           centerTitle: true,
           backgroundColor: Color.fromRGBO(255, 200, 124, 1),
         ),
-        body: StreamBuilder(
+        body: 
+        
+        
+        StreamBuilder(
             stream: FirebaseFirestore.instance
                 .collection('Employments')
                 .where('jobStatus', isEqualTo: widget.jobStatus)
@@ -445,6 +425,7 @@ class _MyRequestsState extends State<MyRequests> {
                   );
                 }).toList(),
               );
-            }));
+            }),
+            );
   }
 }

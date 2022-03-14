@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:nannyacademy/widgets/bottomSheetAdmin.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AllPayments extends StatefulWidget {
   @override
@@ -7,6 +9,80 @@ class AllPayments extends StatefulWidget {
 }
 
 class _AllPaymentsState extends State<AllPayments> {
+  void _approval(var id, var decision, var requestNumber) async {
+    try {
+      var results = await FirebaseFirestore.instance
+          .collection('Service Requests')
+          .where('requestNumber', isEqualTo: requestNumber)
+          .get();
+
+      if (decision == 'Approved') {
+        await FirebaseFirestore.instance
+            .collection('Service Requests')
+            .doc(results.docs[0].id)
+            .update({'paymentStatus': decision, "requestStatus": decision});
+      }
+
+      await FirebaseFirestore.instance
+          .collection('Payments')
+          .doc(id)
+          .update({'confirmationStatus': decision});
+
+      //TODO: send email to all parties
+
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text('Success'),
+          content: Text('Application Response submitted successfully.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+              child: Text('Ok'),
+            )
+          ],
+        ),
+      );
+    } on FirebaseException catch (e) {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text(' Ops! Failed to submit response. Try again later.'),
+          content: Text('${e.message}'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+              child: Text('Dismiss'),
+            )
+          ],
+        ),
+      );
+    }
+  }
+
+  Widget serviceDisplay(var title, var value) {
+    return Column(
+      children: [
+        Text(
+          title,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          textAlign: TextAlign.center,
+        ),
+        Text(
+          value,
+          style: TextStyle(fontSize: 15),
+          textAlign: TextAlign.center,
+        ),
+        SizedBox(
+          height: 20,
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,69 +91,108 @@ class _AllPaymentsState extends State<AllPayments> {
       appBar: AppBar(
         elevation: 0.0,
         title: Text(
-          'Nanny Academy Payments',
+          'Nanny Payments',
           style: TextStyle(
             fontSize: 20,
             fontFamily: 'Quicksand',
           ),
         ),
         centerTitle: true,
-        backgroundColor:Color.fromRGBO(34, 167, 240,1),
+        backgroundColor: Color.fromRGBO(34, 167, 240, 1),
       ),
-      body: Table(
-          defaultColumnWidth: FixedColumnWidth(120.0),
-          border: TableBorder.all(
-            color: Colors.black,
-            style: BorderStyle.solid,
-            width: 2),
+      body: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('Payments')
+              .where('confirmationStatus', isEqualTo: 'Pending')
+              .snapshots(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-          children: [
-            TableRow(
-                children: [
-
-                  Column(
-                      children:[
-                        Padding(
-                        padding: EdgeInsets.all(5 ),
-                          child:Text('Request No', style: TextStyle(fontSize: 16.0),
-                          ),
+            return ListView(
+              children: snapshot.data.docs.map((document) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 10),
+                  child: ExpansionTileCard(
+                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                    initialElevation: 1,
+                    baseColor: Colors.white,
+                    leading: CircleAvatar(
+                      backgroundColor: Colors.grey,
+                      child: Text(
+                        (1).toString(),
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    title: Text("Request Number"),
+                    subtitle: Text(document['requestNumber']),
+                    children: <Widget>[
+                      Divider(
+                        thickness: 1.0,
+                        height: 1.0,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0,
+                          vertical: 8.0,
                         ),
-                      ]
-                  ),
-                  Column(
-                      children:[
-                        Padding(
-                          padding: EdgeInsets.all(5 ),
-                          child:Text('Amount', style: TextStyle(fontSize: 16.0),
-                          ),
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 10,
+                            ),
+                            serviceDisplay(
+                                "Request Number", document['requestNumber']),
+                            // serviceDisplay("Services", document['services']),
+                            serviceDisplay("Amount", document['amount']),
+                            serviceDisplay(
+                                "Receipt Number", document['receiptNumber']),
+                            serviceDisplay("Payment Confirmation",
+                                document['confirmationStatus']),
+                          ],
                         ),
-                      ]
-                  ),
-                  Column(
-                      children:[
-                        Padding(
-                          padding: EdgeInsets.all(5 ),
-                          child:Text('Reference', style: TextStyle(fontSize: 16.0),
+                      ),
+                      Divider(
+                        thickness: 1.0,
+                        height: 1.0,
+                      ),
+                      ButtonBar(
+                        alignment: MainAxisAlignment.spaceAround,
+                        buttonHeight: 52.0,
+                        buttonMinWidth: 90.0,
+                        children: <Widget>[
+                          Row(
+                            children: [
+                              ActionChip(
+                                padding: EdgeInsets.only(
+                                    left: 10, right: 10, top: 10, bottom: 10),
+                                label: Text(
+                                  'Approve ',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 13),
+                                ),
+                                onPressed: () {
+                                  _approval(document.id, "Approved",
+                                      document['requestNumber']);
+                                },
+                                backgroundColor: Colors.green,
+                                elevation: 1,
+                              ),
+                            ],
                           ),
-                        ),
-                      ]
+                        ],
+                      )
+                    ],
                   ),
-                  Column(
-                      children:[
-                        Padding(
-                          padding: EdgeInsets.all(5 ),
-                          child:Text('Action', style: TextStyle(fontSize: 16.0),
-                          ),
-                        ),
-                      ]
-                  ),
-
-
-                ]
-            ),
-          ]
-    ),
-
+                );
+              }).toList(),
+            );
+          }),
       bottomNavigationBar: BottomSheetAdmin(),
     );
   }

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nannyacademy/employees/checkInOut.dart';
-
 import 'package:nannyacademy/employees/serviceRequests.dart';
 import 'package:nannyacademy/employees/settings.dart';
 import 'package:nannyacademy/login.dart';
@@ -66,19 +64,7 @@ class _DashboardState extends State<Dashboard> {
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
         leading: Icon(Icons.info_outline),
-        actions: <Widget>[
-          Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: InkWell(
-                onTap: () {
-                  signOut();
-                },
-                child: Icon(
-                  Icons.lock,
-                  size: 26.0,
-                ),
-              )),
-        ],
+        actions: <Widget>[],
         elevation: 0.0,
         title: Text(
           'Nanny Academy',
@@ -119,7 +105,7 @@ class _DashboardState extends State<Dashboard> {
                 crossAxisCount: 2,
                 children: [
                   menuCard('Service Requests', ServiceRequests()),
-                  menuCard('Checkin/Checkout', CheckInOut()),
+                  menuCard('Account Settings', Settings()),
                 ],
               ),
             ),
@@ -128,12 +114,11 @@ class _DashboardState extends State<Dashboard> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        tooltip: 'Update Details',
+        tooltip: 'Log Out',
         elevation: 0.8,
         backgroundColor: Color.fromRGBO(34, 167, 240, 1),
-        child: const Icon(Icons.settings),
-        onPressed: () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Settings())),
+        child: const Icon(Icons.lock),
+        onPressed: () => signOut(),
       ),
       bottomNavigationBar: BottomAppBar(
           color: Colors.white,

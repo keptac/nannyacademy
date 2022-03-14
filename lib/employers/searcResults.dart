@@ -12,10 +12,13 @@ import 'dart:async';
 import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:nannyacademy/employers/myRequests.dart';
 
+//TODO: Search algorithm for clients
 class SearchResults extends StatefulWidget {
   final String requestNumber;
+  final String status;
 
-  SearchResults({Key key, @required this.requestNumber}) : super(key: key);
+  SearchResults({Key key, @required this.requestNumber, @required this.status})
+      : super(key: key);
   @override
   _SearchResultsState createState() => _SearchResultsState();
 }
@@ -33,7 +36,7 @@ class _SearchResultsState extends State<SearchResults> {
     //   "location": "Lagos",
     //   "phoneNumber": "263785********",
     //   "photoUrl":
-    //       "https://lh3.googleusercontent.com/ogw/ADea4I4wWPHXockcfJemnnm4OGPaSrhXIVmqium_Zoe9=s192-c-mo",
+    //       "",
     //   "employeeId": "58-293952-Q-86",
     //   "jobStatus": "Pending",
     //   "requestStatus": "Approved",
@@ -124,6 +127,7 @@ class _SearchResultsState extends State<SearchResults> {
         "requestNumber": widget.requestNumber,
         "amount": _amount.text,
         "receiptNumber": _receiptNumber.text,
+        "confirmationStatus": "Pending",
         "pof": {
           "image": popBase64Image,
           "name": popFileName,
@@ -373,156 +377,174 @@ class _SearchResultsState extends State<SearchResults> {
         centerTitle: true,
         backgroundColor: Color.fromRGBO(255, 200, 124, 1),
       ),
-      body: serviceRequestResults.length > 0
-          ? ListView.builder(
-              itemCount: serviceRequestResults.length,
-              itemBuilder: (BuildContext context, int index) {
-                var serviceRequest = serviceRequestResults[index];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 10),
-                  child: ExpansionTileCard(
-                    borderRadius: const BorderRadius.all(Radius.circular(7.0)),
-                    initialElevation: 3,
-                    baseColor: Colors.white,
-                    expandedColor: serviceRequest['requestStatus'] == "Approved"
-                        ? Colors.green[50]
-                        : Colors.orange[50],
-                    leading: CircleAvatar(
-                      maxRadius: 30,
-                      backgroundImage: NetworkImage(serviceRequest['photoUrl']),
-                    ),
-                    title: serviceRequest['requestStatus'] == "Approved"
-                        ? Text(serviceRequest['firstName'] +
-                            ' ' +
-                            serviceRequest['surname'])
-                        : Text(serviceRequest['firstName']),
-                    subtitle: Text(serviceRequest['location']),
-                    children: <Widget>[
-                      Divider(
-                        thickness: 1.0,
-                        height: 1.0,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10.0,
-                          vertical: 8.0,
-                        ),
-                        child: Column(
-                          children: [
+      body: widget.status == "Approved"
+          ? StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection('Employee Accounts')
+                  // .where('jobStatus', isEqualTo: widget.jobStatus)
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                return ListView(
+                  children: snapshot.data.docs.map((serviceRequest) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 10),
+                      child: ExpansionTileCard(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(7.0)),
+                        initialElevation: 3,
+                        baseColor: Colors.white,
+                        expandedColor:
                             serviceRequest['requestStatus'] == "Approved"
-                                ? CircleAvatar(
-                                    maxRadius: 30,
-                                    backgroundImage: NetworkImage(
-                                        serviceRequest['photoUrl']),
-                                  )
-                                : SizedBox(
-                                    height: 10,
-                                  ),
-                            SizedBox(
-                              height: 10,
+                                ? Colors.green[50]
+                                : Colors.orange[50],
+                        leading: CircleAvatar(
+                          maxRadius: 30,
+                          backgroundImage:
+                              NetworkImage(serviceRequest['photoUrl']),
+                        ),
+                        title: serviceRequest['requestStatus'] == "Approved"
+                            ? Text(serviceRequest['firstName'] +
+                                ' ' +
+                                serviceRequest['surname'])
+                            : Text(serviceRequest['firstName']),
+                        subtitle: Text(serviceRequest['location']),
+                        children: <Widget>[
+                          Divider(
+                            thickness: 1.0,
+                            height: 1.0,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10.0,
+                              vertical: 8.0,
                             ),
-                            serviceDisplay("Request Number",
-                                serviceRequest['requestNumber']),
-                            serviceDisplay(
-                                "Services", serviceRequest['services']),
-                            serviceDisplay("Gender", serviceRequest['gender']),
-                            serviceDisplay("Age", serviceRequest['age']),
-                            serviceRequest['requestStatus'] == "Approved"
-                                ? serviceDisplay("Phone Number",
-                                    serviceRequest['phoneNumber'])
-                                : Text(""),
-                            serviceDisplay("Request Description",
-                                serviceRequest['serviceRequested']),
-                            serviceDisplay("Service Requested By",
-                                serviceRequest['location']),
-                          ],
-                        ),
-                      ),
-                      Divider(
-                        thickness: 1.0,
-                        height: 1.0,
-                      ),
-                      serviceRequest['requestStatus'] == "Approved"
-                          ? ButtonBar(
-                              alignment: MainAxisAlignment.spaceAround,
-                              buttonHeight: 52.0,
-                              buttonMinWidth: 90.0,
-                              children: <Widget>[
-                                serviceRequest['jobStatus'] == "Granted"
-                                    ? ActionChip(
-                                        padding: EdgeInsets.only(
-                                            left: 10,
-                                            right: 10,
-                                            top: 10,
-                                            bottom: 10),
-                                        label: Text(
-                                          'Currently Employeed',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 13),
-                                        ),
-                                        onPressed: () {},
-                                        backgroundColor: Colors.green,
-                                        elevation: 1,
+                            child: Column(
+                              children: [
+                                serviceRequest['requestStatus'] == "Approved"
+                                    ? CircleAvatar(
+                                        maxRadius: 30,
+                                        backgroundImage: NetworkImage(
+                                            serviceRequest['photoUrl']),
                                       )
-                                    : Row(
-                                        children: [
-                                          ActionChip(
+                                    : SizedBox(
+                                        height: 10,
+                                      ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                serviceDisplay("Request Number",
+                                    serviceRequest['requestNumber']),
+                                serviceDisplay(
+                                    "Services", serviceRequest['services']),
+                                serviceDisplay(
+                                    "Gender", serviceRequest['gender']),
+                                serviceDisplay("Age", serviceRequest['age']),
+                                serviceRequest['requestStatus'] == "Approved"
+                                    ? serviceDisplay("Phone Number",
+                                        serviceRequest['phoneNumber'])
+                                    : Text(""),
+                                serviceDisplay("Request Description",
+                                    serviceRequest['serviceRequested']),
+                                serviceDisplay("Service Requested By",
+                                    serviceRequest['location']),
+                              ],
+                            ),
+                          ),
+                          Divider(
+                            thickness: 1.0,
+                            height: 1.0,
+                          ),
+                          serviceRequest['requestStatus'] == "Approved"
+                              ? ButtonBar(
+                                  alignment: MainAxisAlignment.spaceAround,
+                                  buttonHeight: 52.0,
+                                  buttonMinWidth: 90.0,
+                                  children: <Widget>[
+                                    serviceRequest['jobStatus'] == "Granted"
+                                        ? ActionChip(
                                             padding: EdgeInsets.only(
                                                 left: 10,
                                                 right: 10,
                                                 top: 10,
                                                 bottom: 10),
                                             label: Text(
-                                              'Schedule Meeting',
+                                              'Currently Employeed',
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 13),
                                             ),
-                                            onPressed: () {
-                                              showDialog(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) =>
+                                            onPressed: () {},
+                                            backgroundColor: Colors.green,
+                                            elevation: 1,
+                                          )
+                                        : Row(
+                                            children: [
+                                              ActionChip(
+                                                padding: EdgeInsets.only(
+                                                    left: 10,
+                                                    right: 10,
+                                                    top: 10,
+                                                    bottom: 10),
+                                                label: Text(
+                                                  'Schedule Meeting',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 13),
+                                                ),
+                                                onPressed: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext
+                                                            context) =>
                                                         _buildPopupDialog(
                                                             context,
                                                             serviceRequest),
-                                              );
-                                            },
-                                            backgroundColor: Color.fromRGBO(
-                                                255, 200, 124, 1),
-                                            elevation: 1,
+                                                  );
+                                                },
+                                                backgroundColor: Color.fromRGBO(
+                                                    255, 200, 124, 1),
+                                                elevation: 1,
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
-                              ],
-                            )
-                          : ButtonBar(
-                              alignment: MainAxisAlignment.spaceAround,
-                              buttonHeight: 52.0,
-                              buttonMinWidth: 90.0,
-                              children: <Widget>[
-                                ActionChip(
-                                  padding: EdgeInsets.only(
-                                      left: 10, right: 10, top: 10, bottom: 10),
-                                  label: Text(
-                                    'Pending Approval',
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 17),
-                                  ),
-                                  onPressed: () {},
-                                  backgroundColor:
-                                      Color.fromRGBO(255, 200, 124, 1),
-                                  elevation: 1,
+                                  ],
                                 )
-                              ],
-                            )
-                    ],
-                  ),
+                              : ButtonBar(
+                                  alignment: MainAxisAlignment.spaceAround,
+                                  buttonHeight: 52.0,
+                                  buttonMinWidth: 90.0,
+                                  children: <Widget>[
+                                    ActionChip(
+                                      padding: EdgeInsets.only(
+                                          left: 10,
+                                          right: 10,
+                                          top: 10,
+                                          bottom: 10),
+                                      label: Text(
+                                        'Pending Approval',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 17),
+                                      ),
+                                      onPressed: () {},
+                                      backgroundColor:
+                                          Color.fromRGBO(255, 200, 124, 1),
+                                      elevation: 1,
+                                    )
+                                  ],
+                                )
+                        ],
+                      ),
+                    );
+                  }).toList(),
                 );
-              },
-            )
+              })
           : Column(
               children: [
                 SizedBox(
@@ -530,7 +552,7 @@ class _SearchResultsState extends State<SearchResults> {
                 ),
                 Center(
                   child: Text(
-                    "No results returned. \nPending payment confirmation.",
+                    "No results returned. \nPending payment confirmation. If payment was made please contact admin",
                     style: TextStyle(fontSize: 17),
                     textAlign: TextAlign.center,
                   ),

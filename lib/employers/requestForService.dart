@@ -18,16 +18,29 @@ class _RequestForServiceState extends State<RequestForService> {
   int group = 1;
   final _auth = FirebaseAuth.instance;
   final LocalStorage storage = new LocalStorage('employeePreference');
-  String employeeClassSelected = 'Any';
-  String serviceDurationSelected = 'Live-in (2 off days)';
-  var employeeClasses = ['Qualified', 'Experienced', 'Accredited', 'Any'];
+  var employeeClassSelected = 'Level 1';
+  String serviceDurationSelected = 'Care giver';
+  var employeeClasses = [
+    {'name': 'Nanny Level 1: N30, 000 to N35,000', 'value': 'Level 1'},
+    {'name': 'Nanny Level 2:  N45, 000 to N65, 000', 'value': 'Level 2'},
+    {'name': 'Nanny Level 3: N75, 000', 'value': 'Level 3'},
+    {'name': 'Cooks: N60,000', 'value': 'Cook'}
+  ];
 
   var serviceDurations = [
-    'Live-in (2 off days)',
-    'Live-out (Mon to Sat)',
-    'Nanny',
-    'House Keeper',
-    'Mother Helper'
+    {
+      'name': 'Care Giver: Live-in / Live-out',
+      'value': 'Care giver',
+    },
+    {
+      'name': 'Nanny',
+      'value': 'Nanny',
+    },
+    {
+      'name': 'House Keeper',
+      'value': 'House Keeper',
+    },
+    {'name': 'Cook', 'value': 'Cook'}
   ];
 
   Widget _radio() {
@@ -159,7 +172,7 @@ class _RequestForServiceState extends State<RequestForService> {
                         margin:
                             EdgeInsets.only(left: 37, right: 37, bottom: 10),
                         child: Text(
-                          "Nanny Class",
+                          "Nanny Qualificaton",
                           style:
                               TextStyle(fontFamily: 'Quicksand', fontSize: 15),
                         ),
@@ -181,20 +194,20 @@ class _RequestForServiceState extends State<RequestForService> {
                           ),
                           value: employeeClassSelected,
                           icon: Icon(Icons.keyboard_arrow_down),
-                          items: employeeClasses.map((String employeeClasses) {
+                          items: employeeClasses.map((var employeeClasses) {
                             return DropdownMenuItem(
-                              value: employeeClasses,
+                              value: employeeClasses['value'],
                               child: Padding(
                                 padding: EdgeInsets.only(left: 10, top: 5),
                                 child: Text(
-                                  employeeClasses,
+                                  employeeClasses['name'],
                                   style: TextStyle(
                                       fontFamily: 'Quicksand', fontSize: 15),
                                 ),
                               ),
                             );
                           }).toList(),
-                          onChanged: (String newValue) {
+                          onChanged: (var newValue) {
                             setState(() {
                               employeeClassSelected = newValue;
                             });
@@ -226,14 +239,13 @@ class _RequestForServiceState extends State<RequestForService> {
                           underline: Text(""),
                           value: serviceDurationSelected,
                           icon: Icon(Icons.keyboard_arrow_down),
-                          items:
-                              serviceDurations.map((String serviceDurations) {
+                          items: serviceDurations.map((var serviceDurations) {
                             return DropdownMenuItem(
-                              value: serviceDurations,
+                              value: serviceDurations['value'],
                               child: Padding(
                                 padding: EdgeInsets.only(left: 10, top: 5),
                                 child: Text(
-                                  serviceDurations,
+                                  serviceDurations['name'],
                                   style: TextStyle(
                                       fontFamily: 'Quicksand', fontSize: 15),
                                 ),
