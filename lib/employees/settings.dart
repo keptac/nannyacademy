@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:nannyacademy/employees/dashboard.dart';
+import 'package:nannyacademy/employees/educationalBackground.dart';
+import 'package:nannyacademy/employees/healthRecord.dart';
+import 'package:nannyacademy/employees/personalDetails.dart';
 import 'package:nannyacademy/employees/updateDetails.dart';
+import 'package:nannyacademy/employees/workExperience.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -8,6 +12,37 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
+  Widget cardDetails(String title, var route) {
+    return Card(
+      elevation: 5,
+      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(7.0),
+      ),
+      color: Colors.white,
+      child: ListTile(
+        contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        leading: CircleAvatar(
+          backgroundColor: Color.fromRGBO(34, 167, 240, 1),
+          child: Icon(
+            Icons.person,
+            color: Colors.white,
+          ),
+        ),
+        title: Text(
+          title,
+          style: TextStyle(color: Colors.black, fontSize: 18.0),
+        ),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => route,
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,59 +72,10 @@ class _SettingsState extends State<Settings> {
       ),
       body: ListView(
         children: <Widget>[
-          Card(
-            elevation: 5,
-            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(7.0),
-            ),
-            color: Colors.white,
-            child: ListTile(
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              leading: CircleAvatar(
-                backgroundColor: Color.fromRGBO(255, 200, 124, 1),
-                child: Icon(
-                  Icons.local_laundry_service_sharp,
-                  color: Colors.white,
-                ),
-              ),
-              title: const Text(
-                'Certificates',
-                style: TextStyle(color: Colors.black, fontSize: 18.0),
-              ),
-              onTap: () => print("ListTile"),
-            ),
-          ),
-          Card(
-            elevation: 5,
-            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(7.0),
-            ),
-            color: Colors.white,
-            child: ListTile(
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-              leading: CircleAvatar(
-                backgroundColor: Color.fromRGBO(34, 167, 240, 1),
-                child: Icon(
-                  Icons.person,
-                  color: Colors.white,
-                ),
-              ),
-              title: const Text(
-                'Personal Details',
-                style: TextStyle(color: Colors.black, fontSize: 18.0),
-              ),
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Updatenannyacademy(),
-                ),
-              ),
-            ),
-          ),
+          cardDetails('Personal Details', PersonalDetails()),
+          cardDetails('Work Experience', WorkExperience()),
+          cardDetails('Educational Background', EducationalBackground()),
+          cardDetails('Health Information', HealthRecord())
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
