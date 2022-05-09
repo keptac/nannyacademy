@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:convert';
-import 'package:image_picker/image_picker.dart';
+// import 'package:image_picker/image_picker.dart';
 import 'package:nannyacademy/employees/dashboard.dart';
 
 import 'package:nannyacademy/services/rest_api.dart';
@@ -24,7 +24,7 @@ class _UpdatenannyacademyState extends State<Updatenannyacademy> {
   }
 
   void _choose(fileDes) async {
-    pofFile = await ImagePicker.pickImage(source: ImageSource.camera);
+    // pofFile = await ImagePicker.pickImage(source: ImageSource.camera);
   }
 
   void _upload() {

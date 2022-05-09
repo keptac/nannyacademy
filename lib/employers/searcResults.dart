@@ -4,12 +4,13 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
+// import 'package:image_picker/image_picker.dart';
 
 import 'package:intl/intl.dart';
 
 import 'dart:async';
-import 'package:flutter_rounded_date_picker/rounded_picker.dart';
+// import 'package:flutter_rounded_date_picker/rounded_picker.dart';
 import 'package:nannyacademy/employers/myRequests.dart';
 
 //TODO: Search algorithm for clients
@@ -107,7 +108,7 @@ class _SearchResultsState extends State<SearchResults> {
   }
 
   void _choose() async {
-    popFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+    // popFile = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       popText = popFile.path.split("/").last;
     });
