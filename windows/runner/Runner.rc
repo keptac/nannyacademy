@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.fixcrypt" "\0"
-            VALUE "FileDescription", "nanny_academy" "\0"
+            VALUE "FileDescription", "nannyacademy" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "nanny_academy" "\0"
+            VALUE "InternalName", "nannyacademy" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2022 com.fixcrypt. All rights reserved." "\0"
-            VALUE "OriginalFilename", "nanny_academy.exe" "\0"
-            VALUE "ProductName", "nanny_academy" "\0"
+            VALUE "OriginalFilename", "nannyacademy.exe" "\0"
+            VALUE "ProductName", "nannyacademy" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

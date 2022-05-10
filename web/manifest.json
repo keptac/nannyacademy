@@ -1,6 +1,6 @@
 {
-    "name": "nanny_academy",
-    "short_name": "nanny_academy",
+    "name": "nannyacademy",
+    "short_name": "nannyacademy",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

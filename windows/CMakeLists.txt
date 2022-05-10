@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
-project(nanny_academy LANGUAGES CXX)
+project(nannyacademy LANGUAGES CXX)
 
-set(BINARY_NAME "nanny_academy")
+set(BINARY_NAME "nannyacademy")
 
 cmake_policy(SET CMP0063 NEW)
 
