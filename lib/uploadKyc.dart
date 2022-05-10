@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'dart:convert';
-import 'package:image_picker/image_picker.dart';
+// import 'package:image_picker/image_picker.dart';
 import 'package:nannyacademy/passwordCreation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:nannyacademy/services/rest_api.dart';
@@ -38,12 +38,12 @@ class _UploadKycState extends State<UploadKyc> {
 
   void _choose(fileDes) async {
     if (fileDes == 'pof') {
-      pofFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+      // pofFile = await ImagePicker.pickImage(source: ImageSource.gallery);
       setState(() {
         pofText = pofFile.path.split("/").last;
       });
     } else {
-      idFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+      // idFile = await ImagePicker.pickImage(source: ImageSource.gallery);
       setState(() {
         idText = idFile.path.split("/").last;
       });
